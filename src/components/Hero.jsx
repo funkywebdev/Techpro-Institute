@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import HeroImage from "../assets/images/heroImage.png";
+import Manage from "../assets/images/Manage.png";
 
 const Hero = () => {
   // Animation variants
@@ -91,7 +91,7 @@ const Hero = () => {
           className="flex-1 flex justify-center md:justify-end"
         >
           <img
-            src={HeroImage}
+            src={Manage}
             alt="Hero Illustration"
             className="w-full max-w-[360px] sm:max-w-[480px] md:max-w-[600px]"
           />
