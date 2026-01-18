@@ -21,11 +21,11 @@ const WhyTechpro = () => {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8  bg-white rounded-xl p-6 sm:p-8">
           
           {/* Title + Image */}
-          <div className="text-center lg:text-left lg:flex-1 space-y-2 sm:space-y-4">
-            <h1 className="text-xl sm:text-3xl font-bold leading-tight">
+          <div className="text-center lg:text-left lg:flex-1">
+            <h1 className="text-xl sm:text-3xl font-bold leading-tight mb-1 ">
               Why Choose TechPro
             </h1>
-            <p className="text-xs sm:text-base text-[#6B7280] max-w-full sm:max-w-md mx-auto lg:mx-0">
+            <p className="text-xs sm:text-base text-[#6B7280] max-w-full sm:max-w-md mx-auto lg:mx-0 mb-1">
               We deliver in-demand industry certifications
             </p>
           
