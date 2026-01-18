@@ -1,7 +1,7 @@
 import React from "react";
 import { FaClock, FaCertificate, FaStar } from "react-icons/fa";
 import { BsCheckCircle } from "react-icons/bs";
-import frameE from "../assets/images/frameE.png";
+import FrameE from "../assets/images/FrameE.png";
 
 const CoursePage = () => {
   return (
@@ -61,7 +61,7 @@ const CoursePage = () => {
             {/* SCREEN */}
             <div className="bg-white rounded-3xl p-3 sm:p-5 space-y-3">
               <img
-                src={frameE}
+                src={FrameE}
                 alt="Scrum Master Certification Program"
                 className="w-full rounded-xl shadow-md"
               />
