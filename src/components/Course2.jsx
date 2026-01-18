@@ -59,7 +59,7 @@ const Course2 = () => {
             {/* SCREEN */}
             <div className="bg-white rounded-3xl p-3 sm:p-5 space-y-3">
               <img
-                src={frameF}
+                src={FrameF}
                 alt="Scrum Master Certification Program"
                 className="w-full rounded-xl shadow-md"
               />
