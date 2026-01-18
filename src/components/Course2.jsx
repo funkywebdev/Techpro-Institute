@@ -1,7 +1,7 @@
 import React from "react";
 import { FaClock, FaCertificate, FaStar } from "react-icons/fa";
 import { BsCheckCircle } from "react-icons/bs";
-import frameF from "../assets/images/frameF.png";
+import FrameF from "../assets/images/FrameF.png";
 
 const Course2 = () => {
   return (
