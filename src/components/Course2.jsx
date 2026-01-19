@@ -12,32 +12,32 @@ const Course2 = () => {
         <div className="max-w-7xl mx-auto grid gap-10 lg:grid-cols-2 items-start">
 
           {/* LEFT SIDE */}
-          <div className="space-y-6 px-2 text-center sm:text-left">
-            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">
+          <div className="space-y-3 sm:space-y-6 px-2 text-center sm:text-left">
+            <h1 className="text-[18px] sm:text-4xl font-bold text-gray-900">
               Product Owner Certification Program
             </h1>
 
-            <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-700 text-sm sm:text-base leading-relaxed text-center sm:text-start">
              Learn the core principles of product ownership, Agile mindset, backlog management, stakeholder collaboration, and real-world workflows needed to work as a certified Product Owner.
             </p>
 
             {/* FEATURES */}
-            <div className="flex flex-col items-center sm:items-start sm:flex-row gap-3 sm:gap-6">
+            <div className="flex flex-row items-center sm:items-start sm:flex-row gap-3 sm:gap-6">
               <div className="flex items-center gap-2 text-gray-700">
                 <FaClock className="text-[#15256E]" />
-                <span>Duration: 6 Weeks</span>
+                <span className="text-sm sm:text-[16px]">Duration: 6 Weeks</span>
               </div>
               <div className="flex items-center gap-2 text-gray-700">
                 <FaCertificate className="text-[#15256E]" />
-                <span>Certificate Included</span>
+                <span className="text-sm sm:text-[16px]">Certificate Included</span>
               </div>
               <div className="flex items-center gap-2 text-gray-700">
                 <FaStar className="text-[#15256E]" />
-                <span>Beginner-Friendly</span>
+                <span className="text-sm sm:text-[16px]">Beginner-Friendly</span>
               </div>
             </div>
 
-            <button className="mt-4 px-6 py-3 bg-[#15256E] text-white rounded-lg font-semibold hover:bg-[#001489] transition">
+            <button className="mt-4 px-6 py-2 sm:py-3 bg-[#15256E] text-white rounded-lg font-semibold hover:bg-[#001489] transition">
               Enroll Now
             </button>
           </div>
@@ -48,7 +48,7 @@ const Course2 = () => {
           className="
             static mt-6
             lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52
-            z-10 
+            z-10 p-1 flex items-center
           "
         >
           <div className="relative w-[300px] md:w-[260px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto p-1">
@@ -107,54 +107,66 @@ const Course2 = () => {
       </section>
 
       {/* COURSE OVERVIEW */}
-      <section className="bg-white py-16 px-8 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto grid gap-10 md:grid-cols-3">
+    <section className="bg-white py-8 sm:py-16 px-8 sm:px-8 lg:px-16">
+  <div className="max-w-6xl mx-auto grid gap-10 md:grid-cols-3">
 
-          {/* WHAT YOU'LL LEARN */}
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Course Overview
-            </h2>
-            <p className="text-gray-700 font-semibold">What You’ll Learn</p>
+    {/* WHAT YOU'LL LEARN */}
+    <div className="space-y-4">
+      <h2 className="text-[18px] sm:text-2xl font-bold text-gray-900">
+        Course Overview
+      </h2>
 
-            <div className="space-y-2 text-gray-700">
-              {[
-                "Gain a deep understanding of the Agile mindset",
-                "Learn the complete Scrum framework",
-                "Understand Scrum roles and responsibilities",
-                "Master Scrum events and ceremonies",
-                "Use industry tools like Jira or ClickUp",
-                "Apply Scrum to real-life projects",
-              ].map((item, idx) => (
-                <p key={idx} className="flex items-center gap-2">
-                  <BsCheckCircle className="text-[#15256E]" /> {item}
-                </p>
-              ))}
-            </div>
-          </div>
+      <p className="text-sm sm:text-base font-semibold text-gray-700">
+        What You’ll Learn
+      </p>
 
-          {/* WHO THIS IS FOR */}
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Who This Course Is For
-            </h2>
+      <div className="space-y-2 text-gray-700">
+        {[
+          "Gain a deep understanding of the Agile mindset",
+          "Learn the complete Scrum framework",
+          "Understand Scrum roles and responsibilities",
+          "Master Scrum events and ceremonies",
+          "Use industry tools like Jira or ClickUp",
+          "Apply Scrum to real-life projects",
+        ].map((item, idx) => (
+          <p
+            key={idx}
+            className="flex items-start gap-2 text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
+          >
+            <BsCheckCircle className="text-[#15256E] mt-[2px] text-xs sm:text-sm" />
+            {item}
+          </p>
+        ))}
+      </div>
+    </div>
 
-            <div className="space-y-2 text-gray-700">
-              {[
-                "Beginners who want to start a tech career",
-                "Anyone switching into project or product roles",
-                "Professionals who want Scrum Master certification",
-                "Professionals aiming for career advancement",
-              ].map((item, idx) => (
-                <p key={idx} className="flex items-center gap-2">
-                  <BsCheckCircle className="text-[#15256E]" /> {item}
-                </p>
-              ))}
-            </div>
-          </div>
+    {/* WHO THIS IS FOR */}
+    <div className="space-y-4">
+      <h2 className="text-[18px] sm:text-2xl font-bold text-gray-900">
+        Who This Course Is For
+      </h2>
 
-        </div>
-      </section>
+      <div className="space-y-2 text-gray-700">
+        {[
+          "Beginners who want to start a tech career",
+          "Anyone switching into project or product roles",
+          "Professionals who want Scrum Master certification",
+          "Professionals aiming for career advancement",
+        ].map((item, idx) => (
+          <p
+            key={idx}
+            className="flex items-start gap-2 text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
+          >
+            <BsCheckCircle className="text-[#15256E] mt-[2px] text-xs sm:text-sm" />
+            {item}
+          </p>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
     </div>
   );
 };
