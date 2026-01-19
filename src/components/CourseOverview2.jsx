@@ -58,7 +58,7 @@ const CourseOverview = () => {
 
   return (
     <div className="max-w-full sm:max-w-3xl md:max-w-6xl mx-auto px-6 pb-12">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-7 text-center sm:text-left">
+      <h1 className="text-[16px] sm:text-2xl font-bold text-gray-900 mb-7 text-center sm:text-left">
         Course Syllabus
       </h1>
 

@@ -57,8 +57,8 @@ const CourseOverview = () => {
   };
 
   return (
-    <div className="max-w-full sm:max-w-3xl md:max-w-6xl mx-auto px-6 pb-12">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-7 text-center sm:text-left">
+    <div className="max-w-full sm:max-w-3xl md:max-w-6xl mx-auto pb-12">
+      <h1 className="text-[16px] sm:text-2xl font-bold text-gray-900 mb-7 text-center sm:text-left">
         Course Syllabus
       </h1>
 
@@ -74,7 +74,7 @@ const CourseOverview = () => {
               onClick={() => toggle(index)}
               className="w-full flex items-center justify-between px-4 sm:px-5 py-4 text-left"
             >
-              <span className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg">
+              <span className="font-normal text-gray-900 text-sm sm:text-base md:text-lg">
                 {module.title}
               </span>
 

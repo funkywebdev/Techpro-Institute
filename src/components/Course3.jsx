@@ -45,15 +45,15 @@ const Course3 = () => {
         {/* PHONE MOCKUP */}
         <div
           className="
-            static mt-14 sm:mt-20 md:mt-24
+            static mt-6
             lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52
-            z-10 p-6
+            z-10 
           "
         >
           <div className="relative w-[300px] md:w-[260px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto p-1">
 
             {/* NOTCH */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
+            <div className="absolute  left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
 
             {/* SCREEN */}
             <div className="bg-white rounded-3xl p-3 sm:p-5 space-y-3">
