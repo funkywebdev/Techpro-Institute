@@ -185,7 +185,7 @@ const CourseOverview = () => {
               onClick={() => toggle(index)}
               className="w-full flex items-center justify-between px-3 sm:px-5 py-3 sm:py-4 text-left"
             >
-              <span className="font-normal text-gray-900 text-xs sm:text-base md:text-lg line-clamp-1 sm:line-clamp-none">
+              <span className="font-normal text-gray-900 text-sm sm:text-base md:text-lg line-clamp-1 sm:line-clamp-none">
                 {module.title}
               </span>
 

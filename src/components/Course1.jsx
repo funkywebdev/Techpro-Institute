@@ -53,7 +53,7 @@ const CoursePage = () => {
             z-10 flex items-center
           "
         >
-          <div className="relative w-[250px] md:w-[260px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto item-center p-1">
+          <div className="relative w-[300px] md:w-[260px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto item-center p-1">
 
             {/* NOTCH */}
             <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
