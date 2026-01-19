@@ -131,7 +131,7 @@ const Course2 = () => {
         ].map((item, idx) => (
           <p
             key={idx}
-            className="flex items-start gap-2 text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
+            className="flex items-start gap-2 text-[14px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
           >
             <BsCheckCircle className="text-[#15256E] mt-[2px] text-xs sm:text-sm" />
             {item}
@@ -155,7 +155,7 @@ const Course2 = () => {
         ].map((item, idx) => (
           <p
             key={idx}
-            className="flex items-start gap-2 text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
+            className="flex items-start gap-2 text-[14px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
           >
             <BsCheckCircle className="text-[#15256E] mt-[2px] text-xs sm:text-sm" />
             {item}

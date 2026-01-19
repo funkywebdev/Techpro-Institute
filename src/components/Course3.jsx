@@ -107,7 +107,7 @@ const Course3 = () => {
       </section>
 
       {/* COURSE OVERVIEW */}
-  <section className="bg-white py-8 sm:py-16 px-6 sm:px-8">
+  <section className="bg-white py-8 sm:py-16 px-6 ">
   <div className="max-w-6xl mx-auto grid gap-10 md:grid-cols-3">
 
     {/* WHAT YOU'LL LEARN */}
@@ -131,7 +131,7 @@ const Course3 = () => {
         ].map((item, idx) => (
           <p
             key={idx}
-            className="flex items-start gap-2 text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
+            className="flex items-start gap-2 text-[14px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-none"
           >
             <BsCheckCircle className="text-[#15256E] mt-[2px] text-xs sm:text-sm" />
             {item}
@@ -155,7 +155,7 @@ const Course3 = () => {
         ].map((item, idx) => (
           <p
             key={idx}
-            className="flex items-start gap-2 text-[11px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-2"
+            className="flex items-start gap-2 text-[14px] sm:text-sm md:text-base line-clamp-2 sm:line-clamp-2"
           >
             <BsCheckCircle className="text-[#15256E] mt-[2px] text-xs sm:text-sm" />
             {item}
