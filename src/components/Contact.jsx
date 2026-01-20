@@ -73,7 +73,7 @@ const Contact = () => {
     <section className="bg-gradient-to-br from-[#EEF2FF] to-[#F8FAFC] py-12">
       <ToastContainer position="top-right" autoClose={2500} />
 
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* HEADER */}
         <div className="mb-5 text-center sm:text-start sm:pt-8 sm:px-3 ">
           <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 pt-10">
