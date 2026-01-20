@@ -1,6 +1,3 @@
-
-
-
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify"; // Toast notifications
@@ -11,6 +8,11 @@ import LandingPage from "./pages/LandingPage";
 import CoursePage1 from "./pages/CoursePage1";
 import CoursePage2 from "./pages/CoursePage2";
 import CoursePage3 from "./pages/CoursePage3";
+import ContactPage from "./pages/ContactPage";
+
+
+
+
 
 const App = () => {
   return (
@@ -32,10 +34,11 @@ const App = () => {
       {/* Routes */}
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/landingpage" element={<LandingPage />} />
         <Route path="/course1" element={<CoursePage1 />} />
         <Route path="/course2" element={<CoursePage2 />} />
          <Route path="/course3" element={<CoursePage3/>} />
+         <Route path="/contact" element={<ContactPage/>} />
 
         {/* Optional: 404 Route */}
         <Route

@@ -1,206 +1,197 @@
-import React, { useRef, useState } from "react";
-import { FiMail, FiPhone, FiSend } from "react-icons/fi";
-import emailjs from "emailjs-com";
 
-import facebook from "../assets/images/facebook.png";
-import tiktok from "../assets/images/tiktok.png";
-import Group from "../assets/images/Group.png";
-import linkedin from "../assets/images/linkedin.png";
+
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import emailjs from "emailjs-com";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
+import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 const Contact = () => {
-  const form = useRef();
-  const [status, setStatus] = useState(""); 
   const [loading, setLoading] = useState(false);
 
-  const sendEmail = (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(form.current);
-  formData.forEach((value, key) => {
-    console.log(key, value); 
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
   });
 
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const validateForm = () => {
+    const { firstName, lastName, email, subject, message, phone } = formData;
+
+    if (!firstName || !lastName || !email || !subject || !message) {
+      toast.error("Please fill all required fields");
+      return false;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Invalid email address");
+      return false;
+    }
+
+    // ✅ Phone validation: allow +, numbers, spaces, dashes, parentheses
+    if (phone && !/^\+?[\d\s\-()]{7,20}$/.test(phone)) {
+      toast.error("Invalid phone number");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setLoading(true);
+
     emailjs
-      .sendForm(
-        "service_qzclyh8", // replace with EmailJS service ID
-        "template_hn3545z", // replace with EmailJS template ID
-        form.current,
-        "W8LUTAQCleCNI4f1q" // replace with EmailJS public key
-      )
-      .then(
-        (result) => {
-          setStatus("success");
-          setLoading(false);
-          e.target.reset();
-          setTimeout(() => setStatus(""), 5000); // Hide message after 5 sec
-        },
-        (error) => {
-          console.log(error.text);
-          setStatus("error");
-          setLoading(false);
-          setTimeout(() => setStatus(""), 5000); // Hide message after 5 sec
-        }
-      );
+      .send("service_tsbfjqp", "template_8n6g0rc", formData, "W8LUTAQCleCNI4f1q")
+      .then(() => {
+        toast.success("Message sent successfully 🎉");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      })
+      .catch(() => toast.error("Failed to send message"))
+      .finally(() => setLoading(false));
   };
 
   return (
-    <section id="Contact" className="px-6 md:px-32 py-10">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold">Contact Us</h1>
-        <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
-          Have questions? Get in touch via email, phone, or social media, and we’ll respond promptly.
-        </p>
-      </div>
+    <section className="bg-gradient-to-br from-[#EEF2FF] to-[#F8FAFC] py-12">
+      <ToastContainer position="top-right" autoClose={2500} />
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-        {/* Contact Form */}
-        <form
-          ref={form}
-          onSubmit={sendEmail}
-          className="md:col-span-2 flex flex-col gap-4"
-        >
-          <label className="font-medium">School Name</label>
-          <input
-            type="text"
-            name="school_name"
-            placeholder="Enter school name"
-            required
-            className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[#001489]"
-          />
-
-          <label className="font-medium">Email Address</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter email"
-            required
-            className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[#001489]"
-          />
-
-          <label className="font-medium">Subject</label>
-          <input
-            type="text"
-            name="subject"
-            placeholder="Select a subject"
-            required
-            className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[#001489]"
-          />
-
-          <label className="font-medium">Message</label>
-          <textarea
-            name="message"
-            rows={5}
-            placeholder="Type your message here"
-            required
-            className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[#001489]"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`bg-[#001489] text-white flex items-center justify-center gap-2 px-6 py-3 rounded-md font-semibold transition w-full md:w-auto mt-2 hover:bg-[#0025c5] ${
-              loading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {loading ? (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                ></path>
-              </svg>
-            ) : (
-              <>
-                <FiSend className="w-5 h-5" />
-                Send Message
-              </>
-            )}
-          </button>
-
-          {/* Status Message */}
-          {status === "success" && (
-            <p className="text-green-500 mt-2 font-medium">
-              Message sent successfully!
-            </p>
-          )}
-          {status === "error" && (
-            <p className="text-red-500 mt-2 font-medium">
-              Failed to send message. Please try again.
-            </p>
-          )}
-        </form>
-
-        {/* Contact Info Card */}
-        <div className="bg-[#001489] text-white rounded-xl p-8 flex flex-col gap-4 w-full md:w-auto mx-auto md:mx-0">
-          <h2 className="text-2xl font-semibold">Contact Information</h2>
-
-          <p className="flex items-center gap-2 mt-3 text-lg">
-            <FiMail className="w-5 h-5" />
-            boloquiz626@gmail.com
+      <div className="max-w-6xl mx-auto px-4">
+        {/* HEADER */}
+        <div className="mb-5 text-center sm:text-start sm:pt-8 sm:px-3 ">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 pt-10">
+            Contact Us
+          </h1>
+          <p className="text-sm sm:text-base text-gray-600 pt-1">
+            We’ll get back to you shortly
           </p>
-
-          <p className="flex items-center gap-2 mt-2 text-lg">
-            <FiPhone className="w-5 h-5" />
-            +234 801 234 5678
-          </p>
-    <div className="flex flex-wrap items-center gap-4 mt-4">
-  {[
-    {
-      icon: facebook,
-      url: "https://www.facebook.com/share/1A6MuerPbL/",
-      name: "Facebook",
-    },
-    {
-      icon: tiktok,
-      url: "https://www.tiktok.com/@boloql?_r=1&_t=ZS-932QM9wcuUK",
-      name: "TikTok",
-    },
-    {
-      icon: Group,
-      url: "#", 
-      name: "Website",
-    },
-    {
-      icon: linkedin,
-      url: "#", 
-      name: "LinkedIn",
-    },
-  ].map((item, idx) => (
-    <a
-      key={idx}
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={item.name}
-    >
-      <img
-        src={item.icon}
-        alt={item.name}
-        className="w-6 h-6 cursor-pointer transition-all hover:opacity-80 hover:scale-110"
-      />
-    </a>
-  ))}
-</div>
-
         </div>
+
+        {/* CARD */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="backdrop-blur-xl bg-white/70 border border-white/30 rounded-3xl p-6 sm:p-10 shadow-xl"
+        >
+          <div className="grid lg:grid-cols-12 gap-10">
+            {/* FORM */}
+            <form onSubmit={handleSubmit} className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+              {[
+                { name: "firstName", label: "First Name" },
+                { name: "lastName", label: "Last Name" },
+                { name: "email", label: "Email", type: "email" },
+                { name: "phone", label: "Phone Number" },
+              ].map((field) => (
+                <div key={field.name}>
+                  <label className="text-sm text-gray-700">{field.label}</label>
+                  <input
+                    name={field.name}
+                    type={field.type || "text"}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    className="w-full mt-1 px-4 py-3 rounded-xl bg-white/80 border border-gray-200 focus:ring-2 focus:ring-[#001489]"
+                  />
+                </div>
+              ))}
+
+              <div className="sm:col-span-2">
+                <label className="text-sm text-gray-700">Subject</label>
+                <input
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full mt-1 px-4 py-3 rounded-xl bg-white/80 border border-gray-200"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="text-sm text-gray-700">Message</label>
+                <textarea
+                  rows={4}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full mt-1 px-4 py-3 rounded-xl bg-white/80 border border-gray-200"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="sm:col-span-2 bg-[#001489] text-white py-3 rounded-xl font-medium flex justify-center"
+              >
+                {loading ? (
+                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  "Send Message"
+                )}
+              </button>
+            </form>
+
+            {/* INFO + MAP + SOCIALS */}
+            <div className="lg:col-span-5 space-y-4">
+              {[
+                { icon: <MdEmail />, text: "info@techprocom" },
+                { icon: <MdPhone />, text: "Australia: +44 7534617780" },
+                { icon: <MdPhone />, text: "UK: +61 435 976 010" },
+                { icon: <MdLocationOn />, text: "3a High Street, Gillingham Kent" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 bg-white/60 p-4 rounded-xl">
+                  <span className="text-[#001489] text-xl">{item.icon}</span>
+                  <p className="text-sm">{item.text}</p>
+                </div>
+              ))}
+
+              {/* MAP */}
+              <iframe
+                title="map"
+                className="w-full h-48 rounded-xl border"
+                loading="lazy"
+                src="https://www.google.com/maps?q=Gillingham%20Kent&output=embed"
+              />
+
+              {/* SOCIALS */}
+              <div className="bg-white/60 p-5 rounded-xl text-center">
+                <p className="text-sm font-medium mb-4 text-gray-800">Our Socials</p>
+
+                <div className="flex justify-center gap-6 text-xl">
+                  <FaFacebook className="text-[#1877F2]" />
+                  <FaInstagram className="text-[#E1306C]" />
+                  <FaLinkedin className="text-[#0A66C2]" />
+                  <FaTiktok className="text-black" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* WHATSAPP */}
+      <a
+        href="https://wa.me/447351662748"
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full text-white shadow-lg hover:scale-110 transition"
+      >
+        <FaWhatsapp size={22} />
+      </a>
     </section>
   );
 };
