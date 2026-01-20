@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { title: "Home", link: "hero", isScroll: true },
+    { title: "Home", link: "/landingpage", isScroll: true },
     { title: "Certification", link: "/certification", isScroll: false },
     { title: "Contact", link: "/contact", isScroll: false },
   ];
