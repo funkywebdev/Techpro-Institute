@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css"; // Toast styles
 
 // Pages/Components
 import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
 import CoursePage1 from "./pages/CoursePage1";
 import CoursePage2 from "./pages/CoursePage2";
 import CoursePage3 from "./pages/CoursePage3";
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/course2" element={<CoursePage2 />} />
          <Route path="/course3" element={<CoursePage3/>} />
          <Route path="/contact" element={<ContactPage/>} />
+         <Route path="/login" element={<LoginPage/>} />
 
         {/* Optional: 404 Route */}
         <Route

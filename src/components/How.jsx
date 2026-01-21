@@ -1,7 +1,3 @@
-
-
-
-
 import React from "react";
 import { motion } from "framer-motion";
 import Group from "../assets/images/Group.png";
