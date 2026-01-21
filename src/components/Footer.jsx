@@ -56,12 +56,18 @@ const Footer = () => {
 
               <li className="flex items-center gap-3">
                 <FiPhone className="text-lg" />
-                <span>+44 735 166 2748</span>
+                <span>UK Contact : +44 7534617780</span>
               </li>
 
               <li className="flex items-center gap-3">
+                <FiPhone className="text-lg" />
+                <span>Australia Contact: +61 435 976 010</span>
+              </li>
+
+
+              <li className="flex items-center gap-3">
                 <FiMapPin className="text-lg" />
-                <span>London, UK</span>
+                <span>Australia, UK</span>
               </li>
 
             </ul>
