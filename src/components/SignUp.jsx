@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { HiArrowRight } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -105,6 +106,13 @@ const SignUp = () => {
             Sign Up
           </button>
 
+          {/* OR separator */}
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-2 text-gray-400 text-sm">OR</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
+
           {/* Google sign up */}
           <a
             href="https://accounts.google.com/"
@@ -117,10 +125,13 @@ const SignUp = () => {
           {/* Login link */}
           <p className="text-center text-gray-600">
             Already have an account?{" "}
-            <span className="inline-flex items-center gap-1 text-[#15256E] cursor-pointer hover:underline">
+            <Link
+                to="/login"  // <-- path to your Login page
+                className="inline-flex items-center gap-1 text-[#15256E] cursor-pointer hover:underline"
+            >
                 Login <HiArrowRight className="text-sm" />
-            </span>
-            </p>
+            </Link>
+          </p>
 
         </div>
       </div>

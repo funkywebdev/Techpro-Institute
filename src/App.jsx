@@ -11,8 +11,8 @@ import CoursePage2 from "./pages/CoursePage2";
 import CoursePage3 from "./pages/CoursePage3";
 import ContactPage from "./pages/ContactPage";
 import SignupPage from "./pages/SignupPage";
-
-
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import VerifyPage from "./pages/VerifyPage";
 
 
 
@@ -44,6 +44,10 @@ const App = () => {
          <Route path="/contact" element={<ContactPage/>} />
          <Route path="/login" element={<LoginPage/>} />
          <Route path="/signup" element={<SignupPage/>} />
+          <Route path="/resetpassword" element={<ResetPasswordPage/>} />
+            <Route path="/verify" element={<VerifyPage/>} />
+          
+          
 
 
         {/* Optional: 404 Route */}

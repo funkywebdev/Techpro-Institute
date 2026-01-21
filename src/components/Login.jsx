@@ -1,11 +1,8 @@
-
-
-
-
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { HiArrowRight } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -57,15 +54,26 @@ const Login = () => {
               Remember me
             </label>
 
-            <span className="text-blue-600 cursor-pointer hover:underline">
+            {/* Link to Reset Password page */}
+            <Link
+              to="/resetpassword"
+              className="text-[#15256E] cursor-pointer hover:underline"
+            >
               Forgot password?
-            </span>
+            </Link>
           </div>
 
           {/* Login button */}
           <button className="w-full bg-[#15256E] text-white py-3 rounded mb-4 hover:bg-[#0f1c58] transition">
             Login
           </button>
+
+          {/* OR separator */}
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-2 text-gray-400 text-sm">OR</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
 
           {/* Google login */}
           <a
@@ -76,13 +84,16 @@ const Login = () => {
             <span>Sign in with Google</span>
           </a>
 
-          {/* Sign up */}
+          {/* Sign up link */}
           <p className="text-center text-gray-600">
-          Don’t have an account?{" "}
-          <span className="inline-flex items-center gap-1 text-[#15256E] cursor-pointer hover:underline">
-            Sign Up <HiArrowRight className="text-sm" />
-          </span>
-        </p>
+            Don’t have an account?{" "}
+            <Link
+              to="/signup"
+              className="inline-flex items-center gap-1 text-[#15256E] cursor-pointer hover:underline"
+            >
+              Sign Up <HiArrowRight className="text-sm" />
+            </Link>
+          </p>
 
         </div>
       </div>
