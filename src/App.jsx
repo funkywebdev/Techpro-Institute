@@ -13,6 +13,8 @@ import ContactPage from "./pages/ContactPage";
 import SignupPage from "./pages/SignupPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import VerifyPage from "./pages/VerifyPage";
+import PaymentPage from "./pages/PaymentPage";
+import CompletePage from "./pages/CompletePage";
 
 
 
@@ -45,20 +47,16 @@ const App = () => {
          <Route path="/login" element={<LoginPage/>} />
          <Route path="/signup" element={<SignupPage/>} />
           <Route path="/resetpassword" element={<ResetPasswordPage/>} />
-            <Route path="/verify" element={<VerifyPage/>} />
+          <Route path="/verify" element={<VerifyPage/>} />
+          <Route path="/payment" element={<PaymentPage/>} />
+          <Route path="/complete" element={<CompletePage/>} />
+          
           
           
 
 
-        {/* Optional: 404 Route */}
-        <Route
-          path="*"
-          element={
-            <div className="flex items-center justify-center h-screen">
-              <h1 className="text-2xl font-bold">404 - Page Not Found</h1>
-            </div>
-          }
-        />
+      
+        
       </Routes>
     </div>
   );

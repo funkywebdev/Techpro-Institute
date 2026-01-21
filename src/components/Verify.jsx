@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { HiMail } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Verify = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -84,12 +85,18 @@ const Verify = () => {
           ))}
         </div>
 
-        {/* Verify button */}
-        <button className="w-full bg-[#15256E] text-white 
-                           py-2.5 sm:py-3 rounded mb-4 
-                           hover:bg-[#0f1c58] transition">
-          Verify
-        </button>
+        
+
+
+        <Link
+  to="/payment"
+  className="block w-full text-center bg-[#15256E] text-white 
+             py-2.5 sm:py-3 rounded mb-4 
+             hover:bg-[#0f1c58] transition"
+>
+  Verify
+</Link>
+
 
         {/* Options */}
         <div className="flex justify-between w-full text-xs sm:text-sm text-gray-600">

@@ -4,7 +4,8 @@ import Hero from '../components/Hero'
 import Why from '../components/Why'
 import Our from '../components/Our'
 import Say from '../components/Say'
-import WhyTechpro from '../components/WhyTechpro'  
+import WhyTechpro from '../components/WhyTechpro'
+import Team from '../components/Team' 
 import How from '../components/How'  
 import Ready from '../components/Ready'
 import Faq from '../components/Faq'
@@ -19,6 +20,7 @@ const LandingPage = () => {
       <Our />
       <Say />
       <WhyTechpro />
+      <Team />
       <How />
       <Ready />
       <Faq />
