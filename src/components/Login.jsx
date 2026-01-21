@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { HiArrowRight } from "react-icons/hi";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +17,7 @@ const Login = () => {
 
           {/* Header */}
           <div className="text-center mb-6 space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-semibold">Login</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold">Login</h1>
             <p className="text-gray-600 text-sm sm:text-base">Login to start learning</p>
           </div>
 
@@ -77,9 +78,11 @@ const Login = () => {
 
           {/* Sign up */}
           <p className="text-center text-gray-600">
-            Don’t have an account?{" "}
-            <span className="text-blue-600 cursor-pointer">Sign Up</span>
-          </p>
+          Don’t have an account?{" "}
+          <span className="inline-flex items-center gap-1 text-[#15256E] cursor-pointer hover:underline">
+            Sign Up <HiArrowRight className="text-sm" />
+          </span>
+        </p>
 
         </div>
       </div>

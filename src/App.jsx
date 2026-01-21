@@ -10,6 +10,7 @@ import CoursePage1 from "./pages/CoursePage1";
 import CoursePage2 from "./pages/CoursePage2";
 import CoursePage3 from "./pages/CoursePage3";
 import ContactPage from "./pages/ContactPage";
+import SignupPage from "./pages/SignupPage";
 
 
 
@@ -42,6 +43,8 @@ const App = () => {
          <Route path="/course3" element={<CoursePage3/>} />
          <Route path="/contact" element={<ContactPage/>} />
          <Route path="/login" element={<LoginPage/>} />
+         <Route path="/signup" element={<SignupPage/>} />
+
 
         {/* Optional: 404 Route */}
         <Route
