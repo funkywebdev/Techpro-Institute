@@ -515,14 +515,14 @@ const Team = () => {
   return (
     <section
       id="Team"
-      className="px-4 sm:px-8 md:px-16 lg:px-24  font-poppins bg-gray-50"
+      className="font-poppins bg-gray-50"
     >
       {/* Heading */}
       <div className="mb-8 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+        <h2 className="text-[20px] sm:text-2xl font-bold text-gray-900">
           Meet Our Team
         </h2>
-        <p className="mt-2 text-gray-600 sm:text-base">
+        <p className="mt-2 text-sm sm:text-base text-gray-600 sm:text-base">
           Talented individuals driving our mission forward
         </p>
       </div>
