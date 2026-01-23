@@ -104,8 +104,8 @@ const Preview = () => {
   return (
     <>
       {/* HEADER */}
-      <section className="mt-20">
-        <h2 className="text-xl font-semibold text-gray-900">
+      <section className="mt-25 sm:mt-20">
+        <h2 className="text-[18px] sm:text-xl font-semibold text-gray-900">
           Preview Modules
         </h2>
         <p className="text-sm text-gray-500 mt-1">
