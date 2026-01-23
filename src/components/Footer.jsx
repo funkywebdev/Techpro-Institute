@@ -1,6 +1,6 @@
 import React from "react";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import image88 from "../assets/images/image88.png";
+import techprologo from "../assets/images/techprologo.png";
 
 const Footer = () => {
   return (
@@ -13,7 +13,7 @@ const Footer = () => {
           {/* LOGO & ABOUT */}
           <div className="space-y-3">
             <img
-              src={image88}
+              src={techprologo}
               alt="TechPro Logo"
               className="w-32"
             />
