@@ -16,6 +16,9 @@ import VerifyPage from "./pages/VerifyPage";
 import PaymentPage from "./pages/PaymentPage";
 import CompletePage from "./pages/CompletePage";
 import DashboardPage from "./pages/dashboard-pages/DashboardPage";
+import AdminPaymentPage from "./pages/dashboard-pages/AdminPaymentPage";
+import AdminCoursePage from "./pages/dashboard-pages/AdminCoursePage";
+import CertificatePage from "./pages/dashboard-pages/CertificatePage";
 
 
 
@@ -52,6 +55,12 @@ const App = () => {
           <Route path="/payment" element={<PaymentPage/>} />
           <Route path="/complete" element={<CompletePage/>} />
            <Route path="/dashboard" element={<DashboardPage />} />
+           <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/adminpayment" element={<AdminPaymentPage />} />
+             <Route path="/admincourse" element={<AdminCoursePage />} />
+             <Route path="/certificate" element={<CertificatePage />} />
+          
+          
           
           
           
