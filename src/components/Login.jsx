@@ -64,10 +64,12 @@ const Login = () => {
           </div>
 
           {/* Login button */}
+          <Link to="/dashboard">
           <button className="w-full bg-[#15256E] text-white py-3 rounded mb-4 hover:bg-[#0f1c58] transition">
             Login
           </button>
-
+        </Link>
+          
           {/* OR separator */}
           <div className="flex items-center my-4">
             <hr className="flex-grow border-gray-300" />

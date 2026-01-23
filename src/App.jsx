@@ -15,6 +15,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import VerifyPage from "./pages/VerifyPage";
 import PaymentPage from "./pages/PaymentPage";
 import CompletePage from "./pages/CompletePage";
+import DashboardPage from "./pages/dashboard-pages/DashboardPage";
 
 
 
@@ -50,6 +51,8 @@ const App = () => {
           <Route path="/verify" element={<VerifyPage/>} />
           <Route path="/payment" element={<PaymentPage/>} />
           <Route path="/complete" element={<CompletePage/>} />
+           <Route path="/dashboard" element={<DashboardPage />} />
+          
           
           
           
