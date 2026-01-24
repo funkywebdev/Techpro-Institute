@@ -5,19 +5,19 @@ const PaymentPage = () => {
   const payments = [
     {
       date: "2026-01-01",
-      course: "React for Beginners",
+      course: "Scrum Master",
       amount: "$50",
       status: "Paid",
     },
     {
       date: "2026-01-05",
-      course: "Advanced Tailwind CSS",
+      course: "Scrum Master",
       amount: "$40",
       status: "Pending",
     },
     {
       date: "2026-01-10",
-      course: "JavaScript Mastery",
+      course: "Scrum Master",
       amount: "$60",
       status: "Paid",
     },

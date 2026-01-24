@@ -1,5 +1,6 @@
 import React from "react";
 import Rectangle4317 from "../../assets/images/Rectangle4317.png"; // Replace with your course image
+import { Link } from "react-router-dom";
 
 const AdminCourse = () => {
   // Example progress value
@@ -33,9 +34,12 @@ const AdminCourse = () => {
           </p>
 
           {/* Continue Learning Button */}
+          
+          <Link to="/Preview">
           <button className="mt-3 bg-[#15256E] text-white px-4 py-2 rounded-md hover:bg-[#0f1f5a] transition-colors self-center md:self-start">
             Continue Learning
           </button>
+        </Link>
         </div>
       </div>
     </div>

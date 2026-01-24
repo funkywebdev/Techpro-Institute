@@ -21,7 +21,6 @@ const Sidebar = () => {
     { name: "Dashboard", icon: <MdDashboard />, path: "/dashboard" },
     { name: "My Courses", icon: <MdSchool />, path: "/admincourse" },
     { name: "Payments", icon: <MdPayment />, path: "/adminpayments" },
-    { name: "Profile", icon: <MdPerson />, path: "/profile" },
     { name: "Certificates", icon: <MdCardMembership />, path: "/certificate" },
   ];
 
