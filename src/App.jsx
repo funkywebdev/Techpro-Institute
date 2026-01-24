@@ -20,6 +20,7 @@ import AdminPaymentPage from "./pages/dashboard-pages/AdminPaymentPage";
 import AdminCoursePage from "./pages/dashboard-pages/AdminCoursePage";
 import CertificatePage from "./pages/dashboard-pages/CertificatePage";
 import PreviewPage from "./pages/dashboard-pages/PreviewPage";
+import VideoPage from "./pages/dashboard-pages/VideoPage";
 
 
 
@@ -63,17 +64,7 @@ const App = () => {
              <Route path="/admincourse" element={<AdminCoursePage />} />
              <Route path="/certificate" element={<CertificatePage />} />
              <Route path="/preview" element={<PreviewPage />} />
-          
-          
-          
-          
-          
-          
-          
-
-
-      
-        
+             <Route path="/video" element={<VideoPage />} />  
       </Routes>
     </div>
   );
