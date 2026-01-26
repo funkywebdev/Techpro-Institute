@@ -94,10 +94,10 @@ const Contact = () => {
             {/* FORM */}
             <form onSubmit={handleSubmit} className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
               {[
-                { name: "firstName", label: "First Name" },
-                { name: "lastName", label: "Last Name" },
-                { name: "email", label: "Email", type: "email" },
-                { name: "phone", label: "Phone Number" },
+                { name: "firstName", label: "First Name",placeholder:"Enter your first name" },
+                { name: "lastName", label: "Last Name" ,placeholder: "Enter your last name" },
+                { name: "email", label: "Email", type: "email" , placeholder: "Enter your email" },
+                { name: "phone", label: "Phone Number" ,placeholder: "Enter your phone number"},
               ].map((field) => (
                 <div key={field.name}>
                   <label className="text-sm text-gray-700">{field.label}</label>
@@ -105,8 +105,9 @@ const Contact = () => {
                     name={field.name}
                     type={field.type || "text"}
                     value={formData[field.name]}
+                    placeholder={field.placeholder || ""}
                     onChange={handleChange}
-                    className="w-full mt-1 px-4 py-3 rounded-xl bg-white/80 border border-gray-200 focus:ring-2 focus:ring-[#001489]"
+                    className="w-full mt-1 px-4 py-3 rounded-xl  border border-gray-200 focus:ring-2 focus:ring-[#001489]"
                   />
                 </div>
               ))}
@@ -115,9 +116,10 @@ const Contact = () => {
                 <label className="text-sm text-gray-700">Subject</label>
                 <input
                   name="subject"
+                  placeholder="How can we help you?"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-3 rounded-xl bg-white/80 border border-gray-200"
+                  className="w-full mt-1 px-4 py-3 rounded-xl  border border-gray-200"
                 />
               </div>
 
@@ -126,9 +128,10 @@ const Contact = () => {
                 <textarea
                   rows={4}
                   name="message"
+                  placeholder="Write your message here..."
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-3 rounded-xl bg-white/80 border border-gray-200"
+                  className="w-full mt-1 px-4 py-3 rounded-xl  border border-gray-200"
                 />
               </div>
 
@@ -153,7 +156,7 @@ const Contact = () => {
                 { icon: <MdPhone />, text: "UK: +61 435 976 010" },
                 { icon: <MdLocationOn />, text: "3a High Street, Gillingham Kent" },
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 bg-white/60 p-4 rounded-xl">
+                <div key={i} className="flex items-center gap-4 p-4 rounded-xl">
                   <span className="text-[#001489] text-xl">{item.icon}</span>
                   <p className="text-sm">{item.text}</p>
                 </div>
