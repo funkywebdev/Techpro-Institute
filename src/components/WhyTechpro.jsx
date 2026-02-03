@@ -1,7 +1,6 @@
 
 
 
-
 import React from "react";
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
@@ -17,18 +16,17 @@ const WhyTechpro = () => {
   return (
     <section className="bg-[#F8FAFF] py-12 px-4 md:px-8 lg:px-18">
       <div className="max-w-7xl mx-auto">
-        {/* Header + Stats */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8  bg-white rounded-xl p-6 sm:p-8">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 bg-white rounded-xl p-6 sm:p-8">
           
           {/* Title + Image */}
           <div className="text-center lg:text-left lg:flex-1">
-            <h1 className="text-xl sm:text-3xl font-bold leading-tight mb-1 ">
+            <h1 className="text-xl sm:text-3xl font-bold leading-tight mb-1">
               Why Choose TechPro
             </h1>
             <p className="text-xs sm:text-base text-[#6B7280] max-w-full sm:max-w-md mx-auto lg:mx-0 mb-1">
               We deliver in-demand industry certifications
             </p>
-          
+
             <motion.img
               src={Rectangle4323}
               alt="TechPro Illustration"
@@ -36,7 +34,7 @@ const WhyTechpro = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="w-full max-w-xs mx-auto rounded-xl object-cover sm:max-w-full sm:mx-0 mt-6 sm:mt-4 order-last sm:order-first"
+              className="w-full max-w-xs mx-auto rounded-xl object-cover sm:max-w-full sm:mx-0 mt-6 sm:mt-4"
             />
           </div>
 
@@ -44,7 +42,7 @@ const WhyTechpro = () => {
           <div className="w-full sm:max-w-3xl mx-auto px-0 sm:px-8 lg:px-16 space-y-4 sm:space-y-6">
             
             {/* Stats */}
-            <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-6 text-center">
+            <div className="flex flex-row justify-between items-center gap-4 text-center">
               {stats.map((stat, idx) => (
                 <div key={idx} className="flex-1">
                   <p className="text-xl sm:text-3xl font-bold text-[#001489]">
@@ -53,11 +51,15 @@ const WhyTechpro = () => {
                       end={stat.number}
                       duration={2}
                       suffix={stat.suffix}
-                      enableScrollSpy={true} // animates only when visible
-                      scrollSpyOnce={true}
-                    />
+                    >
+                      {({ countUpRef }) => (
+                        <span ref={countUpRef} />
+                      )}
+                    </CountUp>
                   </p>
-                  <p className="text-[10px] sm:text-base text-[#6B7280]">{stat.label}</p>
+                  <p className="text-[10px] sm:text-base text-[#6B7280]">
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
@@ -91,5 +93,3 @@ const WhyTechpro = () => {
 };
 
 export default WhyTechpro;
-
-

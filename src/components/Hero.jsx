@@ -5,7 +5,18 @@ import Manage from "../assets/images/Manage.png";
 const words = [
   "Advance your career",
   "Become industry-ready",
-  "Get certified faster",
+  "Get certified faster", 
+  "Learn from experts",
+  "Turn skills into income",
+  "Grow with real projects",
+  "Upskill with confidence",
+  "Stand out professionally",
+  "Launch your tech journey",
+  "Master practical skills",
+  "Prepare for real jobs",
+  "Level up your expertise",
+  "Learn today, succeed tomorrow",
+  "Transform your future",
 ];
 
 const Hero = () => {
