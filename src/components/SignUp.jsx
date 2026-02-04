@@ -9,11 +9,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
 
   const {
@@ -47,6 +49,16 @@ const SignUp = () => {
     try {
       // Example Axios POST request (replace with your API)
       const res = await axios.post("https://techproinstitute.org/api/register", payload);
+
+      toast.success("Account created! Please verify your email 📧");
+
+// save email for verify page
+      localStorage.setItem("verifyEmail", data.email);
+
+      // go to verify page
+      setTimeout(() => {
+        navigate("/verify");
+      }, 1500);
 
       toast.success("Account created successfully ✅");
       console.log("Response:", res.data);

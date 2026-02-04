@@ -1,75 +1,121 @@
+
+
+
+
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { HiArrowRight } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    setServerError(null);
+
+    try {
+      const response = await axios.post("https://techproinstitute.org/api/login", data);
+      console.log("Login successful:", response.data);
+
+      // Redirect to dashboard after successful login
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login error:", error);
+      setServerError("Failed to login. Please check your credentials.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="flex items-center justify-center bg-[#F2F4F8] px-4 pt-24 pb-5 sm:pt-32 sm:pb-10 ">
+    <div className="flex items-center justify-center bg-[#F2F4F8] px-4 pt-24 pb-5 sm:pt-32 sm:pb-10">
       <div className="w-full max-w-6xl">
         <div className="bg-white p-8 rounded-lg shadow-md">
-
           {/* Header */}
           <div className="text-center mb-6 space-y-1">
             <h1 className="text-2xl sm:text-3xl font-bold">Login</h1>
             <p className="text-gray-600 text-sm sm:text-base">Login to start learning</p>
           </div>
 
-          {/* Email */}
-          <label className="block mb-1 font-medium">Email</label>
-          <input
-            type="email"
-            placeholder="Enter your Email"
-            className="w-full mb-4 p-3 border border-gray-300 rounded focus:outline-none focus:ring-0 "
-          />
-
-          {/* Password */}
-          <label className="block mb-1 font-medium">Password</label>
-          <div className="relative mb-2">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter your Password"
-              className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-0  pr-10"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              {showPassword ? (
-                <AiOutlineEyeInvisible size={22} />
-              ) : (
-                <AiOutlineEye size={22} />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Email */}
+            <div>
+              <label className="block mb-1 font-medium">Email</label>
+              <input
+                type="email"
+                placeholder="Enter your Email"
+                className="w-full mb-2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-0"
+                {...register("email", { required: "Email is required", pattern: /^\S+@\S+$/i })}
+              />
+              {errors.email && (
+                <span className="text-red-500 text-sm">{errors.email.message || "Invalid email"}</span>
               )}
-            </button>
-          </div>
+            </div>
 
-          {/* Remember me & Forgot password */}
-          <div className="flex items-center justify-between mb-4 text-sm">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" className="accent-[#15256E]" />
-              Remember me
-            </label>
+            {/* Password */}
+            <div className="mb-2">
+              <label className="block mb-1 font-medium">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your Password"
+                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-0 pr-10"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: { value: 6, message: "Password must be at least 6 characters" },
+                  })}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                >
+                  {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
+                </button>
+              </div>
+              {errors.password && (
+                <span className="text-red-500 text-sm">{errors.password.message}</span>
+              )}
+            </div>
 
-            {/* Link to Reset Password page */}
-            <Link
-              to="/resetpassword"
-              className="text-[#15256E] cursor-pointer hover:underline"
+            {/* Remember me & Forgot password */}
+            <div className="flex items-center justify-between mb-4 text-sm">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" className="accent-[#15256E]" />
+                Remember me
+              </label>
+
+              <Link to="/resetpassword" className="text-[#15256E] hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+
+            {/* Server error */}
+            {serverError && <p className="text-red-500 text-sm mb-2">{serverError}</p>}
+
+            {/* Login button */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-[#15256E] text-white py-3 rounded mb-4 hover:bg-[#0f1c58] transition disabled:opacity-50"
             >
-              Forgot password?
-            </Link>
-          </div>
+              {isSubmitting ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
-          {/* Login button */}
-          <Link to="/dashboard">
-          <button className="w-full bg-[#15256E] text-white py-3 rounded mb-4 hover:bg-[#0f1c58] transition">
-            Login
-          </button>
-        </Link>
-          
           {/* OR separator */}
           <div className="flex items-center my-4">
             <hr className="flex-grow border-gray-300" />
@@ -89,14 +135,10 @@ const Login = () => {
           {/* Sign up link */}
           <p className="text-center text-gray-600">
             Don’t have an account?{" "}
-            <Link
-              to="/signup"
-              className="inline-flex items-center gap-1 text-[#15256E] cursor-pointer hover:underline"
-            >
+            <Link to="/signup" className="inline-flex items-center gap-1 text-[#15256E] hover:underline">
               Sign Up <HiArrowRight className="text-sm" />
             </Link>
           </p>
-
         </div>
       </div>
     </div>

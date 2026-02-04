@@ -77,7 +77,7 @@ const Footer = () => {
       </div>
 
       {/* FOOTER BOTTOM */}
-      <div className="mt-12 border-t border-gray-600 py-5 px-6 text-center text-xs sm:text-sm text-gray-300">
+      <div className="mt-12 border-t border-gray-600 py-5 px-6 text-center text-xs sm:text-base text-gray-300">
         © {new Date().getFullYear()} TechPro Institute. All rights reserved.
       </div>
     </footer>
