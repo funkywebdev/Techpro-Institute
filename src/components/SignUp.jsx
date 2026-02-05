@@ -222,7 +222,7 @@ const SignUp = () => {
 
           {/* Google */}
           <a
-            href="https://accounts.google.com/"
+            href="https://accounts.google.com/http:/localhost:5174/signup"
             className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded mb-4 hover:bg-gray-100 transition"
           >
             <FcGoogle size={24} />

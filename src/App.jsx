@@ -12,6 +12,7 @@ import CoursePage3 from "./pages/CoursePage3";
 import ContactPage from "./pages/ContactPage";
 import SignupPage from "./pages/SignupPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ForgetPage from "./pages/ForgetPage";
 import VerifyPage from "./pages/VerifyPage";
 import PaymentPage from "./pages/PaymentPage";
 import CompletePage from "./pages/CompletePage";
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/resetpassword" element={<ResetPasswordPage/>} />
           <Route path="/verify" element={<VerifyPage/>} />
           <Route path="/payment" element={<PaymentPage/>} />
+          <Route path="/forget" element={<ForgetPage/>} />
           <Route path="/complete" element={<CompletePage/>} />
            <Route path="/dashboard" element={<DashboardPage />} />
            <Route path="/dashboard" element={<DashboardPage />} />

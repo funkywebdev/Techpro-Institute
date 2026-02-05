@@ -2,6 +2,7 @@
 
 
 
+
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -14,29 +15,73 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSendingCode, setIsSendingCode] = useState(false);
+
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm();
 
+  // LOGIN
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     setServerError(null);
 
     try {
-      const response = await axios.post("https://techproinstitute.org/api/login", data);
-      console.log("Login successful:", response.data);
+      const response = await axios.post(
+        "https://techproinstitute.org/api/login",
+        data
+      );
 
-      // Redirect to dashboard after successful login
+      console.log("Login successful:", response.data);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
       setServerError("Failed to login. Please check your credentials.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // FORGOT PASSWORD → SEND OTP
+  const handleForgotPassword = async () => {
+    const email = getValues("email");
+
+    if (!email) {
+      setServerError("Please enter your email first.");
+      return;
+    }
+
+    setIsSendingCode(true);
+    setServerError(null);
+
+    try {
+      const payload = {
+        email,
+        purpose: "password_reset",
+      };
+
+      const response = await axios.post(
+        "https://techproinstitute.org/api/forgot-password",
+        payload
+      );
+
+      console.log("Reset code sent:", response.data);
+
+      // move to reset password page
+      navigate("/forget", { state: { email } });
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      setServerError(
+        error.response?.data?.message ||
+          "Failed to send reset code. Try again."
+      );
+    } finally {
+      setIsSendingCode(false);
     }
   };
 
@@ -47,7 +92,9 @@ const Login = () => {
           {/* Header */}
           <div className="text-center mb-6 space-y-1">
             <h1 className="text-2xl sm:text-3xl font-bold">Login</h1>
-            <p className="text-gray-600 text-sm sm:text-base">Login to start learning</p>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Login to start learning
+            </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -58,10 +105,15 @@ const Login = () => {
                 type="email"
                 placeholder="Enter your Email"
                 className="w-full mb-2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-0"
-                {...register("email", { required: "Email is required", pattern: /^\S+@\S+$/i })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: /^\S+@\S+$/i,
+                })}
               />
               {errors.email && (
-                <span className="text-red-500 text-sm">{errors.email.message || "Invalid email"}</span>
+                <span className="text-red-500 text-sm">
+                  {errors.email.message || "Invalid email"}
+                </span>
               )}
             </div>
 
@@ -75,7 +127,10 @@ const Login = () => {
                   className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-0 pr-10"
                   {...register("password", {
                     required: "Password is required",
-                    minLength: { value: 6, message: "Password must be at least 6 characters" },
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
                   })}
                 />
                 <button
@@ -83,11 +138,17 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
                 >
-                  {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
+                  {showPassword ? (
+                    <AiOutlineEyeInvisible size={22} />
+                  ) : (
+                    <AiOutlineEye size={22} />
+                  )}
                 </button>
               </div>
               {errors.password && (
-                <span className="text-red-500 text-sm">{errors.password.message}</span>
+                <span className="text-red-500 text-sm">
+                  {errors.password.message}
+                </span>
               )}
             </div>
 
@@ -98,13 +159,20 @@ const Login = () => {
                 Remember me
               </label>
 
-              <Link to="/resetpassword" className="text-[#15256E] hover:underline">
-                Forgot password?
-              </Link>
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-[#15256E] hover:underline disabled:opacity-50"
+                disabled={isSendingCode}
+              >
+                {isSendingCode ? "Sending code..." : "Forgot password?"}
+              </button>
             </div>
 
             {/* Server error */}
-            {serverError && <p className="text-red-500 text-sm mb-2">{serverError}</p>}
+            {serverError && (
+              <p className="text-red-500 text-sm mb-2">{serverError}</p>
+            )}
 
             {/* Login button */}
             <button
@@ -116,7 +184,7 @@ const Login = () => {
             </button>
           </form>
 
-          {/* OR separator */}
+          {/* OR */}
           <div className="flex items-center my-4">
             <hr className="flex-grow border-gray-300" />
             <span className="mx-2 text-gray-400 text-sm">OR</span>
@@ -132,10 +200,13 @@ const Login = () => {
             <span>Sign in with Google</span>
           </a>
 
-          {/* Sign up link */}
-          <p className="text-center text-gray-600">
+          {/* Sign up */}
+          <p className="text-center text-gray-  600">
             Don’t have an account?{" "}
-            <Link to="/signup" className="inline-flex items-center gap-1 text-[#15256E] hover:underline">
+            <Link
+              to="/signup"
+              className="inline-flex items-center gap-1 text-[#15256E] hover:underline"
+            >
               Sign Up <HiArrowRight className="text-sm" />
             </Link>
           </p>
