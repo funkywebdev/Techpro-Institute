@@ -49,7 +49,7 @@ const Hero = () => {
   }, [text, isDeleting, wordIndex]);
 
   return (
-    <section className="w-full overflow-hidden px-4 sm:px-20 pt-[90px] sm:pt-[120px] sm:pb-[20px]">
+    <section id="hero" className="w-full overflow-hidden px-4 sm:px-20 pt-[90px] sm:pt-[120px] sm:pb-[20px]">
       <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
 
         {/* TEXT */}

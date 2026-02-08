@@ -89,7 +89,7 @@ const Our = () => {
             </div>
             <motion.button
               whileTap={{ scale: 0.96 }}
-              onClick={() => navigate(`/courses/${course.id}`)}
+              onClick={() => navigate(`/course/${course.slug}`)}
               className="mt-auto w-full py-2 sm:py-2.5 rounded-lg border border-[#15256E] text-[#15256E] font-semibold text-xs sm:text-sm hover:bg-[#15256E] hover:text-white transition-colors duration-300"
             >
               View Course

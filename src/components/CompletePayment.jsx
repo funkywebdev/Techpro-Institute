@@ -1,31 +1,57 @@
 
-import React, { useState } from "react";
-import { FiUploadCloud } from "react-icons/fi";
-import { Link } from "react-router-dom";
 
+
+import React, { useEffect, useState } from "react";
+import { FiUploadCloud } from "react-icons/fi";
+import { toast } from "react-toastify";
+import api from "../api/axios";
 
 const CompletePayment = () => {
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle file selection
+  // Bank details from backend
+  const [bankDetail, setBankDetail] = useState(null);
+  const [loadingBank, setLoadingBank] = useState(true);
+
+  // =========================
+  // FETCH BANK DETAILS
+  // =========================
+  useEffect(() => {
+    const fetchBankDetails = async () => {
+      try {
+        const response = await api.get("/v1/bank-detail");
+        if (response.data.status) {
+          setBankDetail(response.data.data);
+        } else {
+          toast.error("Failed to load bank details");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error fetching bank details");
+      } finally {
+        setLoadingBank(false);
+      }
+    };
+
+    fetchBankDetails();
+  }, []);
+
+  // =========================
+  // FILE HANDLERS
+  // =========================
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) setFile(selectedFile);
   };
 
-  // Handle drag events
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    setDragActive(e.type === "dragenter" || e.type === "dragover");
   };
 
-  // Handle drop
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -35,9 +61,50 @@ const CompletePayment = () => {
     }
   };
 
+  // =========================
+  // SUBMIT PAYMENT
+  // =========================
+  const handleSubmit = async () => {
+    if (!file) {
+      toast.error("Please upload payment evidence");
+      return;
+    }
+
+    if (!bankDetail) {
+      toast.error("Bank details not loaded yet");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("paymentEvidence", file);
+    formData.append("bankId", bankDetail.id); // remove if not required
+    formData.append("amount", 120);
+    
+
+    try {
+      setIsSubmitting(true);
+
+      // ✅ Correct endpoint
+      const response = await api.post("/v1/payments", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      toast.success(response.data.message || "Payment submitted successfully");
+      setFile(null);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error.response?.data?.message || "Payment submission failed"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="bg-[#F2F4F8] px-4 pt-24 pb-5 sm:pt-32 sm:pb-10">
       <div className="max-w-3xl mx-auto bg-white rounded-lg p-6 sm:p-8 space-y-6">
+
         {/* Header */}
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold text-[#15256E]">
@@ -55,18 +122,27 @@ const CompletePayment = () => {
         </div>
 
         {/* Bank Details */}
-        <div className="space-y-2 text-sm">
-          <p className="font-semibold text-[#15256E]">Bank Details</p>
-          <p>
-            Bank Name: <span className="font-medium">Access Bank</span>
-          </p>
-          <p>
-            Account Number: <span className="font-medium">0123456789</span>
-          </p>
-          <p>
-            Account Name: <span className="font-medium">TechPro Institute</span>
-          </p>
-        </div>
+        {loadingBank ? (
+          <p className="text-gray-500">Loading bank details...</p>
+        ) : bankDetail ? (
+          <div className="space-y-2 text-sm">
+            <p className="font-semibold text-[#15256E]">Bank Details</p>
+            <p>
+              Bank Name:{" "}
+              <span className="font-medium">{bankDetail.bankName}</span>
+            </p>
+            <p>
+              Account Number:{" "}
+              <span className="font-medium">{bankDetail.bankAccountNumber}</span>
+            </p>
+            <p>
+              Region:{" "}
+              <span className="font-medium">{bankDetail.region}</span>
+            </p>
+          </div>
+        ) : (
+          <p className="text-red-500">No bank details available</p>
+        )}
 
         {/* Upload Evidence */}
         <div
@@ -79,7 +155,7 @@ const CompletePayment = () => {
             dragActive ? "border-[#15256E] bg-[#eef1fb]" : "border-gray-300"
           }`}
         >
-          {!file && (
+          {!file ? (
             <>
               <FiUploadCloud size={36} className="mx-auto text-[#15256E]" />
               <p className="font-medium">Upload Evidence of Payment</p>
@@ -87,9 +163,7 @@ const CompletePayment = () => {
                 Drag and drop or browse files
               </p>
             </>
-          )}
-
-          {file && (
+          ) : (
             <div className="flex flex-col items-center space-y-2">
               {file.type.startsWith("image/") && (
                 <img
@@ -116,22 +190,21 @@ const CompletePayment = () => {
             id="payment-upload"
             className="hidden"
             accept="image/*,application/pdf"
-            capture="environment"
             onChange={handleFileChange}
           />
         </div>
 
-        {/* Button */}
-         <Link
-        to="/"
-        className="w-full bg-[#15256E] text-white py-3 rounded-lg font-semibold hover:bg-[#0f1c58] transition inline-block text-center"
+        {/* Submit Button */}
+        <button
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          className="w-full bg-[#15256E] text-white py-3 rounded-lg font-semibold hover:bg-[#0f1c58] transition disabled:opacity-50"
         >
-        Proceed to Payment
-        </Link>
+          {isSubmitting ? "Submitting..." : "Proceed to Payment"}
+        </button>
       </div>
     </div>
   );
 };
 
 export default CompletePayment;
-

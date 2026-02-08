@@ -33,7 +33,7 @@ const How = () => {
   };
 
   return (
-    <section className="py-12 px-4 sm:px-8 lg:px-16 bg-white">
+    <section id="about" className="py-12 px-4 sm:px-8 lg:px-16 bg-white">
       <div className="max-w-6xl mx-auto grid gap-12 lg:grid-cols-2 items-center">
 
         {/* TEXT */}

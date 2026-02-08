@@ -18,11 +18,12 @@ const Sidebar = () => {
 
   // Menu items with paths
   const menuItems = [
-    { name: "Dashboard", icon: <MdDashboard />, path: "/dashboard" },
-    { name: "My Courses", icon: <MdSchool />, path: "/admincourse" },
-    { name: "Payments", icon: <MdPayment />, path: "/adminpayments" },
-    { name: "Certificates", icon: <MdCardMembership />, path: "/certificate" },
-  ];
+  { name: "Dashboard", icon: <MdDashboard />, path: "/dashboard" },
+  { name: "My Courses", icon: <MdSchool />, path: "/admincourse" },
+  { name: "Available Courses", icon: <MdSchool />, path: "/available-courses" },
+  { name: "Payments", icon: <MdPayment />, path: "/adminpayments" },
+  { name: "Certificates", icon: <MdCardMembership />, path: "/certificate" },
+];
 
   const menuItemClass =
     "flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-3 rounded-xl transition-all duration-200 w-full max-w-[200px] cursor-pointer md:hover:bg-[#F81C0D] md:hover:text-white";

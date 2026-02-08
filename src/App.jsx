@@ -6,9 +6,6 @@ import "react-toastify/dist/ReactToastify.css"; // Toast styles
 // Pages/Components
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
-import CoursePage1 from "./pages/CoursePage1";
-import CoursePage2 from "./pages/CoursePage2";
-import CoursePage3 from "./pages/CoursePage3";
 import ContactPage from "./pages/ContactPage";
 import SignupPage from "./pages/SignupPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -22,7 +19,8 @@ import AdminCoursePage from "./pages/dashboard-pages/AdminCoursePage";
 import CertificatePage from "./pages/dashboard-pages/CertificatePage";
 import PreviewPage from "./pages/dashboard-pages/PreviewPage";
 import VideoPage from "./pages/dashboard-pages/VideoPage";
-
+import CourseDetailPage from "./pages/CourseDetailPage";
+import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
 
 
 
@@ -49,21 +47,20 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/landingpage" element={<LandingPage />} />
-        <Route path="/course1" element={<CoursePage1 />} />
-        <Route path="/course2" element={<CoursePage2 />} />
-         <Route path="/course3" element={<CoursePage3/>} />
+        <Route path="/course/:slug" element={<CourseDetailPage />} />
          <Route path="/contact" element={<ContactPage/>} />
          <Route path="/login" element={<LoginPage/>} />
          <Route path="/signup" element={<SignupPage/>} />
           <Route path="/resetpassword" element={<ResetPasswordPage/>} />
           <Route path="/verify" element={<VerifyPage/>} />
-          <Route path="/payment" element={<PaymentPage/>} />
+          <Route path="/enrollment/:id" element={<PaymentPage/>} />
           <Route path="/forget" element={<ForgetPage/>} />
           <Route path="/complete" element={<CompletePage/>} />
            <Route path="/dashboard" element={<DashboardPage />} />
            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/adminpayments" element={<AdminPaymentPage />} />
              <Route path="/admincourse" element={<AdminCoursePage />} />
+              <Route path="/available-courses" element={<AvailableCoursesPage />} />
              <Route path="/certificate" element={<CertificatePage />} />
              <Route path="/preview" element={<PreviewPage />} />
              <Route path="/video" element={<VideoPage />} />  
