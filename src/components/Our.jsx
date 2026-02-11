@@ -48,6 +48,8 @@ const Our = () => {
       });
   }, [countryCode, regionReady]);
 
+ 
+
   if (!regionReady || loading) {
     return <div className="py-20 text-center text-gray-500">Detecting region and loading courses...</div>;
   }
@@ -55,6 +57,8 @@ const Our = () => {
   if (error) {
     return <div className="py-20 text-center text-red-500">{error}</div>;
   }
+
+  console.log("Courses to display:", courses);
 
   return (
     <motion.section
@@ -80,12 +84,12 @@ const Our = () => {
             transition={{ type: "spring", stiffness: 200, damping: 18 }}
             className="bg-white rounded-xl shadow-md p-4 sm:p-5 flex flex-col"
           >
-            <img src={course.image} alt={course.title} className="rounded-lg mb-3 object-cover" />
+            <img src={course.image.url} alt={course.title} className="rounded-lg mb-3 object-cover" />
             <h2 className="font-semibold text-sm sm:text-base md:text-lg mb-1 text-[#111827]">{course.title}</h2>
             <p className="text-xs sm:text-sm text-[#6B7280] mb-3 leading-relaxed">{course.description}</p>
             <div className="flex justify-between text-[11px] sm:text-xs text-[#6B7280] mb-4">
-              <span>⏱ {course.duration}</span>
-              <span>📊 {course.level}</span>
+              <span>⏱ Duration</span>
+              <span>📊 level</span>
             </div>
             <motion.button
               whileTap={{ scale: 0.96 }}

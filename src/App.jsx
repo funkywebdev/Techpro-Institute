@@ -21,8 +21,7 @@ import PreviewPage from "./pages/dashboard-pages/PreviewPage";
 import VideoPage from "./pages/dashboard-pages/VideoPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
-
-
+import Preview from "./components/dashboard-components/Preview";
 
 
 const App = () => {
@@ -31,15 +30,15 @@ const App = () => {
       {/* Toast Notifications */}
       <ToastContainer
         position="top-right"
-        autoClose={2000}          // Toast disappears after 2s
-        hideProgressBar={false}   // Show progress bar
-        newestOnTop={false}       // Oldest toast first
+        autoClose={2000}          
+        hideProgressBar={false}   
+        newestOnTop={false}       
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"             // Optional: 'light', 'dark', 'colored'
+        theme="light"             
       />
 
       {/* Routes */}
@@ -63,10 +62,13 @@ const App = () => {
               <Route path="/available-courses" element={<AvailableCoursesPage />} />
              <Route path="/certificate" element={<CertificatePage />} />
              <Route path="/preview" element={<PreviewPage />} />
-             <Route path="/video" element={<VideoPage />} />  
+             <Route path="/video/:id" element={<VideoPage />} />
+            <Route path="/preview" element={<Preview />} />  
       </Routes>
     </div>
   );
 };
 
 export default App;
+
+

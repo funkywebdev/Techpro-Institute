@@ -37,7 +37,7 @@ const AvailableCourses = () => {
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
         <div className="mb-6">
-          <h1 className="text-xl sm:text-[20px] font-semibold text-gray-900">
+          <h1 className="text-[16px] sm:text-[20px] font-semibold text-gray-900">
             Available Courses
           </h1>
           <p className="text-sm text-gray-500 mt-1">
