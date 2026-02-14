@@ -71,13 +71,13 @@ const Contact = () => {
     <section className="bg-gradient-to-br from-[#EEF2FF] to-[#F8FAFC] py-12">
       <ToastContainer position="top-right" autoClose={2500} />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="px-6 mx-auto max-w-7xl sm:px-8">
         {/* HEADER */}
         <div className="mb-5 text-center sm:text-start sm:pt-8 sm:px-3 ">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 pt-10">
+          <h1 className="pt-10 text-2xl font-semibold text-gray-900 sm:text-3xl">
             Contact Us
           </h1>
-          <p className="text-sm sm:text-base text-gray-600 pt-1">
+          <p className="pt-1 text-sm text-gray-600 sm:text-base">
             We’ll get back to you shortly
           </p>
         </div>
@@ -86,11 +86,11 @@ const Contact = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="backdrop-blur-xl bg-white/70 border border-white/30 rounded-3xl p-6 sm:p-10 shadow-xl"
+          className="p-6 border shadow-xl backdrop-blur-xl bg-white/70 border-white/30 rounded-3xl sm:p-10"
         >
-          <div className="grid lg:grid-cols-12 gap-10">
+          <div className="grid gap-10 lg:grid-cols-12">
             {/* FORM */}
-            <form onSubmit={handleSubmit} className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+            <form onSubmit={handleSubmit} className="grid gap-5 lg:col-span-7 sm:grid-cols-2">
               {[
                 { name: "firstName", label: "First Name",placeholder:"Enter your first name" },
                 { name: "lastName", label: "Last Name" ,placeholder: "Enter your last name" },
@@ -117,7 +117,7 @@ const Contact = () => {
                   placeholder="How can we help you?"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-3 rounded-xl  border border-gray-200"
+                  className="w-full px-4 py-3 mt-1 border border-gray-200 rounded-xl"
                 />
               </div>
 
@@ -129,7 +129,7 @@ const Contact = () => {
                   placeholder="Write your message here..."
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-3 rounded-xl  border border-gray-200"
+                  className="w-full px-4 py-3 mt-1 border border-gray-200 rounded-xl"
                 />
               </div>
 
@@ -139,7 +139,7 @@ const Contact = () => {
                 className="sm:col-span-2 bg-[#001489] text-white py-3 rounded-xl font-medium flex justify-center"
               >
                 {loading ? (
-                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span className="w-5 h-5 border-2 border-white rounded-full border-t-transparent animate-spin" />
                 ) : (
                   "Send Message"
                 )}
@@ -147,9 +147,9 @@ const Contact = () => {
             </form>
 
             {/* INFO + MAP + SOCIALS */}
-            <div className="lg:col-span-5 space-y-4">
+            <div className="space-y-4 lg:col-span-5">
               {[
-                { icon: <MdEmail />, text: "info@techprocom" },
+                { icon: <MdEmail />, text: "info@techproinstitute.org" },
                 { icon: <MdPhone />, text: "Australia: +44 7534617780" },
                 { icon: <MdPhone />, text: "UK: +61 435 976 010" },
                 { icon: <MdLocationOn />, text: "3a High Street, Gillingham Kent" },
@@ -163,14 +163,14 @@ const Contact = () => {
               {/* MAP */}
               <iframe
                 title="map"
-                className="w-full h-48 rounded-xl border"
+                className="w-full h-48 border rounded-xl"
                 loading="lazy"
                 src="https://www.google.com/maps?q=Gillingham%20Kent&output=embed"
               />
 
               {/* SOCIALS */}
-              <div className="bg-white/60 p-5 rounded-xl text-center">
-                <p className="text-sm font-medium mb-4 text-gray-800">Our Socials</p>
+              <div className="p-5 text-center bg-white/60 rounded-xl">
+                <p className="mb-4 text-sm font-medium text-gray-800">Our Socials</p>
 
                 <div className="flex justify-center gap-6 text-xl">
                   <FaFacebook className="text-[#1877F2]" />
@@ -189,7 +189,7 @@ const Contact = () => {
         href="https://wa.me/447351662748"
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full text-white shadow-lg hover:scale-110 transition"
+        className="fixed p-4 text-white transition bg-green-500 rounded-full shadow-lg bottom-6 right-6 hover:scale-110"
       >
         <FaWhatsapp size={22} />
       </a>

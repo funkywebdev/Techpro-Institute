@@ -3,7 +3,7 @@ import Navbar from "../../components/dashboard-components/Navbar";
 import Sidebar from "../../components/dashboard-components/Sidebar";
 import Video from "../../components/dashboard-components/Video";
 
-const VideoPage = () => {
+const ModulePage = () => {
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -29,4 +29,4 @@ const VideoPage = () => {
   );
 };
 
-export default VideoPage;
+export default ModulePage;

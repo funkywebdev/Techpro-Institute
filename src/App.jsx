@@ -18,7 +18,7 @@ import AdminPaymentPage from "./pages/dashboard-pages/AdminPaymentPage";
 import AdminCoursePage from "./pages/dashboard-pages/AdminCoursePage";
 import CertificatePage from "./pages/dashboard-pages/CertificatePage";
 import PreviewPage from "./pages/dashboard-pages/PreviewPage";
-import VideoPage from "./pages/dashboard-pages/VideoPage";
+import ModulePage from "./pages/dashboard-pages/ModulePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
 import Preview from "./components/dashboard-components/Preview";
@@ -62,7 +62,7 @@ const App = () => {
               <Route path="/available-courses" element={<AvailableCoursesPage />} />
              <Route path="/certificate" element={<CertificatePage />} />
              <Route path="/preview" element={<PreviewPage />} />
-             <Route path="/video/:id" element={<VideoPage />} />
+             <Route path="/module/:id" element={<ModulePage />} />
             <Route path="/preview" element={<Preview />} />  
       </Routes>
     </div>

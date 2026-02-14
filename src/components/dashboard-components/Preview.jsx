@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
@@ -113,7 +110,7 @@ const Preview = () => {
 
             {/* ================= BUTTON WITH NAVIGATE ================= */}
             <button
-              onClick={() => navigate(`/video/${item.id}`)}
+              onClick={() => navigate(`/module/${item.id}`)}
               className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-[#15256E] hover:underline"
             >
               View Module <FiArrowRight />
