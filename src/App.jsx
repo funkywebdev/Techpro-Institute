@@ -22,6 +22,7 @@ import ModulePage from "./pages/dashboard-pages/ModulePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
 import Preview from "./components/dashboard-components/Preview";
+import QuizPage from "./components/dashboard-components/QuizPage";
 
 
 const App = () => {
@@ -63,7 +64,8 @@ const App = () => {
              <Route path="/certificate" element={<CertificatePage />} />
              <Route path="/preview" element={<PreviewPage />} />
              <Route path="/module/:id" element={<ModulePage />} />
-            <Route path="/preview" element={<Preview />} />  
+            <Route path="/preview" element={<Preview />} /> 
+            <Route path="/quiz/:id" element={<QuizPage />} /> 
       </Routes>
     </div>
   );

@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Rectangle4317 from "../../assets/images/Rectangle4317.png";

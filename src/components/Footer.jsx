@@ -29,7 +29,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3 text-sm text-gray-300">
               {[
-                { label: "Home", href: "/landingpage", internal: true },
+                // { label: "Home", href: "/landingpage", internal: true },
                 { label: "About", href: "#about", internal: false },
                 { label: "FAQ", href: "#faq", internal: false },
                 { label: "Contact", href: "/contact", internal: true },
