@@ -1,293 +1,129 @@
 
 
 
-// import React, { useRef } from "react";
-// import html2canvas from "html2canvas";
-// import jsPDF from "jspdf";
-// import image1 from "../../assets/images/image1.png";
 
-// const Certificate = ({
-//   childName = "Michael Scott",
-//   courseName = "Scrum Master Certification",
-//   instructor = "John Doe",
-//   date = "January 2026",
-// }) => {
-//   const certificateRef = useRef(null);
-
-//   const downloadPDF = async () => {
-//     try {
-//       const element = certificateRef.current;
-//       if (!element) return;
-
-//       const canvas = await html2canvas(element, {
-//         scale: 2,
-//         backgroundColor: "#ffffff",
-//       });
-
-//       const imgData = canvas.toDataURL("image/png");
-
-//       const pdf = new jsPDF({
-//         orientation: "landscape",
-//         unit: "px",
-//         format: "a4",
-//       });
-
-//       const pdfWidth = pdf.internal.pageSize.getWidth();
-//       const pdfHeight = pdf.internal.pageSize.getHeight();
-
-//       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-//       pdf.save(`${childName}-certificate.pdf`);
-//     } catch (err) {
-//       console.error(err);
-//       alert("Failed to download certificate");
-//     }
-//   };
-
-//   return (
-//     <div className="p-4 sm:p-6">
-//       {/* Header */}
-//       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 print:hidden">
-//         <div>
-//           <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
-//             Certificate
-//           </h2>
-//           <p className="text-xs sm:text-sm text-gray-500">
-//             View all certificates earned by your children
-//           </p>
-//         </div>
-
-//         <div className="flex gap-2">
-//           <button
-//             type="button"
-//             onClick={() => window.print()}
-//             className="px-3 py-2 border rounded text-xs sm:text-sm"
-//           >
-//             Print
-//           </button>
-
-//           <button
-//             type="button"
-//             onClick={downloadPDF}
-//             className="px-3 py-2 bg-[#15256E] text-white rounded text-xs sm:text-sm"
-//           >
-//             Download PDF
-//           </button>
-//         </div>
-//       </div>
-
-//       {/* Certificate */}
-//       <div
-//         ref={certificateRef}
-//         className="
-//           max-w-4xl mx-auto bg-white
-//           border-[6px] sm:border-[10px] border-[#15256E]
-//           px-4 py-6 sm:px-10 sm:py-10
-//           text-center
-//         "
-//         style={{ fontFamily: "'Playfair Display', serif" }}
-//       >
-//         {/* Logo */}
-//         <img
-//           src={image1}
-//           alt="Logo"
-//           className="mx-auto w-14 sm:w-20 mb-4 sm:mb-6"
-//         />
-
-//         <h1 className="text-2xl sm:text-4xl font-bold text-[#15256E] mb-3 sm:mb-4">
-//           Certificate of Completion
-//         </h1>
-
-//         <p className="text-sm sm:text-lg text-gray-600 mb-4 sm:mb-6">
-//           This is to proudly certify that
-//         </p>
-
-//         <p className="text-xl sm:text-3xl font-semibold text-gray-800 mb-4 sm:mb-6">
-//           {childName}
-//         </p>
-
-//         <p className="text-sm sm:text-lg text-gray-600 mb-2 sm:mb-3">
-//           has successfully completed the course
-//         </p>
-
-//         <p className="text-lg sm:text-2xl font-medium text-gray-800 mb-8 sm:mb-10">
-//           {courseName}
-//         </p>
-
-//         {/* Footer */}
-//         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mt-8 sm:mt-12">
-//           <div className="text-center sm:text-left">
-//             <p className="text-xs sm:text-sm text-gray-500">Date</p>
-//             <p className="text-sm sm:text-base font-medium">{date}</p>
-//           </div>
-
-//           <div className="text-center sm:text-right">
-//             <img
-//               src={image1}
-//               alt="Signature"
-//               className="w-20 sm:w-28 mx-auto sm:ml-auto mb-1"
-//             />
-//             <p className="text-sm sm:text-base font-medium">{instructor}</p>
-//             <p className="text-xs sm:text-sm text-gray-500">
-//               Course Instructor
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Certificate;
-
-
-
-import React, { useRef, useEffect, useState } from "react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import image1 from "../../assets/images/image1.png";
+import React, { useState, useEffect } from "react";
 import api from "../../api/axios";
+import { QRCodeCanvas } from "qrcode.react";
 
-const Certificate = ({ certificateId }) => {
-  const certificateRef = useRef(null);
+/* =======================
+   CARD DESIGN TEMPLATE
+======================= */
+const CertificateCard = ({ data }) => (
+  <div className="bg-white shadow-lg rounded-xl p-8 max-w-6xl mx-auto border border-gray-200">
+    <h2 className="text-2xl md:text-2xl font-bold text-gray-800 mb-4">{data.courseName}</h2>
+    <p className="text-lg md:text-base text-gray-600 mb-6">
+      Issued to <span className="font-semibold">{data.studentName}</span>
+    </p>
 
-  // State to store API data
-  const [certificateData, setCertificateData] = useState({
-    childName: "",
-    courseName: "",
-    instructor: "",
-    date: "",
-  });
+    <div className="flex justify-between items-center mb-6">
+      <div>
+        <p className="text-sm md:text-base text-gray-500">Certificate ID</p>
+        <p className="text-base md:text-lg font-mono">{data.certificateNumber}</p>
+      </div>
+
+      <QRCodeCanvas value={data.verifyLink} size={120} bgColor="#fff" fgColor="#15256E" level="H" />
+    </div>
+
+    <p className="text-gray-500 text-sm md:text-base mb-2">Issued on {data.issuedAt}</p>
+    <p className="text-gray-700 text-base md:text-lg">Instructor: {data.instructor}</p>
+  </div>
+);
+
+/* =======================
+   MAIN COMPONENT
+======================= */
+const Certificate = () => {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [downloading, setDownloading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
 
-  // Fetch certificate data from API
   useEffect(() => {
     const fetchCertificate = async () => {
       try {
-        setLoading(true);
-        const response = await api.get(
-          `v1/certificates`
-        );
-        // Adjust this depending on your API response structure
-        const data = response.data;
-        setCertificateData({
-          childName: data.childName || "Unknown",
-          courseName: data.courseName || "Unknown",
-          instructor: data.instructor || "Unknown",
-          date: data.date || "Unknown",
+        const res = await api.get("/v1/certificates");
+        const cert = res.data?.data?.[0];
+        if (!cert) return;
+
+        setData({
+          id: cert.id,
+          studentName: `${cert.student.first_name} ${cert.student.last_name}`,
+          courseName: cert.course.title,
+          certificateNumber: cert.certificate_number,
+          issuedAt: cert.issued_at,
+          verifyLink: cert.links.verify,
+          downloadLink: cert.links.download_pdf,
+          instructor: cert.instructor_name || "Instructor",
         });
-      } catch (err) {
-        console.error(err);
-        setError("Failed to fetch certificate data");
+      } catch (error) {
+        console.error("Certificate fetch failed:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchCertificate();
-  }, [certificateId]);
+  }, []);
 
   const downloadPDF = async () => {
+    if (!data) return;
+    setDownloading(true);
     try {
-      const element = certificateRef.current;
-      if (!element) return;
-
-      const canvas = await html2canvas(element, { scale: 2, backgroundColor: "#ffffff" });
-      const imgData = canvas.toDataURL("image/png");
-
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: "a4",
-      });
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`${certificateData.childName}-certificate.pdf`);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to download certificate");
+      const res = await api.get(data.downloadLink, { responseType: "blob" });
+      const blob = new Blob([res.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${data.studentName}-certificate.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed", error);
+    } finally {
+      setDownloading(false);
     }
   };
 
-  if (loading) return <p>Loading certificate...</p>;
-  if (error) return <p>{error}</p>;
+  const verifyCertificate = () => {
+    if (!data) return;
+    setVerifying(true);
+    window.open(data.verifyLink, "_blank");
+    setTimeout(() => setVerifying(false), 1000);
+  };
+
+  if (loading) return <p className="text-center mt-10">Loading certificate…</p>;
+  if (!data) return <p className="text-center mt-10">No certificate available.</p>;
 
   return (
-    <div className="p-4 sm:p-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 print:hidden">
-        <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
-            Certificate
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
-            View all certificates earned by your children
-          </p>
-        </div>
+    <div className="p-4 md:p-8">
+      <div className="flex justify-end gap-3 mb-6">
+        <button
+          onClick={verifyCertificate}
+          disabled={verifying}
+          className="px-4 py-2 border rounded text-sm flex items-center gap-2"
+        >
+          {verifying && (
+            <span className="animate-spin w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full"></span>
+          )}
+          Verify Certificate
+        </button>
 
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className="px-3 py-2 border rounded text-xs sm:text-sm"
-          >
-            Print
-          </button>
-
-          <button
-            type="button"
-            onClick={downloadPDF}
-            className="px-3 py-2 bg-[#15256E] text-white rounded text-xs sm:text-sm"
-          >
-            Download PDF
-          </button>
-        </div>
+        <button
+          onClick={downloadPDF}
+          disabled={downloading}
+          className="px-4 py-2 bg-[#15256E] text-white rounded text-sm flex items-center gap-2"
+        >
+          {downloading && (
+            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+          )}
+          Download PDF
+        </button>
       </div>
 
-      {/* Certificate */}
-      <div
-        ref={certificateRef}
-        className="max-w-4xl mx-auto bg-white border-[6px] sm:border-[10px] border-[#15256E] px-4 py-6 sm:px-10 sm:py-10 text-center"
-        style={{ fontFamily: "'Playfair Display', serif" }}
-      >
-        <img src={image1} alt="Logo" className="mx-auto w-14 sm:w-20 mb-4 sm:mb-6" />
-
-        <h1 className="text-2xl sm:text-4xl font-bold text-[#15256E] mb-3 sm:mb-4">
-          Certificate of Completion
-        </h1>
-
-        <p className="text-sm sm:text-lg text-gray-600 mb-4 sm:mb-6">
-          This is to proudly certify that
-        </p>
-
-        <p className="text-xl sm:text-3xl font-semibold text-gray-800 mb-4 sm:mb-6">
-          {certificateData.childName}
-        </p>
-
-        <p className="text-sm sm:text-lg text-gray-600 mb-2 sm:mb-3">
-          has successfully completed the course
-        </p>
-
-        <p className="text-lg sm:text-2xl font-medium text-gray-800 mb-8 sm:mb-10">
-          {certificateData.courseName}
-        </p>
-
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-6 mt-8 sm:mt-12">
-          <div className="text-center sm:text-left">
-            <p className="text-xs sm:text-sm text-gray-500">Date</p>
-            <p className="text-sm sm:text-base font-medium">{certificateData.date}</p>
-          </div>
-
-          <div className="text-center sm:text-right">
-            <img src={image1} alt="Signature" className="w-20 sm:w-28 mx-auto sm:ml-auto mb-1" />
-            <p className="text-sm sm:text-base font-medium">{certificateData.instructor}</p>
-            <p className="text-xs sm:text-sm text-gray-500">Course Instructor</p>
-          </div>
-        </div>
-      </div>
+      <CertificateCard data={data} />
     </div>
   );
 };

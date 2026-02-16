@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
 const Preview = () => {
-  const { id } = useParams(); // module ID from URL (optional)
+ 
   const navigate = useNavigate(); // ✅ initialize navigate
 
   const [modules, setModules] = useState([]);      // ALL modules
@@ -26,19 +26,7 @@ const Preview = () => {
     }
   };
 
-  /* =========================
-     FETCH SINGLE MODULE
-  ========================== */
-  const fetchSingleModule = async () => {
-    try {
-      const res = await api.get(`/v1/modules/${id}`);
-      setModule(res.data.data);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to fetch module details");
-    }
-  };
-
+ 
   /* =========================
      USE EFFECT
   ========================== */
@@ -46,16 +34,11 @@ const Preview = () => {
     const loadData = async () => {
       setLoading(true);
       await fetchAllModules();
-
-      if (id) {
-        await fetchSingleModule(id);
-      }
-
       setLoading(false);
     };
 
     loadData();
-  }, [id]);
+  }, []);
 
   if (loading) {
     return <p className="text-gray-500 mt-4">Loading modules...</p>;
@@ -67,22 +50,8 @@ const Preview = () => {
 
   return (
     <section className="mt-10 px-2">
-      {/* ================= SINGLE MODULE ================= */}
-      {module && (
-        <div className="mb-10">
-          <h2 className="text-lg font-bold text-gray-900 mb-2">
-            Selected Module
-          </h2>
 
-          <div className="bg-white border rounded-xl p-5 shadow-sm">
-            <h3 className="text-[16px] font-semibold mb-2">{module.title}</h3>
-            <p
-              className="text-sm text-gray-600"
-              dangerouslySetInnerHTML={{ __html: module.description }}
-            />
-          </div>
-        </div>
-      )}
+    
 
       {/* ================= ALL MODULES ================= */}
       <h2 className="text-[16px] font-bold text-gray-900 mb-2">

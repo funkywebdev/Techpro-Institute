@@ -48,7 +48,7 @@ const Faq = () => {
   };
 
   return (
-    <section className="px-4 py-12 bg-white sm:px-8 lg:px-16">
+    <section id="faq" className="px-4 py-12 bg-white sm:px-8 lg:px-16">
       <div className="flex flex-col max-w-6xl gap-10 mx-auto lg:grid lg:grid-cols-2">
 
         {/* LEFT CONTENT */}

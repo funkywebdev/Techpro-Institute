@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+
+
+
+import React, { useState, useEffect } from "react";
 import Rectangle3 from "../../assets/images/Rectangle3.png";
 import { FiSettings, FiBell, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axios"; // your axios instance
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -10,7 +14,6 @@ const Navbar = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showAccountSettings, setShowAccountSettings] = useState(false);
 
   // Default profile
   const defaultProfile = {
@@ -20,22 +23,42 @@ const Navbar = () => {
   };
   const [profile, setProfile] = useState(defaultProfile);
 
+  // Loading state for API
+  const [loading, setLoading] = useState(true);
+
+  // Fetch student data from API
+  useEffect(() => {
+    const fetchStudent = async () => {
+      try {
+        const res = await api.get("/v1/me");
+        if (res.data && res.data.status && res.data.data) {
+          const student = res.data.data;
+          setProfile({
+            name: `${student.firstName} ${student.lastName}`,
+            email: student.email,
+            photo: Rectangle3, // Keep default photo; user can change in modal
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching student info:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudent();
+  }, []);
+
   // Menu toggles
   const toggleProfileMenu = () => setShowProfileMenu(!showProfileMenu);
   const toggleNotifications = () => setShowNotifications(!showNotifications);
 
-  // Open / close modals
+  // Open / close edit modal
   const openEditModal = () => {
     setShowProfileMenu(false);
     setShowEditModal(true);
   };
   const closeEditModal = () => setShowEditModal(false);
-
-  const openAccountSettings = () => {
-    setShowProfileMenu(false);
-    setShowAccountSettings(true);
-  };
-  const closeAccountSettings = () => setShowAccountSettings(false);
 
   // Input handlers
   const handleInputChange = (e) => {
@@ -60,8 +83,7 @@ const Navbar = () => {
     setProfile(defaultProfile);
     setShowProfileMenu(false);
     setShowEditModal(false);
-    setShowAccountSettings(false);
-    navigate("/login"); // replace with your login route
+    navigate("/login");
   };
 
   // Close modal when clicking outside
@@ -88,7 +110,7 @@ const Navbar = () => {
           </svg>
         </label>
         <h1 className="text-sm sm:text-2xl font-bold truncate">
-          Welcome back, {profile.name} 👋
+          Welcome back, {loading ? "Loading..." : profile.name} 👋
         </h1>
       </div>
 
@@ -110,19 +132,13 @@ const Navbar = () => {
         </button>
 
         {showProfileMenu && (
-          <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-3 w-48 z-50">
+          <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-3 w-36 z-50">
             <div className="flex flex-col gap-2">
               <button
                 className="text-left text-gray-700 hover:text-[#15256E]"
                 onClick={openEditModal}
               >
                 Edit Profile
-              </button>
-              <button
-                className="text-left text-gray-700 hover:text-[#15256E]"
-                onClick={openAccountSettings}
-              >
-                Account Settings
               </button>
               <button
                 className="text-left text-gray-700 hover:text-red-600"
@@ -145,7 +161,7 @@ const Navbar = () => {
       {/* Edit Profile Modal */}
       {showEditModal && (
         <div
-          className="fixed inset-0  bg-opacity-20 flex justify-center items-center z-50 backdrop-blur-sm"
+          className="fixed inset-0 bg-opacity-20 flex justify-center items-center z-50 backdrop-blur-sm"
           onClick={(e) => handleOverlayClick(e, closeEditModal)}
         >
           <div className="bg-white rounded-lg w-96 p-6 relative shadow-lg">
@@ -194,41 +210,6 @@ const Navbar = () => {
                 onClick={closeEditModal}
               >
                 Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Account Settings Modal */}
-      {showAccountSettings && (
-        <div
-          className="fixed inset-0 bg-opacity-20 flex justify-center items-center z-50 backdrop-blur-sm"
-          onClick={(e) => handleOverlayClick(e, closeAccountSettings)}
-        >
-          <div className="bg-white rounded-lg w-96 p-6 relative shadow-lg">
-            <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
-              onClick={closeAccountSettings}
-            >
-              <FiX className="w-6 h-6" />
-            </button>
-            <h2 className="text-xl font-bold mb-4">Account Settings</h2>
-            <div className="flex flex-col gap-3">
-              <button className="border p-2 rounded hover:bg-gray-100 text-left">
-                Change Password
-              </button>
-              <button className="border p-2 rounded hover:bg-gray-100 text-left">
-                Manage Email / Phone
-              </button>
-              <button className="border p-2 rounded hover:bg-gray-100 text-left">
-                Two-Factor Authentication
-              </button>
-              <button className="border p-2 rounded hover:bg-gray-100 text-left">
-                Privacy & Notifications
-              </button>
-              <button className="border p-2 rounded hover:bg-red-100 text-left text-red-600">
-                Delete Account
               </button>
             </div>
           </div>

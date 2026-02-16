@@ -4,6 +4,7 @@
 import React from "react";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import techprologo from "../assets/images/techprologo.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -28,18 +29,27 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3 text-sm text-gray-300">
               {[
-                { label: "Home", href: "/landingpage" },
-                { label: "About", href: "#how" },
-                { label: "Certifications", href: "/certificate" },
-                { label: "Contact", href: "/contact" },
+                { label: "Home", href: "/landingpage", internal: true },
+                { label: "About", href: "#about", internal: false },
+                { label: "FAQ", href: "#faq", internal: false },
+                { label: "Contact", href: "/contact", internal: true },
               ].map((link, i) => (
                 <li key={i}>
-                  <a
-                    href={link.href}
-                    className="hover:text-white transition transform hover:translate-x-1"
-                  >
-                    {link.label}
-                  </a>
+                  {link.internal ? (
+                    <Link
+                      to={link.href}
+                      className="hover:text-white transition transform hover:translate-x-1"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="hover:text-white transition transform hover:translate-x-1"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
