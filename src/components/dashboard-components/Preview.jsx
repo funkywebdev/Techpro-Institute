@@ -70,7 +70,7 @@ const Preview = () => {
             transition={{ duration: 0.3, delay: index * 0.1 }}
             className="bg-white border border-gray-100 rounded-xl p-5 flex flex-col shadow-sm hover:shadow-md transition"
           >
-            <h3 className="text-[16px] font-medium mb-2">{item.title}</h3>
+            <h3 className="text-[16px] font-medium mb-2 text-black">{item.title}</h3>
 
             <p
               className="text-sm text-gray-600 mb-4 line-clamp-3"

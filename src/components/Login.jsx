@@ -78,18 +78,18 @@ const Login = () => {
       <div className="w-full max-w-6xl">
         <div className="bg-white p-8 rounded-lg shadow-md">
           <div className="text-center mb-6 space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-bold">Login</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-black">Login</h1>
             <p className="text-gray-600 text-sm sm:text-base">Login to start learning</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Email */}
             <div>
-              <label className="block mb-1 font-medium">Email</label>
+              <label className="block mb-1 font-medium text-black">Email</label>
               <input
                 type="email"
                 placeholder="Enter your Email"
-                className="w-full mb-2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-0"
+                className="w-full mb-2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-0 text-black"
                 {...register("email", { required: "Email is required", pattern: /^\S+@\S+$/i })}
               />
               {errors.email && <span className="text-red-500 text-sm">{errors.email.message || "Invalid email"}</span>}
@@ -97,12 +97,12 @@ const Login = () => {
 
             {/* Password */}
             <div className="mb-2">
-              <label className="block mb-1 font-medium">Password</label>
+              <label className="block mb-1 font-medium text-black">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your Password"
-                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-0 pr-10"
+                  className="w-full p-3 text-black border border-gray-300 rounded focus:outline-none focus:ring-0 pr-10"
                   {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
                 />
                 <button
@@ -118,7 +118,7 @@ const Login = () => {
 
             {/* Remember me & Forgot password */}
             <div className="flex items-center justify-between mb-4 text-sm">
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-center gap-2 cursor-pointer text-gray-600 ">
                 <input type="checkbox" className="accent-[#15256E]" />
                 Remember me
               </label>
@@ -150,7 +150,7 @@ const Login = () => {
           </div>
 
           {/* Google login */}
-          <a href="https://accounts.google.com/" className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded mb-4 hover:bg-gray-100 transition">
+          <a href="https://accounts.google.com/" className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded mb-4 hover:bg-gray-100 transition text-gray-700">
             <FcGoogle size={24} />
             <span>Sign in with Google</span>
           </a>

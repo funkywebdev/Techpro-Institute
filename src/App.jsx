@@ -22,7 +22,7 @@ import ModulePage from "./pages/dashboard-pages/ModulePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
 import Preview from "./components/dashboard-components/Preview";
-import QuizPage from "./components/dashboard-components/QuizPage";
+import QuizPage from "./pages/dashboard-pages/QuizPage";
 
 
 const App = () => {

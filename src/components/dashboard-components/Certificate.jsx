@@ -19,7 +19,7 @@ const CertificateCard = ({ data }) => (
     <div className="flex justify-between items-center mb-6">
       <div>
         <p className="text-sm md:text-base text-gray-500">Certificate ID</p>
-        <p className="text-base md:text-lg font-mono">{data.certificateNumber}</p>
+        <p className="text-base md:text-lg font-mono text-gray-500">{data.certificateNumber}</p>
       </div>
 
       <QRCodeCanvas value={data.verifyLink} size={120} bgColor="#fff" fgColor="#15256E" level="H" />
@@ -103,7 +103,7 @@ const Certificate = () => {
         <button
           onClick={verifyCertificate}
           disabled={verifying}
-          className="px-4 py-2 border rounded text-sm flex items-center gap-2"
+          className="px-4 py-2 border rounded text-sm flex items-center gap-2 text-black"
         >
           {verifying && (
             <span className="animate-spin w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full"></span>

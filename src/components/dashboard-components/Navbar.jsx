@@ -109,7 +109,7 @@ const Navbar = () => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </label>
-        <h1 className="text-sm sm:text-2xl font-bold truncate">
+        <h1 className="text-sm sm:text-2xl font-bold truncate text-black">
           Welcome back, {loading ? "Loading..." : profile.name} 👋
         </h1>
       </div>
@@ -118,7 +118,7 @@ const Navbar = () => {
       <div className="flex items-center gap-2 sm:gap-4 shrink-0 relative">
         {/* Notifications */}
         <button className="btn btn-ghost btn-circle" onClick={toggleNotifications}>
-          <FiBell className="w-5 h-5" />
+          <FiBell className="w-5 h-5 text-black" />
         </button>
         {showNotifications && (
           <div className="absolute top-12 right-20 bg-white shadow-lg rounded-lg p-3 w-64 z-50">
@@ -127,7 +127,7 @@ const Navbar = () => {
         )}
 
         {/* Profile / Settings */}
-        <button className="btn btn-ghost btn-circle" onClick={toggleProfileMenu}>
+        <button className="btn btn-ghost btn-circle text-black" onClick={toggleProfileMenu}>
           <FiSettings className="w-5 h-5" />
         </button>
 

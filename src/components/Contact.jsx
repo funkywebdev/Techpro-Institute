@@ -90,7 +90,7 @@ const Contact = () => {
         >
           <div className="grid gap-10 lg:grid-cols-12">
             {/* FORM */}
-            <form onSubmit={handleSubmit} className="grid gap-5 lg:col-span-7 sm:grid-cols-2">
+            <form onSubmit={handleSubmit} className="grid gap-5 lg:col-span-7 sm:grid-cols-2 text-black">
               {[
                 { name: "firstName", label: "First Name",placeholder:"Enter your first name" },
                 { name: "lastName", label: "Last Name" ,placeholder: "Enter your last name" },
@@ -147,7 +147,7 @@ const Contact = () => {
             </form>
 
             {/* INFO + MAP + SOCIALS */}
-            <div className="space-y-4 lg:col-span-5">
+            <div className="space-y-4 lg:col-span-5 text-black">
               {[
                 { icon: <MdEmail />, text: "info@techproinstitute.org" },
                 { icon: <MdPhone />, text: "Australia: +44 7534617780" },

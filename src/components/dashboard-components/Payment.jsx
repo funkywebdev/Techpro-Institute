@@ -43,7 +43,7 @@ const PaymentPage = () => {
   return (
     <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
       <div className="mb-4 md:mb-6">
-        <h1 className="text-xl md:text-2xl font-bold mb-1 md:mb-2">Payments & Invoices</h1>
+        <h1 className="text-xl md:text-2xl font-bold mb-1 md:mb-2 text-black">Payments & Invoices</h1>
         <p className="text-gray-600 text-sm md:text-base">
           View and manage your past transactions and active subscriptions
         </p>

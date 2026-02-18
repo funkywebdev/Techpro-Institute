@@ -80,7 +80,7 @@ const SignUp = () => {
 
           {/* Header */}
           <div className="text-center mb-6 space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-bold">Sign Up</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-black">Sign Up</h1>
             <p className="text-gray-600 text-sm sm:text-base">
               Create an account to start learning
             </p>
@@ -89,27 +89,27 @@ const SignUp = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
 
             {/* First Name */}
-            <label className="block mb-1 font-medium">First Name</label>
+            <label className="block mb-1 font-medium text-black">First Name</label>
             <input
               {...register("first_name", { required: "First name is required" })}
-              className="w-full mb-1 p-3 border border-gray-300 rounded"
+              className="w-full mb-1 p-3 border border-gray-300 text-black rounded"
             />
             {errors.first_name && (
               <p className="text-red-500 text-sm mb-3">{errors.first_name.message}</p>
             )}
 
             {/* Last Name */}
-            <label className="block mb-1 font-medium">Last Name</label>
+            <label className="block mb-1 font-medium text-black">Last Name</label>
             <input
               {...register("last_name", { required: "Last name is required" })}
-              className="w-full mb-1 p-3 border border-gray-300 rounded"
+              className="w-full mb-1 p-3 border border-gray-300 text-black rounded"
             />
             {errors.last_name && (
               <p className="text-red-500 text-sm mb-3">{errors.last_name.message}</p>
             )}
 
             {/* Email */}
-            <label className="block mb-1 font-medium">Email</label>
+            <label className="block mb-1 font-medium text-black">Email</label>
             <input
               {...register("email", {
                 required: "Email is required",
@@ -118,14 +118,14 @@ const SignUp = () => {
                   message: "Enter a valid email",
                 },
               })}
-              className="w-full mb-1 p-3 border border-gray-300 rounded"
+              className="w-full mb-1 p-3 border border-gray-300 text-black rounded"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mb-3">{errors.email.message}</p>
             )}
 
             {/* Phone */}
-            <label className="block mb-1 font-medium">Phone Number</label>
+            <label className="block mb-1 font-medium text-black">Phone Number</label>
             <PhoneInput
               country={"ng"}
               value={phone}
@@ -135,12 +135,13 @@ const SignUp = () => {
                 height: "48px",
                 borderRadius: "6px",
                 border: "1px solid #d1d5db",
+                color: "#000000",
               }}
               containerClass="mb-4"
             />
 
             {/* Password */}
-            <label className="block mb-1 font-medium">Password</label>
+            <label className="block mb-1 font-medium text-black">Password</label>
             <div className="relative mb-1">
               <input
                 type={showPassword ? "text" : "password"}
@@ -148,7 +149,7 @@ const SignUp = () => {
                   required: "Password is required",
                   minLength: { value: 6, message: "Minimum 6 characters" },
                 })}
-                className="w-full p-3 border border-gray-300 rounded pr-10"
+                className="w-full p-3 border border-gray-300 rounded text-black pr-10"
               />
               <button
                 type="button"
@@ -167,14 +168,14 @@ const SignUp = () => {
             )}
 
             {/* Confirm Password */}
-            <label className="block mb-1 font-medium">Confirm Password</label>
+            <label className="block mb-1 font-medium text-black">Confirm Password</label>
             <input
               type="password"
               {...register("password_confirmation", {
                 required: "Confirm your password",
                 validate: (value) => value === password || "Passwords do not match",
               })}
-              className="w-full mb-1 p-3 border border-gray-300 rounded"
+              className="w-full mb-1 p-3 border border-gray-300 text-black rounded"
             />
             {errors.password_confirmation && (
               <p className="text-red-500 text-sm mb-3">{errors.password_confirmation.message}</p>
@@ -188,7 +189,7 @@ const SignUp = () => {
                 onChange={() => setAgree(!agree)}
                 className="mt-1 accent-[#15256E]"
               />
-              <span>
+              <span className="text-black">
                 I agree with the <span className="text-blue-600">Terms of Use</span> and{" "}
                 <span className="text-blue-600">Privacy Policy</span>
               </span>
@@ -226,7 +227,7 @@ const SignUp = () => {
             className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded mb-4 hover:bg-gray-100 transition"
           >
             <FcGoogle size={24} />
-            <span>Sign up with Google</span>
+            <span className="text-gray-700">Sign up with Google</span>
           </a>
 
           {/* Login */}

@@ -180,7 +180,7 @@ const Home = () => {
             </div>
 
             {/* PERSONAL INFO */}
-            <div className="flex-1 text-sm space-y-2 flex flex-col justify-center">
+            <div className="flex-1 text-sm space-y-2 flex flex-col justify-center text-black">
               <p className="font-semibold text-gray-800">Personal Information</p>
               <p>👤 {safeUser.firstName} {safeUser.lastName}</p>
               <p>📧 {safeUser.email}</p>

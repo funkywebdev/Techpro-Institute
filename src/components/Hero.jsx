@@ -49,7 +49,7 @@ const Hero = () => {
   }, [text, isDeleting, wordIndex]);
 
   return (
-    <section id="hero" className="w-full overflow-hidden px-4 sm:px-20 pt-[90px] sm:pt-[120px] sm:pb-[20px]">
+    <section id="hero" className="w-full overflow-hidden px-4 sm:px-20 pt-[90px] sm:pt-[120px] sm:pb-[20px] bg-white">
       <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
 
         {/* TEXT */}
@@ -65,7 +65,7 @@ const Hero = () => {
           </p>
 
           {/* Heading */}
-          <h1 className="font-bold text-[22px] sm:text-4xl md:text-[42px] leading-snug md:leading-tight">
+          <h1 className="font-bold text-[22px] sm:text-4xl md:text-[42px] leading-snug md:leading-tight text-black">
             Build in-demand IT skills. Get certified.{" "}
             <span className="text-[#15256E] block sm:inline">
               {text}
