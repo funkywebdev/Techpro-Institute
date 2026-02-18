@@ -1,5 +1,3 @@
-
-
 // src/components/Our.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -14,7 +12,12 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const Our = () => {
@@ -27,38 +30,35 @@ const Our = () => {
   useEffect(() => {
     if (!regionReady) return;
 
-    console.log("Detected country code:", regionReady, countryCode);
-
-    const africaCountries = ["NG", "GH", "KE", "ZA", "UG", "TZ"];
-    const userRegion = africaCountries.includes(countryCode) ? "africa" : "global";
-
-    axios
-      .get("https://techproinstitute.org/api/v1/courses", {
-        headers: { "X-User-Region": userRegion },
-      })
-      .then((res) => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get(
+          "https://techproinstitute.org/api/v1/courses",
+        );
         const data = Array.isArray(res.data) ? res.data : res.data.data;
         setCourses(data || []);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("API ERROR ❌", err);
         setError("Failed to load courses");
+      } finally {
         setLoading(false);
-      });
-  }, [countryCode, regionReady]);
+      }
+    };
 
- 
+    fetchCourses();
+  }, [regionReady]);
 
   if (!regionReady || loading) {
-    return <div className="py-20 text-center text-gray-500">Detecting region and loading courses...</div>;
+    return (
+      <div className="py-20 text-center text-gray-500">
+        Detecting region and loading courses...
+      </div>
+    );
   }
 
   if (error) {
     return <div className="py-20 text-center text-red-500">{error}</div>;
   }
-
-  console.log("Courses to display:", courses);
 
   return (
     <motion.section
@@ -69,7 +69,9 @@ const Our = () => {
       className="py-8 sm:py-12 px-4 bg-white"
     >
       <div className="text-center mb-8 sm:mb-10">
-        <h1 className="text-lg sm:text-xl md:text-3xl font-bold text-[#111827]">Our Featured Courses</h1>
+        <h1 className="text-lg sm:text-xl md:text-3xl font-bold text-[#111827]">
+          Our Featured Courses
+        </h1>
         <p className="mt-1 text-xs sm:text-sm md:text-base text-[#6B7280] max-w-md mx-auto">
           Build the skills you need to break into tech.
         </p>
@@ -84,9 +86,17 @@ const Our = () => {
             transition={{ type: "spring", stiffness: 200, damping: 18 }}
             className="bg-white rounded-xl shadow-md p-4 sm:p-5 flex flex-col"
           >
-            <img src={course.image.url} alt={course.title} className="rounded-lg mb-3 object-cover" />
-            <h2 className="font-semibold text-sm sm:text-base md:text-lg mb-1 text-[#111827]">{course.title}</h2>
-            <p className="text-xs sm:text-sm text-[#6B7280] mb-3 leading-relaxed">{course.description}</p>
+            <img
+              src={course.image.url}
+              alt={course.title}
+              className="rounded-lg mb-3 object-cover"
+            />
+            <h2 className="font-semibold text-sm sm:text-base md:text-lg mb-1 text-[#111827]">
+              {course.title}
+            </h2>
+            <p className="text-xs sm:text-sm text-[#6B7280] mb-3 leading-relaxed">
+              {course.description}
+            </p>
             <div className="flex justify-between text-[11px] sm:text-xs text-[#6B7280] mb-4">
               <span>⏱ Duration</span>
               <span>📊 level</span>
