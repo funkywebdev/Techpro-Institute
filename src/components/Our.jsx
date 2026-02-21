@@ -4,6 +4,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useUserRegion } from "../hooks/useUserRegion";
+import api from "../api/axios";
 
 const containerVariants = {
   hidden: {},
@@ -32,8 +33,8 @@ const Our = () => {
 
     const fetchCourses = async () => {
       try {
-        const res = await axios.get(
-          "https://techproinstitute.org/api/v1/courses",
+        const res = await api.get(
+          "/v1/courses",
         );
         const data = Array.isArray(res.data) ? res.data : res.data.data;
         setCourses(data || []);

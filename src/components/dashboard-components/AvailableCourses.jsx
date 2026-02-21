@@ -3,6 +3,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { IoMdCheckmark } from "react-icons/io";
+import api from "../../api/axios";
+
 
 const fadeIn = {
   hidden: { opacity: 0, y: 12 },
@@ -17,7 +19,7 @@ const AvailableCourses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get("https://techproinstitute.org/api/v1/courses");
+        const res = await api.get("/v1/courses");
         console.group("Courses API Response");
         console.log(res.data);
         console.groupEnd();
