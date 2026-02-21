@@ -67,11 +67,13 @@ const Sidebar = () => {
           alt="TechPro Logo"
           className="w-28 sm:w-40 rounded-full -translate-x-8 sm:-translate-1 sm:mb-4"
         />
+        
+
         <img
-          src={Rectangle3}
-          alt="Profile"
-          className="w-16 sm:w-20 h-16 sm:h-20 rounded-full object-cover -translate-x-12 sm:-translate-7 mb-2"
-        />
+        src={student?.profilePicture?.url || Rectangle3} // fallback to placeholder
+        alt="Profile"
+        className="w-16 sm:w-20 h-16 sm:h-20 rounded-full object-cover -translate-x-12 sm:-translate-7 mb-2"
+      />
         <p className="text-xs sm:text-sm text-white font-normal -translate-x-12 sm:-translate-7">
           {loading
             ? "Loading..."
