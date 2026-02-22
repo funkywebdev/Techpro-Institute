@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect } from "react";
 import Rectangle3 from "../../assets/images/Rectangle3.png";
 import { FiSettings, FiBell, FiX } from "react-icons/fi";

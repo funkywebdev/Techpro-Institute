@@ -1,19 +1,8 @@
-
-
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Rectangle3 from "../../assets/images/Rectangle3.png";
 import techprologo from "../../assets/images/techprologo.png";
-import api from "../../api/axios"; // <-- import your axios instance
-
-import {
-  MdDashboard,
-  MdSchool,
-  MdPayment,
-  MdCardMembership,
-  MdLogout,
-} from "react-icons/md";
+import api from "../../api/axios";
+import { MdDashboard, MdSchool, MdPayment, MdCardMembership, MdLogout } from "react-icons/md";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -26,8 +15,8 @@ const Sidebar = () => {
   useEffect(() => {
     const fetchStudent = async () => {
       try {
-        const res = await api.get("/v1/me"); // your endpoint
-        if (res.data && res.data.status && res.data.data) {
+        const res = await api.get("/v1/me");
+        if (res.data?.status && res.data.data) {
           setStudent(res.data.data);
         }
       } catch (err) {
@@ -36,7 +25,6 @@ const Sidebar = () => {
         setLoading(false);
       }
     };
-
     fetchStudent();
   }, []);
 
@@ -50,7 +38,6 @@ const Sidebar = () => {
 
   const menuItemClass =
     "flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-3 rounded-xl transition-all duration-200 w-full max-w-[200px] cursor-pointer md:hover:bg-[#F81C0D] md:hover:text-white";
-
   const iconSize = "text-lg sm:text-xl";
 
   const handleLogout = () => {
@@ -60,26 +47,33 @@ const Sidebar = () => {
 
   return (
     <aside className="w-56 sm:w-64 min-h-screen bg-[#111827] text-gray-200 flex flex-col items-center py-5">
+      
       {/* Logo / Profile */}
       <div className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 border-b border-gray-600 w-full text-center">
         <img
           src={techprologo}
           alt="TechPro Logo"
-          className="w-28 sm:w-40 rounded-full -translate-x-8 sm:-translate-1 sm:mb-4"
+          className="w-28 sm:w-40 rounded-full mb-4"
         />
-        
 
-        <img
-        src={student?.profilePicture?.url || Rectangle3} // fallback to placeholder
-        alt="Profile"
-        className="w-16 sm:w-20 h-16 sm:h-20 rounded-full object-cover -translate-x-12 sm:-translate-7 mb-2"
-      />
+        {/* Profile picture or blank rounded circle */}
+        {student?.profilePicture?.url ? (
+          <img
+            src={student.profilePicture.url}
+            alt="Profile"
+            className="w-16 sm:w-20 h-16 sm:h-20 rounded-full object-cover mb-2 -translate-x-12 sm:-translate-7"
+          />
+        ) : (
+          <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-gray-700 mb-2 -translate-x-12 sm:-translate-7" />
+        )}
+
+        {/* Student Name */}
         <p className="text-xs sm:text-sm text-white font-normal -translate-x-12 sm:-translate-7">
           {loading
             ? "Loading..."
             : student
             ? `${student.firstName} ${student.lastName}`
-            : "Unknown Student"}
+            : ""}
         </p>
       </div>
 
