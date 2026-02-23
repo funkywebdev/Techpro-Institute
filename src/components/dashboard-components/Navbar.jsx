@@ -14,12 +14,19 @@ const Navbar = () => {
   const [editTab, setEditTab] = useState("profile"); // 'profile' or 'password'
 
   // Default profile
-  const defaultProfile = {
-    name: "Michael",
-    email: "michael@example.com",
-    photo: Rectangle3,
-  };
-  const [profile, setProfile] = useState(defaultProfile);
+  // const defaultProfile = {
+  //   name: "Michael",
+  //   email: "michael@example.com",
+  //   photo: Rectangle3,
+  // };
+  // const [profile, setProfile] = useState(defaultProfile);
+
+
+   const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    photo: null,
+  });
 
   // Loading states
   const [loadingProfile, setLoadingProfile] = useState(true);

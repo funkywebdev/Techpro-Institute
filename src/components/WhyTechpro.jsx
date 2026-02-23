@@ -178,7 +178,7 @@ const WhyTechpro = () => {
                   Practical Learning
                 </h2>
                 <p className="text-xs sm:text-base text-[#374151]">
-                  Join TechPro Institute and gain practical experience, industry knowledge, and certification.
+                   Five modules simplified scrum frame work with access to over 100 exam questions with guaranteed Pass.
                 </p>
               </div>
             </div>

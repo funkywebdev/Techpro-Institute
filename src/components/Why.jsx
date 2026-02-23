@@ -64,7 +64,7 @@ const Why = () => {
           variants={fadeUp}
           className='text-xl sm:text-2xl md:text-3xl font-bold'
         >
-          Why Learn With TechPro
+          What you will learn
         </motion.h1>
 
         {/* Subtitle */}
@@ -83,7 +83,7 @@ const Why = () => {
           {[
             {
               img: FrameA,
-              title: 'Expert-Led Courses',
+              title: 'Scrum Framework',
               text: 'Learn directly from experienced professionals who guide you every step of the way.',
             },
             {
