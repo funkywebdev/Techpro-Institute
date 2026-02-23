@@ -153,7 +153,7 @@ const Our = () => {
     const fetchCourses = async () => {
       try {
         // ✅ Use plain axios, no token
-        const res = await axios.get("https://techproinstitute.org/api/v1/courses");
+        const res = await axios.get("https://lms.techproinstitute.org/api/v1/courses");
         console.log("Courses response:", res.data); // 👈 debug response
         const data = Array.isArray(res.data) ? res.data : res.data.data;
         setCourses(data || []);

@@ -297,7 +297,7 @@ const SignUp = () => {
 
     try {
       const res = await axios.post(
-        "https://techproinstitute.org/api/register",
+        "https://lms.techproinstitute.org/api/register",
         payload
       );
 

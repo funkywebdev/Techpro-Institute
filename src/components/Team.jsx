@@ -31,6 +31,18 @@ const teamMembers = [
     role: "Certified Scrum Master/Six Sigma Green Belt",
     bio: "Dr. Omoona West is a Certified Scrum Master and Six Sigma Green Belt with a proven track record of driving operational excellence and delivering high-quality software solutions. She specializes in streamlining processes, optimizing workflows, and leading agile teams to achieve efficiency and measurable results. With expertise in both agile methodologies and process improvement, Dr. Omoona ensures projects are executed with precision, innovation, and impact.",
   },
+  {
+    img: mrtega,
+    name: "Seun Oladuntoye",
+    role: "Certified Scrum Master / Project Manager",
+    bio: "Oluwaseun Oladuntoye is a Certified Scrum Master, Project Manager, Product Manager, and Business Analyst with over 7 years of software engineering experience. He leads agile teams, drives product strategy, and manages end-to-end project execution from concept to delivery. He specializes in translating business goals into scalable technology solutions, aligning stakeholders, optimizing processes, and transforming ideas into impactful digital products.",
+  },
+   {
+    img: HassanShola,
+    name: "Hassan Shola",
+    role: "Certified Scrum Master / Product Owner",
+    bio: "Hassan Shola is a Certified Scrum Master and Product Owner with extensive experience driving agile teams to deliver high-quality software products. He excels at facilitating collaboration, prioritizing backlogs, and ensuring that business goals are translated into effective, user-focused solutions. Hassan combines strategic thinking with hands-on execution, enabling teams to achieve measurable results and deliver impactful digital products efficiently.",
+  },
 ];
 
 const TeamAltFlip = () => {

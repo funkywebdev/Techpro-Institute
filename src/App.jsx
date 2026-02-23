@@ -13,6 +13,9 @@ import ForgetPage from "./pages/ForgetPage";
 import VerifyPage from "./pages/VerifyPage";
 import PaymentPage from "./pages/PaymentPage";
 import CompletePage from "./pages/CompletePage";
+import TermPage from './pages/TermPage'
+import PrivacyPage from './pages/PrivacyPage'
+import LegalPage from './pages/LegalPage'
 import DashboardPage from "./pages/dashboard-pages/DashboardPage";
 import AdminPaymentPage from "./pages/dashboard-pages/AdminPaymentPage";
 import AdminCoursePage from "./pages/dashboard-pages/AdminCoursePage";
@@ -52,9 +55,12 @@ const App = () => {
          <Route path="/login" element={<LoginPage/>} />
          <Route path="/signup" element={<SignupPage/>} />
           <Route path="/resetpassword" element={<ResetPasswordPage/>} />
+          <Route path="/term" element={<TermPage/>} />
+          <Route path="/privacy" element={<PrivacyPage/>} />
           <Route path="/verify" element={<VerifyPage/>} />
           <Route path="/enrollment/:id" element={<PaymentPage/>} />
           <Route path="/forget" element={<ForgetPage/>} />
+          <Route path="/legal" element={<LegalPage/>} />
           <Route path="/complete" element={<CompletePage/>} />
            <Route path="/dashboard" element={<DashboardPage />} />
            <Route path="/dashboard" element={<DashboardPage />} />

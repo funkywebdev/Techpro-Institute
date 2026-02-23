@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an axios instance
 const api = axios.create({
-  baseURL: "https://techproinstitute.org/api",
+  baseURL: "https://lms.techproinstitute.org/api",
 });
 
 // Add a request interceptor to include token automatically
