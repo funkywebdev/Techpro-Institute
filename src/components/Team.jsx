@@ -27,7 +27,7 @@ const teamMembers = [
   },
   {
     img: Omona,
-    name: "Dr Omoona West",
+    name: "Dr Omona-a West",
     role: "Certified Scrum Master/Six Sigma Green Belt",
     bio: "Dr. Omoona West is a Certified Scrum Master and Six Sigma Green Belt with a proven track record of driving operational excellence and delivering high-quality software solutions. She specializes in streamlining processes, optimizing workflows, and leading agile teams to achieve efficiency and measurable results. With expertise in both agile methodologies and process improvement, Dr. Omoona ensures projects are executed with precision, innovation, and impact.",
   },

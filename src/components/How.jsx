@@ -56,8 +56,7 @@ const How = () => {
             className="text-sm sm:text-base text-gray-600 mb-8 max-w-md mx-auto lg:mx-0"
           >
             Getting started is simple and straightforward. Sign up, choose a
-            course, learn at your own pace, and earn a certificate upon
-            completion.
+            course, learn at your own pace, and be ready to A's your certification.
           </motion.p>
 
           {/* STEPS */}

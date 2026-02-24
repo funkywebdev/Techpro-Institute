@@ -257,7 +257,7 @@ const Ready = () => {
           </p>
           
           {/* CTA BUTTON */}
-          <button className="mb-6 px-8 py-3 rounded-xl bg-white text-[#15256E] font-medium text-sm sm:text-base transition hover:bg-gray-100 w-full text-center sm:w-40 text-start">
+          <button className="mb-6 px-8 py-3 rounded-xl bg-white text-[#15256E] font-medium text-sm sm:text-base transition hover:bg-gray-100 w-full text-center sm:w-40 text-center sm:text-start">
             Get Started
           </button>
 
