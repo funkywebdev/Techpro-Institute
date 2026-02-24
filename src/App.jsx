@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css"; // Toast styles
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import ContactPage from "./pages/ContactPage";
+import ScrollToTop from "./components/ScrollToTop";
 import SignupPage from "./pages/SignupPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ForgetPage from "./pages/ForgetPage";
@@ -28,6 +29,7 @@ import Preview from "./components/dashboard-components/Preview";
 import QuizPage from "./pages/dashboard-pages/QuizPage";
 
 
+
 const App = () => {
   return (
     <div className="App">
@@ -45,9 +47,11 @@ const App = () => {
         theme="light"             
       />
 
+      <ScrollToTop />
       {/* Routes */}
       <Routes>
         {/* Public Routes */}
+         
         <Route path="/" element={<LandingPage />} />
         <Route path="/landingpage" element={<LandingPage />} />
         <Route path="/course/:slug" element={<CourseDetailPage />} />

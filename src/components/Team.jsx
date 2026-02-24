@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // Images
 import mrtega from "../assets/images/mrtega.jpeg";
 import Akinola from "../assets/images/Akinola.jpeg";
-import HassanShola from "../assets/images/HassanShola.jpeg";
+import Hazzan from "../assets/images/Hazzan.jpeg";
 import Omona from "../assets/images/Omona.jpeg";
 
 const teamMembers = [
@@ -20,8 +20,8 @@ const teamMembers = [
     bio: "Oluwaseun Oladuntoye is a Certified Scrum Master, Project Manager, Product Manager, and Business Analyst with over 7 years of software engineering experience. He leads agile teams, drives product strategy, and manages end-to-end project execution from concept to delivery. He specializes in translating business goals into scalable technology solutions, aligning stakeholders, optimizing processes, and transforming ideas into impactful digital products.",
   },
   {
-    img: HassanShola,
-    name: "Hassan Shola",
+    img: Hazzan,
+    name: "Hazzan Shola",
     role: "Certified Scrum Master / Product Owner",
     bio: "Hassan Shola is a Certified Scrum Master and Product Owner with extensive experience driving agile teams to deliver high-quality software products. He excels at facilitating collaboration, prioritizing backlogs, and ensuring that business goals are translated into effective, user-focused solutions. Hassan combines strategic thinking with hands-on execution, enabling teams to achieve measurable results and deliver impactful digital products efficiently.",
   },
@@ -38,8 +38,8 @@ const teamMembers = [
     bio: "Oluwaseun Oladuntoye is a Certified Scrum Master, Project Manager, Product Manager, and Business Analyst with over 7 years of software engineering experience. He leads agile teams, drives product strategy, and manages end-to-end project execution from concept to delivery. He specializes in translating business goals into scalable technology solutions, aligning stakeholders, optimizing processes, and transforming ideas into impactful digital products.",
   },
    {
-    img: HassanShola,
-    name: "Hassan Shola",
+    img: Hazzan,
+    name: "Hazzan Shola",
     role: "Certified Scrum Master / Product Owner",
     bio: "Hassan Shola is a Certified Scrum Master and Product Owner with extensive experience driving agile teams to deliver high-quality software products. He excels at facilitating collaboration, prioritizing backlogs, and ensuring that business goals are translated into effective, user-focused solutions. Hassan combines strategic thinking with hands-on execution, enabling teams to achieve measurable results and deliver impactful digital products efficiently.",
   },
