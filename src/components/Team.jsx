@@ -24,8 +24,8 @@ const teamMembers = [
   {
     img: Hazzan,
     name: "Hazzan Shola",
-    role: "Certified Scrum Master / Product Owner",
-    bio: "Hassan Shola is a Certified Scrum Master and Product Owner with extensive experience driving agile teams to deliver high-quality software products. He excels at facilitating collaboration, prioritizing backlogs, and ensuring that business goals are translated into effective, user-focused solutions. Hassan combines strategic thinking with hands-on execution, enabling teams to achieve measurable results and deliver impactful digital products efficiently.",
+    role: "Programme Manager / Business Analyst ",
+    bio: "A results-driven Programme Manager, Business Analyst, and Scrum Master with over 9 years of experience delivering complex digital and enterprise transformation initiatives. He specializes in ERP implementations, AI-enabled solutions, CRM integration, and data-driven change across cross-functional environments.Expert in translating strategic vision into executable roadmaps, leading high-performing Agile teams, and aligning stakeholders to deliver measurable business value.",
   },
   {
     img: Omona,
@@ -42,8 +42,8 @@ const teamMembers = [
    {
     img: Hazzan,
     name: "Hazzan Shola",
-    role: "Certified Scrum Master / Product Owner",
-    bio: "Hassan Shola is a Certified Scrum Master and Product Owner with extensive experience driving agile teams to deliver high-quality software products. He excels at facilitating collaboration, prioritizing backlogs, and ensuring that business goals are translated into effective, user-focused solutions. Hassan combines strategic thinking with hands-on execution, enabling teams to achieve measurable results and deliver impactful digital products efficiently.",
+     role: "Programme Manager / Business Analyst ",
+    bio: "A results-driven Programme Manager, Business Analyst, and Scrum Master with over 9 years of experience delivering complex digital and enterprise transformation initiatives. He specializes in ERP implementations, AI-enabled solutions, CRM integration, and data-driven change across cross-functional environments.Expert in translating strategic vision into executable roadmaps, leading high-performing Agile teams, and aligning stakeholders to deliver measurable business value.",
   },
 ];
 
