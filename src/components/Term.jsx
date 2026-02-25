@@ -1,5 +1,6 @@
 
 
+
 import React, { useRef, useState, useEffect } from "react";
 import { FiMail, FiPhone, FiMenu } from "react-icons/fi";
 
@@ -14,7 +15,7 @@ const sections = [
   { id: "privacy", title: "Privacy Policy", content: <p>Your use of our services is subject to our Privacy Policy.</p> },
   { id: "liability", title: "Limitation of Liability", content: <p>TechPro is not responsible for indirect or incidental damages. Liability is limited to fees paid.</p> },
   { id: "termination", title: "Termination", content: <p>Access may be suspended or terminated if Terms are violated.</p> },
-  { id: "law", title: "Governing Law", content: <p> These Terms are governed by the laws of the country in which you access our services. Any disputes will be resolved under the jurisdiction applicable to your location.</p> },
+  { id: "law", title: "Governing Law", content: <p>These Terms are governed by the laws of the country in which you access our services. Any disputes will be resolved under the jurisdiction applicable to your location.</p> },
   { id: "contact", title: "Contact Us", content: (
       <div className="space-y-2">
         <div className="flex items-center gap-2">
@@ -34,21 +35,31 @@ const Term = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Scroll with sticky header offset
   const scrollToSection = (index) => {
-    sectionRefs.current[index].current.scrollIntoView({ behavior: "smooth", block: "start" });
+    const headerOffset = window.innerWidth < 1024 ? 60 : 120; // mobile vs desktop offset
+    const element = sectionRefs.current[index].current;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+
     setMenuOpen(false);
   };
 
+  // Track active section
   useEffect(() => {
     const handleScroll = () => {
-      const offset = window.innerHeight / 2;
+      const offset = window.innerHeight / 3;
       const currentIndex = sectionRefs.current.findIndex((ref) => {
         const rect = ref.current.getBoundingClientRect();
         return rect.top <= offset && rect.bottom > offset;
       });
       if (currentIndex !== -1) setActiveIndex(currentIndex);
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
@@ -56,10 +67,10 @@ const Term = () => {
 
   return (
     <div id="term" className="bg-[#f7f9fc] min-h-screen">
-    
+      {/* HEADER */}
       <div className="bg-[#15256E] text-white">
         <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-            <p className="mb-10"></p>
+              <p className="mb-10"></p>
           <h1 className="text-2xl md:text-3xl font-bold mb-4 relative inline-block">
             Terms of Use
             <span className="absolute left-0 -bottom-2 w-full h-1 bg-gradient-to-r from-[#FF7E5F] to-[#FEB47B] rounded-full opacity-70"></span>
@@ -70,31 +81,33 @@ const Term = () => {
         </div>
       </div>
 
-      {/* MOBILE MENU */}
-      <div className="lg:hidden px-4 py-3">
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl shadow w-full justify-between"
-        >
-          <span className="font-medium text-[#15256E]">On This Page</span>
-          <FiMenu className="text-[#15256E]" />
-        </button>
-        {menuOpen && (
-          <ul className="mt-2 bg-white rounded-xl shadow p-3 space-y-1">
-            {sections.map((s, index) => (
-              <li
-                key={s.id}
-                onClick={() => scrollToSection(index)}
-                className={`cursor-pointer transition px-2 py-1 rounded ${
-                  activeIndex === index ? "bg-[#15256E]/10 text-[#15256E] font-medium" : "text-gray-600 hover:text-[#15256E]"
-                }`}
-              >
-                {s.title}
-              </li>
-            ))}
-          </ul>
-        )}
+      {/* MOBILE sticky header */}
+      {activeIndex !== null && (
+        <div className="lg:hidden sticky top-0 bg-white px-4 py-2 shadow z-10 text-sm font-medium text-[#15256E]">
+          {sections[activeIndex].title}
+        </div>
+      )}
+
+   
+
+      {/* MOBILE "ON THIS PAGE" list */}
+<div className="lg:hidden px-4 py-3">
+  <div className="bg-white rounded-xl shadow p-3 space-y-1">
+    {sections.map((s, index) => (
+      <div
+        key={s.id}
+        onClick={() => scrollToSection(index)}
+        className={`cursor-pointer transition px-2 py-1 rounded ${
+          activeIndex === index
+            ? "bg-[#15256E]/10 text-[#15256E] font-medium"
+            : "text-gray-600 hover:text-[#15256E]"
+        }`}
+      >
+        {s.title}
       </div>
+    ))}
+  </div>
+</div>
 
       {/* CONTENT */}
       <div className="max-w-7xl mx-auto px-4 py-10 md:py-16 grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-12">
