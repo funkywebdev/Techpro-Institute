@@ -39,7 +39,7 @@ const Ready = () => {
         "W8LUTAQCleCNI4f1q"
       )
       .then(() => {
-        toast.success("Subscribed successfully 🎉");
+        toast.success("Subscribed successfully");
         setEmail("");
         setLoading(false);
       })
