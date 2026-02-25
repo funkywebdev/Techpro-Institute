@@ -57,7 +57,7 @@ const Term = () => {
   return (
     <div id="term" className="bg-[#f7f9fc] min-h-screen">
     
-      <div className="bg-gradient-to-br from-[#15256E] to-[#1f3aa8] text-white">
+      <div className="bg-[#15256E] text-white">
         <div className="max-w-7xl mx-auto px-6 py-20 text-center">
             <p className="mb-10"></p>
           <h1 className="text-2xl md:text-3xl font-bold mb-4 relative inline-block">

@@ -5,6 +5,8 @@ import mrtega from "../assets/images/mrtega.jpeg";
 import Akinola from "../assets/images/Akinola.jpeg";
 import Hazzan from "../assets/images/Hazzan.jpeg";
 import Omona from "../assets/images/Omona.jpeg";
+import Oladapo from "../assets/images/Oladapo.jpeg";
+
 
 const teamMembers = [
   {
@@ -32,10 +34,10 @@ const teamMembers = [
     bio: "Dr. Omoona West is a Certified Scrum Master and Six Sigma Green Belt with a proven track record of driving operational excellence and delivering high-quality software solutions. She specializes in streamlining processes, optimizing workflows, and leading agile teams to achieve efficiency and measurable results. With expertise in both agile methodologies and process improvement, Dr. Omoona ensures projects are executed with precision, innovation, and impact.",
   },
   {
-    img: mrtega,
-    name: "Seun Oladuntoye",
-    role: "Certified Scrum Master / Project Manager",
-    bio: "Oluwaseun Oladuntoye is a Certified Scrum Master, Project Manager, Product Manager, and Business Analyst with over 7 years of software engineering experience. He leads agile teams, drives product strategy, and manages end-to-end project execution from concept to delivery. He specializes in translating business goals into scalable technology solutions, aligning stakeholders, optimizing processes, and transforming ideas into impactful digital products.",
+    img: Oladapo,
+    name: "Dr. Oladapo Olukomaiya",
+    role: "Data and Information Officer",
+    bio: "Dr. Oladapo Olukomaiya is a dedicated Data and Information Officer with extensive experience in managing, analyzing, and safeguarding organizational data. He specializes in transforming complex data into actionable insights, ensuring accuracy, integrity, and accessibility for decision-making processes. Dr. Olukomaiya is passionate about leveraging data-driven strategies to enhance operational efficiency and support organizational growth. His expertise spans database management, data analytics, and information systems, making him a key contributor to any team focused on data excellence.",
   },
    {
     img: Hazzan,
