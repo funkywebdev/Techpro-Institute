@@ -59,7 +59,7 @@ const Ready = () => {
           <img
             src={ReadyImg}
             alt="Ready to start"
-            className="w-full h-[480px] object-cover"
+            className="w-full h-[540px] sm:h-[480px] object-cover"
           />
 
           {/* OVERLAY */}
