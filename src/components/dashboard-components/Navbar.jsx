@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useState, useEffect } from "react";
 import Rectangle3 from "../../assets/images/Rectangle3.png";
 import { FiSettings, FiBell, FiX } from "react-icons/fi";
@@ -13,8 +17,7 @@ const Navbar = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editTab, setEditTab] = useState("profile"); // 'profile' or 'password'
 
- 
-   const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState({
     name: "",
     email: "",
     photo: null,
@@ -32,7 +35,7 @@ const Navbar = () => {
     firstName: "",
     lastName: "",
     email: "",
-    photo: Rectangle3,
+    photo: null,
   });
 
   const [passwordForm, setPasswordForm] = useState({
@@ -51,13 +54,13 @@ const Navbar = () => {
           setProfile({
             name: `${student.firstName} ${student.lastName}`,
             email: student.email,
-            photo: student.profilePicture?.url || Rectangle3,
+            photo: student.profilePicture?.url || null,
           });
           setForm({
             firstName: student.firstName,
             lastName: student.lastName,
             email: student.email,
-            photo: student.profilePicture?.url || Rectangle3,
+            photo: student.profilePicture?.url || null,
           });
         }
       } catch (err) {
@@ -110,7 +113,7 @@ const Navbar = () => {
   // Logout
   const handleLogout = () => {
     localStorage.clear();
-    setProfile(defaultProfile);
+    setProfile({ name: "", email: "", photo: null });
     setShowProfileMenu(false);
     setShowEditModal(false);
     navigate("/login");
@@ -121,64 +124,54 @@ const Navbar = () => {
     if (e.target === e.currentTarget) closeFunction();
   };
 
- const updateProfile = async () => {
-  setLoadingSubmit(true);
-  setMessage("");
+  // Update profile
+  const updateProfile = async () => {
+    setLoadingSubmit(true);
+    setMessage("");
 
-  try {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
+      formData.append("first_name", form.firstName.trim() || "");
+      formData.append("last_name", form.lastName.trim() || "");
+      formData.append("email", form.email.trim() || "");
 
-    // Use snake_case for API compatibility
-    formData.append("first_name", form.firstName.trim() || "");
-    formData.append("last_name", form.lastName.trim() || "");
-    formData.append("email", form.email.trim() || "");
+      if (form.photo && form.photo !== profile.photo) {
+        const response = await fetch(form.photo);
+        const blob = await response.blob();
+        const file = new File([blob], "profile.jpg", { type: blob.type });
+        formData.append("profile_picture", file);
+      }
 
-    // Append photo as File if changed
-    if (form.photo && form.photo !== profile.photo) {
-      const response = await fetch(form.photo);
-      const blob = await response.blob();
-      const file = new File([blob], "profile.jpg", { type: blob.type });
-      formData.append("profile_picture", file);
-    }
-
-    // Debug FormData
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
-    // Send PATCH request
-    const res = await api.patch("/v1/update/me", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    if (res.data.status) {
-      setProfile({
-        name: `${res.data.data.firstName} ${res.data.data.lastName}`,
-        email: res.data.data.email,
-        photo: res.data.data.profilePicture?.url || Rectangle3,
+      const res = await api.patch("/v1/update/me", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      setForm({
-        firstName: res.data.data.firstName,
-        lastName: res.data.data.lastName,
-        email: res.data.data.email,
-        photo: res.data.data.profilePicture?.url || Rectangle3,
-      });
-      setMessage("Profile updated successfully!");
-    } else {
-      setMessage(res.data.message || "Failed to update profile.");
+
+      if (res.data.status) {
+        setProfile({
+          name: `${res.data.data.firstName} ${res.data.data.lastName}`,
+          email: res.data.data.email,
+          photo: res.data.data.profilePicture?.url || null,
+        });
+        setForm({
+          firstName: res.data.data.firstName,
+          lastName: res.data.data.lastName,
+          email: res.data.data.email,
+          photo: res.data.data.profilePicture?.url || null,
+        });
+        setMessage("Profile updated successfully!");
+      } else {
+        setMessage(res.data.message || "Failed to update profile.");
+      }
+    } catch (err) {
+      console.error("Profile update error:", err);
+      setMessage(
+        err.response?.data?.message || "Failed to update profile. Please check your input."
+      );
+    } finally {
+      setLoadingSubmit(false);
     }
-  } catch (err) {
-    console.error("Profile update error:", err);
-    setMessage(
-      err.response?.data?.message || "Failed to update profile. Please check your input."
-    );
-  } finally {
-    setLoadingSubmit(false);
-  }
-};
+  };
 
-
-  // Submit password update
   const updatePassword = async () => {
     setLoadingSubmit(true);
     setMessage("");
@@ -194,6 +187,16 @@ const Navbar = () => {
     } finally {
       setLoadingSubmit(false);
     }
+  };
+
+  // Helper to get initials
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
   };
 
   return (
@@ -234,22 +237,38 @@ const Navbar = () => {
         {showProfileMenu && (
           <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-3 w-36 z-50">
             <div className="flex flex-col gap-2">
-              <button className="text-left text-gray-700 hover:text-[#15256E] transition-colors duration-300" onClick={openEditModal}>
+              <button
+                className="text-left text-gray-700 hover:text-[#15256E] transition-colors duration-300"
+                onClick={openEditModal}
+              >
                 Edit Profile
               </button>
-              <button className="text-left text-gray-700 hover:text-red-600" onClick={handleLogout}>
+              <button
+                className="text-left text-gray-700 hover:text-red-600"
+                onClick={handleLogout}
+              >
                 Logout
               </button>
             </div>
           </div>
         )}
 
-        <img
-          src={profile.photo}
-          alt="Profile"
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover cursor-pointer"
-          onClick={toggleProfileMenu}
-        />
+        {/* Profile Image or Initials */}
+        {profile.photo ? (
+          <img
+            src={profile.photo}
+            alt="Profile"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover cursor-pointer"
+            onClick={toggleProfileMenu}
+          />
+        ) : (
+          <div
+            onClick={toggleProfileMenu}
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#15256E] text-white flex items-center justify-center font-bold cursor-pointer"
+          >
+            {getInitials(profile.name)}
+          </div>
+        )}
       </div>
 
       {/* Edit Modal */}
@@ -271,13 +290,17 @@ const Navbar = () => {
             {/* Tabs */}
             <div className="flex gap-2 mb-4">
               <button
-                className={`flex-1 py-1 rounded-t-lg ${editTab === "profile" ? "bg-[#15256E] text-white" : "bg-gray-100"}`}
+                className={`flex-1 py-1 rounded-t-lg ${
+                  editTab === "profile" ? "bg-[#15256E] text-white" : "bg-gray-100"
+                }`}
                 onClick={() => setEditTab("profile")}
               >
                 Profile
               </button>
               <button
-                className={`flex-1 py-1 rounded-t-lg ${editTab === "password" ? "bg-[#15256E] text-white" : "bg-gray-100"}`}
+                className={`flex-1 py-1 rounded-t-lg ${
+                  editTab === "password" ? "bg-[#15256E] text-white" : "bg-gray-100"
+                }`}
                 onClick={() => setEditTab("password")}
               >
                 Password
