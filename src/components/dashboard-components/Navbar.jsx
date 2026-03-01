@@ -13,15 +13,7 @@ const Navbar = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editTab, setEditTab] = useState("profile"); // 'profile' or 'password'
 
-  // Default profile
-  // const defaultProfile = {
-  //   name: "Michael",
-  //   email: "michael@example.com",
-  //   photo: Rectangle3,
-  // };
-  // const [profile, setProfile] = useState(defaultProfile);
-
-
+ 
    const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -242,7 +234,7 @@ const Navbar = () => {
         {showProfileMenu && (
           <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-3 w-36 z-50">
             <div className="flex flex-col gap-2">
-              <button className="text-left text-gray-700 hover:text-[#15256E]" onClick={openEditModal}>
+              <button className="text-left text-gray-700 hover:text-[#15256E] transition-colors duration-300" onClick={openEditModal}>
                 Edit Profile
               </button>
               <button className="text-left text-gray-700 hover:text-red-600" onClick={handleLogout}>
