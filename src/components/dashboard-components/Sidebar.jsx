@@ -49,11 +49,11 @@ const Sidebar = () => {
     <aside className="w-56 sm:w-64 min-h-screen bg-[#111827] text-gray-200 flex flex-col items-center py-5">
       
       {/* Logo / Profile */}
-      <div className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 border-b border-gray-600 w-full text-center">
+      <div className="flex flex-col items-center gap-1 sm:gap-2 py-4 sm:py-1 border-b border-gray-600 w-full text-center">
         <img
           src={techprologo}
           alt="TechPro Logo"
-          className="w-28 sm:w-40 rounded-full mb-4"
+          className="w-28 sm:w-40 rounded-full sm:mb-4  -translate-x-8 sm:-translate-0"
         />
 
         {/* Profile picture or blank rounded circle */}
@@ -68,7 +68,7 @@ const Sidebar = () => {
         )}
 
         {/* Student Name */}
-        <p className="text-xs sm:text-sm text-white font-normal -translate-x-12 sm:-translate-7">
+        <p className="text-xs sm:text-sm text-white font-normal -translate-x-11 sm:-translate-6">
           {loading
             ? "Loading..."
             : student
