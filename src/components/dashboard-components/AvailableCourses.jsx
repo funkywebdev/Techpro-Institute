@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { IoMdCheckmark } from "react-icons/io";
 import api from "../../api/axios";
 
-
 const fadeIn = {
   hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0 },
 };
+
+// =========================
+// Spinner Component
+// =========================
+const Spinner = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 const AvailableCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -34,8 +41,7 @@ const AvailableCourses = () => {
     fetchCourses();
   }, []);
 
-  if (loading)
-    return <p className="text-center py-10 text-gray-600">Loading courses…</p>;
+  if (loading) return <Spinner />;
 
   if (!courses || courses.length === 0)
     return <p className="text-center py-10 text-gray-600">No courses available.</p>;
@@ -96,7 +102,7 @@ const AvailableCourses = () => {
                   <span className="text-xs font-semibold text-gray-900">
                     {course.price
                       ? `${course.price.currency} ${course.price.amount}`
-                      : "Free"}
+                      : ""} {/* Removed "Free" */}
                   </span>
                   {course.price?.region && (
                     <span className="text-[10px] px-2 py-0.5 bg-gray-100 rounded-full text-gray-600">

@@ -31,39 +31,39 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex md:flex-1 md:justify-center gap-8 sm:gap-12">
+        <div className="hidden md:flex md:flex-1 md:justify-center gap-8 sm:gap-12 ">
           <button
             onClick={() => scrollToSection("hero")}
-            className="text-gray-800 font-normal text-[18px] hover:text-[#15256E] transition relative group"
+            className="text-gray-800 font-normal text-[18px] hover:text-[#15256E] transition relative group cursor-pointer"
           >
             Home
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[#15256E] mt-1"></span>
           </button>
           <button
             onClick={() => scrollToSection("about")}
-            className="text-gray-800 font-normal text-[18px] hover:text-[#15256E] transition relative group"
+            className="text-gray-800 font-normal text-[18px] hover:text-[#15256E] transition relative group cursor-pointer"
           >
             About
-            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[#15256E] mt-1"></span>
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[#15256E] mt-1 "></span>
           </button>
           <Link
             to="/contact"
             className="text-gray-800 font-normal text-[18px] hover:text-[#15256E] transition relative group"
           >
             Contact
-            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[#15256E] mt-1"></span>
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[#15256E] mt-1 cursor-pointer"></span>
           </Link>
         </div>
 
         {/* Desktop Buttons */}
         <div className="hidden md:flex gap-4 items-center">
           <Link to="/login">
-            <button className="px-5 py-2 rounded-md border border-[#15256E] text-[#15256E] hover:bg-[#15256E] hover:text-white transition font-normal">
+            <button className="px-5 py-2 rounded-md border border-[#15256E] text-[#15256E] hover:bg-[#15256E] hover:text-white transition font-normal cursor-pointer">
               Login
             </button>
           </Link>
           <Link to="/signup">
-            <button className="px-5 py-2 rounded-md bg-[#15256E] text-white hover:bg-[#15256E] transition font-medium">
+            <button className="px-5 py-2 rounded-md bg-[#15256E] text-white hover:bg-[#15256E] transition font-medium cursor-pointer">
               Sign up
             </button>
           </Link>

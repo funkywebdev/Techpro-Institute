@@ -1,13 +1,25 @@
 
 
 
-
 import React, { useState, useEffect } from "react";
 import api from "../../api/axios";
 import { QRCodeCanvas } from "qrcode.react";
 
 /* =======================
-   CARD DESIGN TEMPLATE
+   Spinner Component
+======================= */
+const Spinner = ({ size = 12, borderColor = "#15256E", text = "" }) => (
+  <div className="flex flex-col items-center justify-center py-10">
+    <div
+      className={`w-${size} h-${size} border-2 border-${borderColor} border-t-transparent rounded-full animate-spin`}
+      style={{ width: size * 4, height: size * 4, borderWidth: 3 }}
+    />
+    {text && <p className="mt-2 text-gray-600">{text}</p>}
+  </div>
+);
+
+/* =======================
+   Certificate Card
 ======================= */
 const CertificateCard = ({ data }) => (
   <div className="bg-white shadow-lg rounded-xl p-8 max-w-6xl mx-auto border border-gray-200">
@@ -31,7 +43,7 @@ const CertificateCard = ({ data }) => (
 );
 
 /* =======================
-   MAIN COMPONENT
+   Main Certificate Component
 ======================= */
 const Certificate = () => {
   const [data, setData] = useState(null);
@@ -94,7 +106,7 @@ const Certificate = () => {
     setTimeout(() => setVerifying(false), 1000);
   };
 
-  if (loading) return <p className="text-center mt-10">Loading certificate…</p>;
+  if (loading) return <Spinner size={12} text="Loading certificate…" />;
   if (!data) return <p className="text-center mt-10">No certificate available.</p>;
 
   return (

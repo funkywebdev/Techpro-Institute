@@ -27,7 +27,7 @@ const Footer = () => {
             <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-200">
               Useful Links
             </h4>
-            <ul className="space-y-3 text-sm text-gray-300">
+            <ul className="space-y-3 text-sm text-gray-300 cursor-pointer">
               {[
               { label: "Home", href: "#hero", internal: false },
                { label: "About", href: "#about", internal: false },
@@ -60,7 +60,7 @@ const Footer = () => {
             <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-gray-200">
               Legal
             </h4>
-            <ul className="space-y-3 text-sm text-gray-300">
+            <ul className="space-y-3 text-sm text-gray-300 cursor-pointer">
               {[
                 { label: "Terms of Service", href: "/term", internal: true },
                 { label: "Privacy Policy", href: "/privacy", internal: true },

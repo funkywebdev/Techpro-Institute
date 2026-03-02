@@ -79,7 +79,7 @@ const Faq = () => {
                 key={index}
                 layout
                 transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
-                className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-2xl"
+                className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-2xl cursor-pointer"
               >
                 {/* QUESTION */}
                 <button
@@ -101,7 +101,7 @@ const Faq = () => {
                   <motion.span
                     animate={{ rotate: isOpen ? 180 : 0, scale: isOpen ? 1.1 : 1 }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="text-xl font-bold text-gray-500 bg-[#F1F1F3] p-1 rounded"
+                    className="text-xl font-bold text-gray-500 bg-[#F1F1F3] p-1 rounded cursor-pointer"
                   >
                     {isOpen ? "−" : "+"}
                   </motion.span>

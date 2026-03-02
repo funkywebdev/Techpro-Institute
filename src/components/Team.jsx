@@ -39,12 +39,7 @@ const teamMembers = [
     role: "Data and Information Officer",
     bio: "Dr. Oladapo Olukomaiya is a dedicated Data and Information Officer with extensive experience in managing, analyzing, and safeguarding organizational data. He specializes in transforming complex data into actionable insights, ensuring accuracy, integrity, and accessibility for decision-making processes. Dr. Olukomaiya is passionate about leveraging data-driven strategies to enhance operational efficiency and support organizational growth. His expertise spans database management, data analytics, and information systems, making him a key contributor to any team focused on data excellence.",
   },
-   {
-    img: Hazzan,
-    name: "Hazzan Shola",
-     role: "Programme Manager / Business Analyst ",
-    bio: "A results-driven Programme Manager, Business Analyst, and Scrum Master with over 9 years of experience delivering complex digital and enterprise transformation initiatives. He specializes in ERP implementations, AI-enabled solutions, CRM integration, and data-driven change across cross-functional environments.Expert in translating strategic vision into executable roadmaps, leading high-performing Agile teams, and aligning stakeholders to deliver measurable business value.",
-  },
+  
 ];
 
 const TeamAltFlip = () => {

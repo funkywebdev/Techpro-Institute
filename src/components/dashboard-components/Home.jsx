@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Rectangle4317 from "../../assets/images/Rectangle4317.png";
@@ -56,6 +59,15 @@ const CircularProgress = ({
 };
 
 /* =========================
+   Spinner Component
+========================= */
+const Spinner = () => (
+  <div className="flex items-center justify-center h-64">
+    <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin" />
+  </div>
+);
+
+/* =========================
    Home Component
 ========================= */
 const Home = () => {
@@ -73,13 +85,11 @@ const Home = () => {
           return;
         }
 
-        // 1️⃣ Fetch user data
         const userRes = await api.get("/v1/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const fetchedUser = userRes.data?.data || null;
 
-        // 2️⃣ Fetch enrollment details
         const enrollmentRes = await api.get("/v1/enrollment/details", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -87,9 +97,10 @@ const Home = () => {
 
         let courseData = null;
         if (enrolledCourse) {
-          const courseRes = await api.get(`/v1/course-progress/${enrolledCourse.course_id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const courseRes = await api.get(
+            `/v1/course-progress/${enrolledCourse.course_id}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
           courseData = courseRes.data?.data || null;
         }
 
@@ -108,13 +119,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="p-6 text-gray-500 animate-pulse text-center">
-        Loading data...
-      </div>
-    );
-  }
+  if (loading) return <Spinner />;
 
   const safeUser = user || {
     firstName: "N/A",
@@ -137,48 +142,43 @@ const Home = () => {
     <div className="p-4 sm:p-6 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6 items-stretch">
         {/* ENROLLED COURSE */}
-        <div className="flex flex-col">
+        <div className="flex flex-col cursor-pointer">
           <p className="font-bold text-gray-800 mb-2">Enrolled Courses</p>
-          <div className="bg-white shadow-md rounded-lg p-6 flex-1 flex gap-4">
-            <img
-              src={safeCourse.image?.url || Rectangle4317}
-              alt={safeCourse.title}
-              className="w-32 h-20 object-cover rounded-md"
-            />
-
-            <div className="flex-1 flex flex-col justify-between">
-              <div>
-                <p className="font-semibold text-gray-800">{safeCourse.title}</p>
-
-                <div className="w-full bg-gray-200 rounded-full h-3 mt-3">
-                  <div
-                    className="bg-[#15256E] h-3 rounded-full transition-all"
-                    style={{ width: `${progress}%` }}
-                  />
+          <Link to={progress === 100 ? "/certificate" : "/admincourse"} className="flex-1">
+            <div className="bg-white shadow-md rounded-lg p-6 flex gap-4 hover:shadow-lg transition-all">
+              <img
+                src={safeCourse.image?.url || Rectangle4317}
+                alt={safeCourse.title}
+                className="w-32 h-20 object-cover rounded-md"
+              />
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <p className="font-semibold text-gray-800">{safeCourse.title}</p>
+                  <div className="w-full bg-gray-200 rounded-full h-3 mt-3">
+                    <div
+                      className="bg-[#15256E] h-3 rounded-full transition-all"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-600 mt-1">{progress}% completed</p>
                 </div>
-
-                <p className="text-xs text-gray-600 mt-1">{progress}% completed</p>
-              </div>
-
-              <Link to={progress === 100 ? "/certificate" : "/admincourse"}>
-                <button className="mt-3 bg-[#15256E] text-white px-4 py-2 rounded hover:bg-[#0f1f5a] transition whitespace-nowrap w-full">
+                <button className="mt-3 bg-[#15256E] text-white px-4 py-2 rounded hover:bg-[#0f1f5a] transition w-full cursor-pointer">
                   {progress === 100 ? "Print Certificate" : "Continue Learning"}
                 </button>
-              </Link>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* PROGRESS OVERVIEW */}
-        <div className="flex flex-col">
+        <div className="flex flex-col cursor-pointer">
           <p className="font-bold text-gray-800 mb-2">Progress Overview</p>
-          <div className="bg-white shadow-md rounded-lg p-6 flex-1 flex gap-6">
+          <div className="bg-white shadow-md rounded-lg p-6 flex-1 flex gap-6 hover:shadow-lg transition-all">
             <div className="flex-1 flex flex-col items-center gap-3 border-r pr-4 justify-center">
               <p className="font-semibold text-gray-800">{safeCourse.title}</p>
               <CircularProgress progress={progress} />
               <p className="text-sm font-medium">{safeCourse.instructor}</p>
             </div>
-
             {/* PERSONAL INFO */}
             <div className="flex-1 text-sm space-y-2 flex flex-col justify-center text-black">
               <p className="font-semibold text-gray-800">Personal Information</p>

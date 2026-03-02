@@ -217,7 +217,7 @@ const Hero = () => {
               px-6 py-3 sm:px-7 sm:py-4 
               bg-[#15256E] text-white text-[14px] sm:text-[16px] 
               font-semibold rounded-xl shadow-md hover:shadow-xl 
-              transition
+              transition cursor-pointer
             ">
               Start Free Trial
             </button>

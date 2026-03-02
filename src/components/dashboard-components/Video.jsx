@@ -500,7 +500,7 @@ const Video = () => {
           )}
 
           {/* QUIZ BUTTON */}
-          <div className="p-4 border-t border-gray-300 mt-4">
+          <div className="p-4  border-gray-300 mt-4">
             <button
               onClick={goToQuiz}
               disabled={!allCompleted}

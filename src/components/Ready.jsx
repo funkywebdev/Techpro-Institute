@@ -85,7 +85,7 @@ const Ready = () => {
             {/* GET STARTED */}
             <button
               onClick={() => navigate("/signup")}
-              className="mb-6 px-8 py-3 rounded-xl bg-white text-[#15256E] font-medium w-full sm:w-40"
+              className="mb-6 px-8 py-3 rounded-xl bg-white text-[#15256E] font-medium w-full sm:w-40 cursor-pointer"
             >
               Get Started
             </button>
@@ -111,7 +111,7 @@ const Ready = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`px-6 py-3 rounded-xl text-white font-medium
+                  className={`px-6 py-3 rounded-xl text-white font-medium cursor-pointer
                     ${
                       loading
                         ? "bg-gray-400 cursor-not-allowed"
