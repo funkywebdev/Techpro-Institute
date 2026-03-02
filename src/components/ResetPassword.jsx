@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { HiArrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,8 +56,8 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "https://techproinstitute.org/api/reset-password",
+      const res = await api.post(
+        "/reset-password",
         {
           email: formData.email,
           password: formData.password,

@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../api/axios";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +29,7 @@ const ForgetPassword = () => {
 
     try {
       const res = await axios.post(
-        "https://techproinstitute.org/api/forgot-password",
+        "/forgot-password",
         { email },
         { headers: { "Content-Type": "application/json" } }
       );

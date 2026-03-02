@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { HiMail } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../api/axios";
 
 const VerifyEmail = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -53,8 +53,8 @@ const VerifyEmail = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://techproinstitute.org/api/verify-otp",
+      const res = await api.post(
+        "/verify-otp",
         { email, otp },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -78,8 +78,8 @@ const VerifyEmail = () => {
 
     setResendTimer(60);
     try {
-      const res = await axios.post(
-        "https://techproinstitute.org/api/forgot-password",
+      const res = await api.post(
+        "/forgot-password",
         { email },
         { headers: { "Content-Type": "application/json" } }
       );

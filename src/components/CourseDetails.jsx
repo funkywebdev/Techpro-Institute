@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { BsChevronDown } from "react-icons/bs";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUserRegion } from "../hooks/useUserRegion";
 import api from "../api/axios";

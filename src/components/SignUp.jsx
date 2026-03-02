@@ -8,7 +8,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { HiArrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -46,8 +46,8 @@ const SignUp = () => {
     const payload = { ...data, phone };
 
     try {
-      const res = await axios.post(
-        "https://lms.techproinstitute.org/api/register",
+      const res = await api.post(
+        "/register",
         payload
       );
 
