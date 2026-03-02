@@ -80,7 +80,7 @@ const Our = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-6xl mx-auto px-6">
         {courses.map((course) => (
           <motion.div
             key={course.id}
