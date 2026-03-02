@@ -36,9 +36,11 @@ const CoursePage = () => {
 
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(
-          `https:/lms.techproinstitute.org/api/v1/courses/${slug}`
+        const res = await api.get(
+          `/v1/courses/${slug}`
         );
+
+        console.log(res);
         setCourse(res.data.data || {});
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load course data.");
