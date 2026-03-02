@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUserRegion } from "../hooks/useUserRegion";
+import api from "../api/axios";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -57,18 +58,15 @@ const CoursePage = () => {
     navigate(`/signup?course=${slug}`);
   };
 
-  // Loading or region detection
-  if (!regionReady) {
+  // Spinner for loading
+  if (!regionReady || loading) {
     return (
-      <div className="py-20 text-center text-gray-500">
-        Detecting region...
+      <div className="py-40 flex flex-col justify-center items-center">
+        <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
+        <span className="mt-4 text-gray-500 text-sm sm:text-base">
+          Loading course...
+        </span>
       </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="py-20 text-center text-gray-600">Loading course...</div>
     );
   }
 
@@ -120,7 +118,7 @@ const CoursePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="static sm:mt-6  lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52 z-10 flex items-center"
+            className="static sm:mt-6 lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52 z-10 flex items-center"
           >
             <div className="relative w-[300px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto p-1">
               <div className="absolute left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
