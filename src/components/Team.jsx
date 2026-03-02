@@ -239,7 +239,7 @@ const TeamSlider = () => {
                       <img
                         src={member.img}
                         alt={member.name}
-                        className="object-cover w-full h-full rounded-2xl"
+                        className="object-cover w-full h-[430px] rounded-2xl"
                       />
                       <div className="absolute bottom-0 w-full p-3 text-center bg-black/40 backdrop-blur-sm">
                         <h3 className="text-lg font-semibold text-white">

@@ -24,10 +24,10 @@ const Navbar = () => {
 
   return (
     <header className="fixed w-full z-50 backdrop-blur-md bg-white/80 shadow-md">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6 sm:px-8">
+      <nav className="flex items-center justify-between max-w-7xl mx-auto h-16  sm:h-20 py-4 px-6 sm:px-8">
         {/* Logo */}
         <Link to="/landingpage">
-          <img src={techprologo} alt="Logo" className="h-10 md:h-12" />
+          <img src={techprologo} alt="Logo" className="h-16 md:h-24 w-auto object-contain" />
         </Link>
 
         {/* Desktop Menu */}
