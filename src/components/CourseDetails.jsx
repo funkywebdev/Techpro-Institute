@@ -108,7 +108,7 @@ const CoursePage = () => {
             <motion.button
               variants={fadeInUp}
               onClick={handleEnroll}
-              className="mt-4 px-6 py-2 sm:py-3 bg-[#15256E] text-white rounded-lg font-semibold hover:bg-[#001489] transition"
+              className="mt-4 sm:mt-2 px-6 py-2 sm:py-3 bg-[#15256E] text-white rounded-lg font-semibold hover:bg-[#001489] transition"
             >
               Enroll Now
             </motion.button>
@@ -120,7 +120,7 @@ const CoursePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="static mt-6 lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52 z-10 flex items-center"
+            className="static sm:mt-6  lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52 z-10 flex items-center"
           >
             <div className="relative w-[300px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto p-1">
               <div className="absolute left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
@@ -139,7 +139,7 @@ const CoursePage = () => {
                 </div>
 
                 <div className="pt-3 space-y-3">
-                  <span className="block text-xl font-bold text-gray-900">
+                  <span className="block text-xl font-bold text-gray-900 text-center">
                     {course.price
                       ? `${course.price.currency || "NGN"} ${
                           course.price.amount || 0
