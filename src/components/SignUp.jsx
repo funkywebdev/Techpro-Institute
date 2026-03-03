@@ -51,7 +51,7 @@ const SignUp = () => {
         payload
       );
 
-      console.log(res);
+     // console.log(res);
 
       toast.success("Account created! Please verify your email 📧");
       localStorage.setItem("verifyEmail", data.email);

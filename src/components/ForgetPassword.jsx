@@ -1,11 +1,9 @@
 
 
 
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HiMail } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../api/axios";
@@ -21,19 +19,13 @@ const ForgetPassword = () => {
   /* ================= SEND OTP ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!email) return toast.error("Email is required");
     if (!email.includes("@")) return toast.error("Enter a valid email");
 
     setLoading(true);
-
     try {
-      const res = await axios.post(
-        "/forgot-password",
-        { email },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
+      const res = await api.post("/forgot-password", { email });
+      console.log(res);
       if (res.data.status) {
         toast.success("Reset code sent to your email 📩");
         setShowModal(true);
@@ -50,7 +42,6 @@ const ForgetPassword = () => {
   /* ================= OTP INPUT LOGIC ================= */
   const handleOtpChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
-
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
@@ -64,24 +55,18 @@ const ForgetPassword = () => {
     if (e.key === "Backspace") {
       e.preventDefault();
       const newOtp = [...otp];
-
       if (newOtp[index]) {
         newOtp[index] = "";
       } else if (index > 0) {
         document.getElementById(`otp-${index - 1}`)?.focus();
         newOtp[index - 1] = "";
       }
-
       setOtp(newOtp);
     }
   };
 
   const handleOtpPaste = (e) => {
-    const pasted = e.clipboardData
-      .getData("text")
-      .replace(/\D/g, "")
-      .slice(0, 6);
-
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
     if (pasted.length === 6) {
       setOtp(pasted.split(""));
       document.getElementById("otp-5")?.focus();
@@ -91,28 +76,16 @@ const ForgetPassword = () => {
   /* ================= VERIFY OTP ================= */
   const handleVerifyOtp = async () => {
     const otpCode = otp.join("");
-
-    if (otpCode.length !== 6) {
-      toast.error("Enter the 6-digit OTP");
-      return;
-    }
+    if (otpCode.length !== 6) return toast.error("Enter the 6-digit OTP");
 
     setVerifying(true);
-
     try {
-      const res = await axios.post(
-        "https://techproinstitute.org/api/verify-otp",
-        { email, otp: otpCode },
-        { headers: { "Content-Type": "application/json" } }
-      );
-
+      const res = await api.post("/verify-otp", { email, otp: otpCode });
+      console.log(res)
       if (res.data.status) {
         toast.success("OTP verified ✅");
         localStorage.setItem("resetEmail", email);
-
-        setTimeout(() => {
-          navigate("/resetpassword");
-        }, 1200);
+        setTimeout(() => navigate("/resetpassword"), 1200);
       } else {
         toast.error(res.data.message || "Invalid OTP");
       }
@@ -121,6 +94,19 @@ const ForgetPassword = () => {
     } finally {
       setVerifying(false);
     }
+  };
+
+  /* ================= AUTO-FOCUS OTP ================= */
+  useEffect(() => {
+    if (showModal) {
+      document.getElementById("otp-0")?.focus();
+    }
+  }, [showModal]);
+
+  /* ================= CLOSE MODAL & CLEAR OTP ================= */
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setOtp(["", "", "", "", "", ""]);
   };
 
   return (
@@ -136,9 +122,7 @@ const ForgetPassword = () => {
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-center mb-2">
-            Forgot Password
-          </h1>
+          <h1 className="text-2xl font-bold text-center mb-2">Forgot Password</h1>
           <p className="text-center text-gray-600 mb-6">
             Enter your email to receive a reset code
           </p>
@@ -152,7 +136,6 @@ const ForgetPassword = () => {
               className="w-full mb-4 p-3 border border-gray-300 rounded"
               placeholder="Enter your Email"
             />
-
             <button
               type="submit"
               disabled={loading}
@@ -175,17 +158,12 @@ const ForgetPassword = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-md rounded-lg p-6 shadow-lg">
-            <h2 className="text-xl font-bold text-center mb-2">
-              Enter Reset Code
-            </h2>
+            <h2 className="text-xl font-bold text-center mb-2">Enter Reset Code</h2>
             <p className="text-center text-gray-600 mb-4">
               Code sent to <span className="font-medium">{email}</span>
             </p>
 
-            <div
-              className="flex justify-center gap-3 mb-5"
-              onPaste={handleOtpPaste}
-            >
+            <div className="flex justify-center gap-3 mb-5" onPaste={handleOtpPaste}>
               {otp.map((digit, index) => (
                 <input
                   key={index}
@@ -193,12 +171,8 @@ const ForgetPassword = () => {
                   type="text"
                   maxLength="1"
                   value={digit}
-                  onChange={(e) =>
-                    handleOtpChange(e.target.value, index)
-                  }
-                  onKeyDown={(e) =>
-                    handleOtpKeyDown(e, index)
-                  }
+                  onChange={(e) => handleOtpChange(e.target.value, index)}
+                  onKeyDown={(e) => handleOtpKeyDown(e, index)}
                   className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15256E]"
                 />
               ))}
@@ -213,7 +187,7 @@ const ForgetPassword = () => {
             </button>
 
             <button
-              onClick={() => setShowModal(false)}
+              onClick={handleCloseModal}
               className="w-full mt-3 text-gray-500 text-sm hover:underline"
             >
               Cancel

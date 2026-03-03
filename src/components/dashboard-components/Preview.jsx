@@ -22,8 +22,15 @@ const Preview = () => {
       const res = await api.get("/v1/modules");
       setModules(res.data.data || []);
     } catch (err) {
-      setError("Failed to fetch modules");
+      console.log(err.response)
+      setError(err.response.data.message);
     }
+     if (error.response.status === 500) {
+      console.log(error.response)
+              toast.error("Failed to load data. Try again.");
+              setUser(null);
+              setCourse(null);
+     }
   };
 
   useEffect(() => {

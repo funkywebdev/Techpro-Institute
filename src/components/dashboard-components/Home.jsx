@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Rectangle4317 from "../../assets/images/Rectangle4317.png";
@@ -88,7 +85,9 @@ const Home = () => {
         const userRes = await api.get("/v1/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         const fetchedUser = userRes.data?.data || null;
+        setUser(fetchedUser);
 
         const enrollmentRes = await api.get("/v1/enrollment/details", {
           headers: { Authorization: `Bearer ${token}` },
@@ -99,18 +98,23 @@ const Home = () => {
         if (enrolledCourse) {
           const courseRes = await api.get(
             `/v1/course-progress/${enrolledCourse.course_id}`,
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${token}` } },
           );
           courseData = courseRes.data?.data || null;
         }
-
-        setUser(fetchedUser);
         setCourse(courseData);
       } catch (error) {
-        console.error("Error loading data:", error);
-        toast.error("Failed to load data. Try again.");
-        setUser(null);
-        setCourse(null);
+        if (error.response.status === 403) {
+        //  console.log(error.response);
+          toast.error(error.response.data.message);
+          setCourse(null);
+        }
+
+        if (error.response.status === 500) {
+          toast.error("Failed to load data. Try again.");
+          setUser(null);
+          setCourse(null);
+        }
       } finally {
         setLoading(false);
       }
@@ -120,6 +124,8 @@ const Home = () => {
   }, []);
 
   if (loading) return <Spinner />;
+
+  
 
   const safeUser = user || {
     firstName: "N/A",
@@ -144,7 +150,10 @@ const Home = () => {
         {/* ENROLLED COURSE */}
         <div className="flex flex-col cursor-pointer">
           <p className="font-bold text-gray-800 mb-2">Enrolled Courses</p>
-          <Link to={progress === 100 ? "/certificate" : "/admincourse"} className="flex-1">
+          <Link
+            to={progress === 100 ? "/certificate" : "/admincourse"}
+            className="flex-1"
+          >
             <div className="bg-white shadow-md rounded-lg p-6 flex gap-4 hover:shadow-lg transition-all">
               <img
                 src={safeCourse.image?.url || Rectangle4317}
@@ -153,14 +162,18 @@ const Home = () => {
               />
               <div className="flex-1 flex flex-col justify-between">
                 <div>
-                  <p className="font-semibold text-gray-800">{safeCourse.title}</p>
+                  <p className="font-semibold text-gray-800">
+                    {safeCourse.title}
+                  </p>
                   <div className="w-full bg-gray-200 rounded-full h-3 mt-3">
                     <div
                       className="bg-[#15256E] h-3 rounded-full transition-all"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">{progress}% completed</p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    {progress}% completed
+                  </p>
                 </div>
                 <button className="mt-3 bg-[#15256E] text-white px-4 py-2 rounded hover:bg-[#0f1f5a] transition w-full cursor-pointer">
                   {progress === 100 ? "Print Certificate" : "Continue Learning"}
@@ -181,8 +194,12 @@ const Home = () => {
             </div>
             {/* PERSONAL INFO */}
             <div className="flex-1 text-sm space-y-2 flex flex-col justify-center text-black">
-              <p className="font-semibold text-gray-800">Personal Information</p>
-              <p>👤 {safeUser.firstName} {safeUser.lastName}</p>
+              <p className="font-semibold text-gray-800">
+                Personal Information
+              </p>
+              <p>
+                👤 {safeUser.firstName} {safeUser.lastName}
+              </p>
               <p>📧 {safeUser.email}</p>
               <p>📞 {safeUser.phone}</p>
               <p>🌍 {safeUser.region}</p>
