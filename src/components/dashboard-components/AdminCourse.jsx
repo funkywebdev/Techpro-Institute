@@ -55,15 +55,6 @@ const AdminCourse = () => {
   return (
     <div className="p-4 md:p-8">
       {/* ================= START FREE COURSE BUTTON ================= */}
-      <div className="flex justify-end mb-6">
-        <Link to="/courses/free-trial">
-          <button className="px-4 py-2 bg-[#15256E] text-white rounded text-sm flex items-center gap-2 hover:bg-[#0f1f5a] transition-colors">
-            Start Free Trail
-          </button>
-        </Link>
-      </div>
-
-      {/* ================= ENROLLED COURSES ================= */}
       <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
         {courses.map((course) => (
           <div

@@ -57,7 +57,7 @@ const Our = () => {
       <div className="py-20 flex justify-center items-center">
         <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
         <span className="ml-4 text-gray-500 text-sm sm:text-base">
-          Loading courses...
+        
         </span>
       </div>
     );

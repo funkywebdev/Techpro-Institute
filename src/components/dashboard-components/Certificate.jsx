@@ -106,7 +106,7 @@ const Certificate = () => {
     setTimeout(() => setVerifying(false), 1000);
   };
 
-  if (loading) return <Spinner size={12} text="Loading certificate…" />;
+  if (loading) return <Spinner size={12} />;
   if (!data) return <p className="text-center mt-10">No certificate available.</p>;
 
   return (
