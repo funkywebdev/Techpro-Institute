@@ -136,6 +136,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Manage from "../assets/images/Manage.png";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const words = ["Certified Scrum Product Owner (CSPO)."];
 
@@ -213,16 +214,20 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             className="flex justify-center md:justify-start mt-4"
           >
-            <button onClick={() => navigate("/dashboard")} className="
+             <Link to="/courses/free-trial" className="
               px-6 py-3 sm:px-7 sm:py-4 
               bg-[#15256E] text-white text-[14px] sm:text-[16px] 
               font-semibold rounded-xl shadow-md hover:shadow-xl 
               transition cursor-pointer
             ">
               Start Free Trial
-            </button>
+             </Link>
           </motion.div>
         </motion.div>
+
+
+        
+
 
         {/* RIGHT IMAGE */}
         <motion.div

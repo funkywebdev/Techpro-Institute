@@ -1,11 +1,7 @@
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import { FiCheckCircle, FiLock, FiChevronDown } from "react-icons/fi";
-import api from "../../api/axios";
+import api from "../api/axios";
 
 /* =======================
    Spinner Component
@@ -105,8 +101,8 @@ const VideoTemplate = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 px-2 sm:px-4 py-6">
+    <div className=" bg-gray-100">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 px-6 sm:px-4 pt-24 py-8 sm:pt-30 ">
 
         {/* ================= LEFT SIDE ================= */}
         <div className="lg:col-span-2">

@@ -17,7 +17,7 @@ import CompletePage from "./pages/CompletePage";
 import TermPage from './pages/TermPage'
 import PrivacyPage from './pages/PrivacyPage'
 import LegalPage from './pages/LegalPage'
-import FreePage from "./pages/dashboard-pages/FreePage";
+import FreePage from "./pages/FreePage";
 import DashboardPage from "./pages/dashboard-pages/DashboardPage";
 import AdminPaymentPage from "./pages/dashboard-pages/AdminPaymentPage";
 import AdminCoursePage from "./pages/dashboard-pages/AdminCoursePage";
