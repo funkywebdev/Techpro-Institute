@@ -249,7 +249,7 @@ const Navbar = () => {
       {/* Beautiful Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden w-full absolute top-full left-0 bg-white/95 shadow-lg backdrop-blur-md">
-          <div className="flex flex-col p-6 gap-6">
+          <div className="flex flex-col p-6 gap-3">
             {/* User info */}
             {user && (
               <div className="flex items-center gap-4 mb-4 border-b border-gray-200 pb-4">
@@ -264,9 +264,9 @@ const Navbar = () => {
             )}
 
             {/* Navigation Links */}
-            <button onClick={() => scrollToSection("hero")} className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition font-medium">Home</button>
-            <button onClick={() => scrollToSection("about")} className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition font-medium">About</button>
-            <Link to="/contact" onClick={() => setMenuOpen(false)} className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition font-medium">Contact</Link>
+            <button onClick={() => scrollToSection("hero")} className="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 transition font-medium">Home</button>
+            <button onClick={() => scrollToSection("about")} className="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 transition font-medium">About</button>
+            <Link to="/contact" onClick={() => setMenuOpen(false)} className="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 transition font-medium">Contact</Link>
 
             {/* Auth Buttons */}
             {!user ? (
@@ -281,9 +281,9 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-                  <button className="w-full px-4 py-3 rounded-lg border border-[#15256E] text-[#15256E] hover:bg-[#15256E] hover:text-white transition font-medium">Dashboard</button>
+                  <button className="w-full px-4 py-2 rounded-lg border border-[#15256E] text-[#15256E] hover:bg-[#15256E] hover:text-white transition font-medium">Dashboard</button>
                 </Link>
-                <button onClick={handleLogout} className="w-full px-4 py-3 rounded-lg border border-[#15256E] text-[#15256E] hover:bg-[#15256E] hover:text-white transition font-medium">Logout</button>
+                <button onClick={handleLogout} className="w-full px-4 py-2 rounded-lg border border-[#15256E] text-[#15256E] hover:bg-[#15256E] hover:text-white transition font-medium">Logout</button>
               </>
             )}
           </div>
