@@ -41,6 +41,12 @@ const CoursePage = () => {
 
         console.log(res);
         setCourse(res.data.data || {});
+
+        console.log("Course data:", res.data.data);
+      console.log("Course overview:", res.data.data?.overview);
+      console.log("Course summary:", res.data.data?.summary);
+      console.log("Course modules:", res.data.data?.modules);
+
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load course data.");
       } finally {
@@ -58,6 +64,9 @@ const CoursePage = () => {
   const handleEnroll = () => {
     navigate(`/signup?course=${slug}`);
   };
+
+
+  
 
   // Spinner for loading
   if (!regionReady || loading) {
@@ -92,7 +101,7 @@ const CoursePage = () => {
           >
             <motion.h1
               variants={fadeInUp}
-              className="text-[18px] sm:text-4xl font-bold text-gray-900"
+              className="text-2xl sm:text-4xl font-bold text-gray-900"
             >
               {course.title || "Untitled Course"}
             </motion.h1>
@@ -119,7 +128,7 @@ const CoursePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="static sm:mt-6 lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-52 z-10 flex items-center"
+            className="static sm:mt-6 lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-62 z-10 flex items-center"
           >
             <div className="relative w-[300px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto p-1">
               <div className="absolute left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
@@ -136,13 +145,42 @@ const CoursePage = () => {
                     "Course Image"
                   )}
                 </div>
+                
+
+                  <section className="">
+                  <div className="">
+                    <h1 className="text-[16px] sm:text-[18px] font-bold text-gray-900 mb-6">
+                      Course Summary
+                    </h1>
+
+                    <div className="space-y-2">
+                      {course.summary?.map((section, idx) => (
+                        <ul key={idx} className="space-y-1">
+                          {section.data.items.map((item, i) => (
+                            <li key={i} className="flex items-center text-gray-700 text-sm sm:text-base">
+                              <IoMdCheckmark className="text-[#15256E] mr-2" />
+                              {item.text}
+                            </li>
+                          ))}
+                        </ul>
+                      ))}
+
+                      {/* If summary is empty */}
+                      {(!course.summary || course.summary.length === 0) && (
+                        <p className="text-gray-500 text-sm">No summary available.</p>
+                      )}
+                    </div>
+                  </div>
+                </section>
+
+              
+             
+
 
                 <div className="pt-3 space-y-3">
-                  <span className="block text-xl font-bold text-gray-900 text-center">
+                  <span className="block text-xl font-bold text-gray-900 text-start">
                     {course.price
-                      ? `${course.price.currency || "NGN"} ${
-                          course.price.amount || 0
-                        }`
+                      ? `${course.price.currency || "NGN"} ${Number(course.price.amount).toLocaleString()}`
                       : "Free"}
                   </span>
 
@@ -170,7 +208,7 @@ const CoursePage = () => {
       <section className="bg-white py-8 sm:py-16 px-8 lg:px-16">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-[18px] sm:text-2xl font-bold text-gray-900 mb-6">
-            Course Summary
+            Course Overview
           </h1>
 
           <div className="space-y-6">
@@ -195,20 +233,6 @@ const CoursePage = () => {
                   ))}
                 </ul>
               </div>
-            ))}
-
-            {course.summary?.map((section, idx) => (
-              <ul key={idx} className="space-y-1">
-                {section.data.items.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center text-gray-700 text-xs sm:text-sm"
-                  >
-                    <IoMdCheckmark className="text-[#15256E] mr-2" />
-                    {item.text}
-                  </li>
-                ))}
-              </ul>
             ))}
           </div>
         </div>

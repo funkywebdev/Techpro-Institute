@@ -9,7 +9,6 @@ import api from "../api/axios";
 const Spinner = ({ text = "Loading…" }) => (
   <div className="min-h-screen flex flex-col items-center justify-center">
     <div className="w-10 h-10 border-4 border-[#001489]/50 border-t-[#001489] rounded-full animate-spin" />
-    {text && <p className="mt-2 text-gray-600">{text}</p>}
   </div>
 );
 
@@ -44,6 +43,10 @@ const VideoTemplate = () => {
 
         setLoading(false);
       } catch (err) {
+           console.log("Full error object:", err);
+          console.log("Error response:", err.response);
+          console.log("Error data:", err.response?.data);
+          console.log("Status code:", err.response?.status);
         console.error(err);
         setError("Failed to load course preview.");
         setLoading(false);
