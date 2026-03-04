@@ -73,9 +73,6 @@ const CoursePage = () => {
     return (
       <div className="py-40 flex flex-col justify-center items-center">
         <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
-        <span className="mt-4 text-gray-500 text-sm sm:text-base">
-          Loading course...
-        </span>
       </div>
     );
   }
@@ -214,7 +211,7 @@ const CoursePage = () => {
           <div className="space-y-6">
             {course.overview?.map((section, idx) => (
               <div key={idx}>
-                <h3 className="font-semibold text-gray-800 text-sm sm:text-base mb-2">
+                <h3 className="font-semibold text-gray-800 text-[17px] sm:text-[20px] mb-2">
                   {section.type === "what_you_learn"
                     ? "What You Will Learn"
                     : section.type === "who_this_course_is_for"
@@ -225,7 +222,7 @@ const CoursePage = () => {
                   {section.data.items.map((item, i) => (
                     <li
                       key={i}
-                      className="flex items-center text-gray-700 text-xs sm:text-sm"
+                      className="flex items-center text-gray-700 text-[14px] sm:text-[16px]"
                     >
                       <IoMdCheckmark className="text-[#15256E] mr-2" />
                       {item.text}
