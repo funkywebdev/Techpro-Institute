@@ -28,6 +28,7 @@ const Video = () => {
 
   const [resources, setResources] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [openNoteId, setOpenNoteId] = useState(null);
   const [usefulLinks, setUsefulLinks] = useState([]);
   const [showFullNote, setShowFullNote] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,10 @@ const Video = () => {
         setLoading(true);
         const res = await api.get(`/v1/modules/${id}`);
         const contents = res.data.data || [];
+
+
+      console.log("Module Data:", contents); // ← LOG EVERYTHING
+
         setResources(contents);
 
         const first = contents.find((r) => r.type === "video");
@@ -92,8 +97,20 @@ const Video = () => {
     navigate(`/quiz/${id}`);
   };
 
-  if (loading) return <p className="p-6">Loading…</p>;
-  if (error) return <p className="p-6 text-red-500">{error}</p>;
+  
+  if (loading)
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+
+if (error)
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <p className="text-red-500 font-semibold text-sm sm:text-base">{error}</p>
+    </div>
+  );
 
   const videoResources = resources.filter((r) => r.type === "video");
   const pdfResources = resources.filter((r) => r.type === "pdf");
@@ -117,29 +134,43 @@ const Video = () => {
               />
             </div>
           )}
-          <div className="bg-white border border-gray-300 rounded-xl p-6 mt-6 shadow-md">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold text-black">Lesson Notes</h2>
-              {selectedItem?.content && (
-                <button
-                  onClick={() => setShowFullNote(!showFullNote)}
-                  className="text-sm font-medium text-[#001489] hover:underline"
-                >
-                  {showFullNote ? "Read less" : "Read more"}
-                </button>
-              )}
-            </div>
-            {selectedItem?.content ? (
-              <div className={`relative prose prose-sm max-w-none text-black transition-all duration-300 ${showFullNote ? "max-h-full" : "max-h-40 overflow-hidden"}`}>
-                <div dangerouslySetInnerHTML={{ __html: selectedItem.content }} />
-                {!showFullNote && (
-                  <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white to-transparent" />
-                )}
-              </div>
-            ) : (
-              <p className="text-gray-400 italic">No lesson notes available for this lesson.</p>
-            )}
-          </div>
+
+<div className="bg-white border border-gray-300 rounded-xl p-6 mt-6 shadow-md">
+  <h2 className="text-lg font-semibold text-black mb-4">Lesson Notes</h2>
+
+  {resources.length === 0 && (
+    <p className="text-gray-400 italic">No lesson notes available.</p>
+  )}
+
+  {resources.map((item) => (
+    <div key={item.id} className="border-b border-gray-200">
+      <button
+        onClick={() =>
+          setOpenNoteId(openNoteId === item.id ? null : item.id)
+        }
+        className="w-full flex justify-between items-center py-3 text-left font-medium text-black hover:bg-gray-50 transition"
+      >
+        <span>{item.title}</span>
+        {openNoteId === item.id ? (
+          <FiChevronUp className="text-gray-600" />
+        ) : (
+          <FiChevronDown className="text-gray-600" />
+        )}
+      </button>
+
+      {openNoteId === item.id && item.content && (
+        <div
+          className="prose prose-sm max-w-none text-black p-4 transition-all duration-300"
+          dangerouslySetInnerHTML={{ __html: item.content }}
+        />
+      )}
+
+      {openNoteId === item.id && !item.content && (
+        <p className="p-4 text-gray-500 italic">No notes for this lesson.</p>
+      )}
+    </div>
+  ))}
+</div>
         </div>
 
         {/* SIDEBAR */}
