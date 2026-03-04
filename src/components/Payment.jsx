@@ -37,13 +37,15 @@ const Payment = () => {
     fetchPaymentSchedule();
   }, [id]);
 
+ 
+
   if (loading) {
-    return (
-      <div className="pt-40 text-center text-gray-600">
-        Loading payment options...
-      </div>
-    );
-  }
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center bg-[#F2F4F8]">
+      <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+}
 
   if (!selectedSchedule) {
     return (
@@ -125,39 +127,29 @@ const handleEnroll = async () => {
               </div>
 
               <p className="text-sm text-gray-600">{schedule.description}</p>
-
               <p className="text-2xl font-bold text-[#15256E]">
-                {schedule.price.currency} {schedule.price.amount}
+                {schedule.price.currency} {Number(schedule.price.amount).toLocaleString()}
               </p>
-
-              {schedule.name.toLowerCase().includes("full") ? (
-                <p className="text-sm text-green-600">
-                  Instant activation after approval
-                </p>
-              ) : (
-                <p className="text-sm text-orange-600">
-                  Remaining balance paid later
-                </p>
-              )}
             </div>
           ))}
         </div>
 
-        {/* Payment Summary */}
-        <div className="bg-[#EEF1FB] rounded-lg p-5 space-y-4">
+
+          <div className="bg-[#EEF1FB] rounded-lg p-5 space-y-4">
           <div className="flex justify-between">
             <p>Course Fee</p>
             <p>
-              {currency} {amount}
+              {currency} {Number(amount).toLocaleString()}
             </p>
           </div>
 
           <div className="flex justify-between font-semibold">
             <p>Total payable now</p>
             <p className="text-[#15256E]">
-              {currency} {amount}
+              {currency} {Number(amount).toLocaleString()}
             </p>
           </div>
+
 
           <hr />
 
@@ -188,7 +180,7 @@ const handleEnroll = async () => {
           disabled={isEnrolling}
           className="w-full bg-[#15256E] text-white py-3 rounded-lg font-semibold hover:bg-[#101B52] transition disabled:opacity-50"
         >
-          {isEnrolling ? "Processing..." : `Pay ${currency} ${amount} Now`}
+          {isEnrolling ? "Processing..." : `Pay ${currency} ${Number(amount).toLocaleString()} Now`}
         </button>
       </div>
     </div>

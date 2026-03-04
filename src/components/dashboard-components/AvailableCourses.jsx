@@ -100,9 +100,9 @@ const AvailableCourses = () => {
                 {/* PRICE */}
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-semibold text-gray-900">
-                    {course.price
-                      ? `${course.price.currency} ${course.price.amount}`
-                      : ""} {/* Removed "Free" */}
+                    {course.price 
+                      ? `${course.price.currency} ${Number(course.price.amount).toLocaleString()}`
+                      : ""} 
                   </span>
                   {course.price?.region && (
                     <span className="text-[10px] px-2 py-0.5 bg-gray-100 rounded-full text-gray-600">
