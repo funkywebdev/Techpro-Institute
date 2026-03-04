@@ -25,6 +25,8 @@ const VideoTemplate = () => {
     const fetchPreview = async () => {
       try {
         const res = await api.get("/v1/courses/scrum-master/preview");
+      
+          console.log("Full Axios Response:", res);
         const courseData = res?.data?.data;
 
         if (!courseData) throw new Error("Invalid course data");
@@ -43,12 +45,8 @@ const VideoTemplate = () => {
 
         setLoading(false);
       } catch (err) {
-           console.log("Full error object:", err);
-          console.log("Error response:", err.response);
-          console.log("Error data:", err.response?.data);
-          console.log("Status code:", err.response?.status);
         console.error(err);
-        setError("Failed to load course preview.");
+         setError(err.response.data.message);
         setLoading(false);
       }
     };

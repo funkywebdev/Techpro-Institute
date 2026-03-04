@@ -3,7 +3,7 @@
 
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useUserRegion } from "../hooks/useUserRegion";
@@ -35,8 +35,8 @@ const Our = () => {
 
     const fetchCourses = async () => {
       try {
-        const res = await axios.get(
-          "https://lms.techproinstitute.org/api/v1/courses"
+        const res = await api.get(
+          "/v1/courses"
         );
         const data = Array.isArray(res.data) ? res.data : res.data.data;
         setCourses(data || []);
@@ -73,7 +73,7 @@ const Our = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="py-8 sm:py-12 px-4 bg-gray-50"
+      className="py-8 sm:py-12 px-2 bg-gray-50"
     >
       <div className="text-center mb-8 sm:mb-10">
         <h1 className="text-lg sm:text-xl md:text-3xl font-bold text-gray-900">
