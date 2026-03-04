@@ -24,7 +24,7 @@ const VideoTemplate = () => {
   useEffect(() => {
     const fetchPreview = async () => {
       try {
-        const res = await api.get("/v1/courses/scrum-master/preview");
+        const res = await api.get("/v1/courses/free");
       
           console.log("Full Axios Response:", res);
         const courseData = res?.data?.data;

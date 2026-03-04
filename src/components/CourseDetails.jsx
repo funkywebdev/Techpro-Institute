@@ -1,6 +1,5 @@
 
 
-
 import React, { useState, useEffect } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { BsChevronDown } from "react-icons/bs";
@@ -42,11 +41,6 @@ const CoursePage = () => {
         console.log(res);
         setCourse(res.data.data || {});
 
-        console.log("Course data:", res.data.data);
-      console.log("Course overview:", res.data.data?.overview);
-      console.log("Course summary:", res.data.data?.summary);
-      console.log("Course modules:", res.data.data?.modules);
-
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load course data.");
       } finally {
@@ -86,7 +80,7 @@ const CoursePage = () => {
   return (
     <div className="bg-[#F3F3FF] relative overflow-hidden">
       {/* HERO */}
-      <section className="relative py-12 px-4 sm:px-8 lg:px-16 pt-[100px] sm:pt-[120px]">
+      <section className="relative py-12 px-6 sm:px-22 pt-[100px] sm:pt-[120px]">
         <div className="max-w-7xl mx-auto grid gap-10 lg:grid-cols-2 items-start">
           {/* LEFT */}
           <motion.div
@@ -162,16 +156,13 @@ const CoursePage = () => {
                         </ul>
                       ))}
 
-                      {/* If summary is empty */}
+                      
                       {(!course.summary || course.summary.length === 0) && (
                         <p className="text-gray-500 text-sm">No summary available.</p>
                       )}
                     </div>
                   </div>
                 </section>
-
-              
-             
 
 
                 <div className="pt-3 space-y-3">
@@ -204,11 +195,10 @@ const CoursePage = () => {
       {/* COURSE SUMMARY */}
       <section className="bg-white py-8 sm:py-16 px-8 lg:px-16">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-[18px] sm:text-2xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
             Course Overview
           </h1>
-
-          <div className="space-y-6">
+          <div className="space-y-6 grid grid-cols-1 sm:grid-cols-4">
             {course.overview?.map((section, idx) => (
               <div key={idx}>
                 <h3 className="font-semibold text-gray-800 text-[17px] sm:text-[20px] mb-2">
@@ -235,49 +225,61 @@ const CoursePage = () => {
         </div>
       </section>
 
-      {/* COURSE MODULES */}
-      <section className="bg-[#F3F3FF] py-8 sm:py-16 px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-[18px] sm:text-2xl font-bold text-gray-900 mb-6">
-            Course Modules
-          </h1>
+<section className="bg-white py-6 sm:py-10 px-6 sm:px-24">
+  <div className="max-w-lg">
+    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+      Course Modules
+    </h1>
 
-          <div className="space-y-4">
-            {course.modules?.length > 0 ? (
-              course.modules.map((module, index) => (
+    <div className="space-y-3">
+      {course.modules?.length > 0 ? (
+        course.modules.map((module, index) => (
+          <div
+            key={module.id || index}
+            className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300"
+          >
+            {/* Header */}
+            <button
+              onClick={() => toggle(index)}
+              aria-expanded={openIndex === index}
+              className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition"
+            >
+              <div className="flex items-center gap-3">
+                
+                {/* Title */}
+                <span className="text-sm sm:text-base font-medium text-gray-800">
+                  {module.title}
+                </span>
+              </div>
+
+              <BsChevronDown
+                className={`text-gray-400 transition-transform duration-300 ${
+                  openIndex === index ? "rotate-180 text-gray-700" : ""
+                }`}
+              />
+            </button>
+
+            {/* Content */}
+            {openIndex === index && module.description && (
+              <div className="border-t border-gray-100 px-5 py-4 bg-white">
                 <div
-                  key={module.id || index}
-                  className="border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden"
-                >
-                  <button
-                    onClick={() => toggle(index)}
-                    aria-expanded={openIndex === index}
-                    className="w-full flex items-center justify-between px-6 py-4 text-left"
-                  >
-                    <span className="text-gray-900 text-sm sm:text-base">
-                      {module.title}
-                    </span>
-                    <BsChevronDown
-                      className={`transition-transform ${
-                        openIndex === index ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-
-                  {openIndex === index && module.description && (
-                    <div
-                      className="px-6 pb-6 text-gray-700 text-sm"
-                      dangerouslySetInnerHTML={{ __html: module.description }}
-                    />
-                  )}
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-xs">No modules available yet.</p>
+                  className="text-sm text-gray-600 leading-relaxed space-y-3"
+                  dangerouslySetInnerHTML={{
+                    __html: module.description,
+                  }}
+                />
+              </div>
             )}
           </div>
-        </div>
-      </section>
+        ))
+      ) : (
+        <p className="text-gray-500 text-sm">
+          No modules available yet.
+        </p>
+      )}
+    </div>
+  </div>
+</section>
     </div>
   );
 };
