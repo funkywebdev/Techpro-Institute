@@ -88,7 +88,7 @@ const CoursePage = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={staggerContainer}
-            className="space-y-3 sm:space-y-6 px-2 text-center sm:text-left"
+            className="space-y-3 sm:space-y-6 text-center sm:text-left"
           >
             <motion.h1
               variants={fadeInUp}
@@ -225,7 +225,7 @@ const CoursePage = () => {
         </div>
       </section>
 
-<section className="bg-white py-6 sm:py-10 px-6 sm:px-24">
+<section className="bg-white py-6 sm:py-10 px-6 sm:px-16 lg:px-20">
   <div className="max-w-lg">
     <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
       Course Modules
@@ -244,10 +244,10 @@ const CoursePage = () => {
               aria-expanded={openIndex === index}
               className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between gap-3">
                 
                 {/* Title */}
-                <span className="text-sm sm:text-base font-medium text-gray-800">
+                <span className="text-[12px] sm:text-[15px] font-medium text-gray-800">
                   {module.title}
                 </span>
               </div>
