@@ -17,7 +17,7 @@ const sections = [
             href="mailto:info@techproinstitute.org"
             className="text-[#15256E] font-medium hover:underline"
           >
-            info@techproinstitute.org
+            support@lms.techproinstitute.org
           </a>
         </div>
         <div>Address: 3a High Street, Gillingham Kent</div>
@@ -88,7 +88,7 @@ const sections = [
             href="mailto:info@techproinstitute.org"
             className="text-[#15256E] font-medium hover:underline"
           >
-            info@techproinstitute.org
+            support@lms.techproinstitute.org
           </a>
         </div>
         <div className="flex items-center gap-2">

@@ -150,7 +150,7 @@ const Contact = () => {
             {/* INFO + MAP + SOCIALS */}
             <div className="space-y-4 lg:col-span-5 text-black">
               {[
-                { icon: <MdEmail />, text: "info@techproinstitute.org" },
+                { icon: <MdEmail />, text: "support@lms.techproinstitute.org" },
                 { icon: <MdPhone />, text: "Australia: +44 7534617780" },
                 { icon: <MdPhone />, text: "UK: +61 435 976 010" },
                 { icon: <MdLocationOn />, text: "3a High Street, Gillingham Kent" },

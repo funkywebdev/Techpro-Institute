@@ -97,7 +97,7 @@ const Footer = () => {
                   href="mailto:info@techproinstitute.org"
                   className="hover:text-white transition"
                 >
-                  info@techproinstitute.org
+                  support@lms.techproinstitute.org
                 </a>
               </li>
 

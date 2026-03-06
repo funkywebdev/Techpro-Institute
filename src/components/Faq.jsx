@@ -61,7 +61,7 @@ const Faq = () => {
 
           <p className="max-w-md mx-auto text-sm text-gray-600 sm:text-base lg:mx-0">
             Still have any questions? Contact our team via{" "}
-            <span className="text-[#F91C0D] font-medium">info@techproinstitute.org</span>
+            <span className="text-[#F91C0D] font-medium">support@lms.techproinstitute.org</span>
           </p>
 
           <button className="mt-3 px-6 py-3 rounded-xl bg-[#F1F1F3] text-[#262626] text-sm font-medium hover:bg-gray-200 transition inline-block">

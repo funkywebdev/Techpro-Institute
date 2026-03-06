@@ -20,7 +20,7 @@ const sections = [
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <FiMail className="text-[#15256E]" />
-          <a href="mailto:info@techproinstitute.org" className="text-[#15256E] font-medium hover:underline">info@techproinstitute.org</a>
+          <a href="mailto:info@techproinstitute.org" className="text-[#15256E] font-medium hover:underline">support@lms.techproinstitute.org</a>
         </div>
         <div className="flex items-center gap-2"><FiPhone className="text-[#15256E]" /><span>UK: +44 7534 617 780</span></div>
         <div className="flex items-center gap-2"><FiPhone className="text-[#15256E]" /><span>Australia: +61 435 976 010</span></div>

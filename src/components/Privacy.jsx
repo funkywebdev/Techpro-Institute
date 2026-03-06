@@ -27,7 +27,7 @@ const sections = [
   { id: "accounts", title: "Registration & Accounts", content: <p>Some services require an account. Keep your credentials safe. Notify us if unauthorized access occurs. Unauthorized copying, hacking, phishing, spamming, or malware distribution is prohibited.</p> },
   { id: "Cookies and Tracking Technologies", title: "Cookies and Tracking Technologies", content: <p>We use cookies and similar technologies to enhance user experience and gather website analytics. You can disable cookies through your browser settings.</p> },
   { id: "Data Security", title: "Data Security", content: <p>We implement industry-standard measures to protect your data from unauthorized access, loss, or misuse. However, no online transmission is completely secure.</p> },
-  { id: "Your Rights", title: "Your Rights", content: <p>You have the right to: Access, update, or delete your personal information. Opt out of marketing communications. For any requests, contact us at info@techproinstitute.org</p> },
+  { id: "Your Rights", title: "Your Rights", content: <p>You have the right to: Access, update, or delete your personal information. Opt out of marketing communications. For any requests, contact us at support@lms.techproinstitute.org</p> },
   { id: "Third-Party Services", title: "Third-Party Services", content: <p>Our website may link to external services or platforms. TechPro is not responsible for their privacy practices. Please review their privacy policies.</p> },
   { id: "Policy Updates", title: "Policy Updates", content: <p>This Privacy Policy may be updated periodically. Continued use of our services constitutes acceptance of the revised terms. For questions or concerns, contact the number below on contact us.</p> },
   {
@@ -37,7 +37,7 @@ const sections = [
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <FiMail className="text-[#15256E]" />
-          <a href="mailto:info@techproinstitute.org" className="text-[#15256E] font-medium hover:underline">info@techproinstitute.org</a>
+          <a href="mailto:info@techproinstitute.org" className="text-[#15256E] font-medium hover:underline">support@lms.techproinstitute.org</a>
         </div>
         <div className="flex items-center gap-2"><FiPhone className="text-[#15256E]" /><span>UK: +44 7534 617 780</span></div>
         <div className="flex items-center gap-2"><FiPhone className="text-[#15256E]" /><span>Australia: +61 435 976 010</span></div>
