@@ -151,8 +151,9 @@ const Contact = () => {
             <div className="space-y-4 lg:col-span-5 text-black">
               {[
                 { icon: <MdEmail />, text: "support@lms.techproinstitute.org" },
-                { icon: <MdPhone />, text: "Australia: +44 7534617780" },
+                { icon: <MdPhone />, text: "Australia:  0390883396" },
                 { icon: <MdPhone />, text: "UK: +61 435 976 010" },
+                  { icon: <MdPhone />, text: "Nigeria: +2348086478810" },
                 { icon: <MdLocationOn />, text: "3a High Street, Gillingham Kent" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 p-4 rounded-xl">

@@ -97,7 +97,7 @@ const sections = [
         </div>
         <div className="flex items-center gap-2">
           <FiPhone className="text-[#15256E]" />
-          <span>Australia: +61 435 976 010</span>
+          <span>Australia:  0390883396</span>
         </div>
         <div className="flex items-center gap-2">
           <FiPhone className="text-[#15256E]" />

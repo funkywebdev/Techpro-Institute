@@ -13,16 +13,16 @@ const Footer = () => {
       
       {/* MAIN CONTENT */}
       <div className="pt-12 pb-8 px-6 sm:px-10 md:px-16">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-16">
 
           {/* LOGO & ABOUT */}
           <div>
             <img
               src={techprologo}
               alt="TechPro Logo"
-              className="w-40 -mt-4"
+              className="w-40 -mt-4 -translate-4"
             />
-            <p className="text-sm leading-snug text-gray-300 max-w-xs -mt-6">
+            <p className="text-sm leading-snug text-gray-300 max-w-xs -mt-8">
               TechPro Institute helps learners gain practical, industry-ready
               tech skills and globally recognized certifications.
             </p>
@@ -117,7 +117,7 @@ const Footer = () => {
                   href="tel:+61435976010"
                   className="hover:text-white transition"
                 >
-                  Australia: +61 435 976 010
+                  Australia: 0390883396
                 </a>
               </li>
 
