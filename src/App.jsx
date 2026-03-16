@@ -122,6 +122,7 @@ import ModulePage from "./pages/dashboard-pages/ModulePage";
 import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
 import QuizPage from "./pages/dashboard-pages/QuizPage";
 import Preview from "./components/dashboard-components/Preview";
+import QuizreviewPage from "./pages/dashboard-pages/quizreviewPage";
 
 const App = () => {
   return (
@@ -159,6 +160,7 @@ const App = () => {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/legal" element={<LegalPage />} />
         <Route path="/courses/free-trial" element={<FreePage />} />
+        {/* <Route path="/quiz-review/:attemptId" element={<QuizReview />} /> */}
 
         {/* Protected Routes */}
         <Route
@@ -222,6 +224,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <QuizPage />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/quiz-review/:attemptId"
+          element={
+            <ProtectedRoute>
+              <QuizreviewPage />
             </ProtectedRoute>
           }
         />

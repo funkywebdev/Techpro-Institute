@@ -182,8 +182,8 @@ const SignUp = () => {
                 className="mt-1 accent-[#15256E]"
               />
               <span className="text-black">
-                I agree with the <span className="text-blue-600">Terms of Use</span> and{" "}
-                <span className="text-blue-600">Privacy Policy</span>
+                I agree with the <span className="text-[#15256E]">Terms of Use</span> and{" "}
+                <span className="text-[#15256E]">Privacy Policy</span>
               </span>
             </label>
 

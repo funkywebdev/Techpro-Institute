@@ -1,63 +1,786 @@
-import React, { useEffect, useState } from "react"; 
+// import React, { useEffect, useState } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import { AiOutlineFilePdf } from "react-icons/ai";
+// import { FiCheckCircle, FiLink, FiChevronDown, FiChevronUp } from "react-icons/fi";
+// import api from "../../api/axios";
+// import { toast } from "react-toastify"; // Ensure react-toastify is installed
+
+// const COMPLETED_KEY = "completedModules";
+
+// // Helpers for module completion
+// const getCompletedModules = () =>
+//   JSON.parse(localStorage.getItem(COMPLETED_KEY)) || [];
+
+// const markModuleCompleted = (moduleId) => {
+//   const completed = getCompletedModules();
+//   if (!completed.includes(moduleId)) {
+//     localStorage.setItem(
+//       COMPLETED_KEY,
+//       JSON.stringify([...completed, moduleId])
+//     );
+//   }
+// };
+
+// const Video = () => {
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+
+//   const [resources, setResources] = useState([]);
+//   const [selectedItem, setSelectedItem] = useState(null);
+//   const [openNoteId, setOpenNoteId] = useState(null);
+//   const [usefulLinks, setUsefulLinks] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+//   const [bestAttempt, setBestAttempt] = useState(null);
+//   const [loadingBest, setLoadingBest] = useState(false);
+//   const [openSection, setOpenSection] = useState("videos"); // accordion
+//   const [showModal, setShowModal] = useState(false);
+
+//   // Fetch module data
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         const res = await api.get(`/v1/modules/${id}`);
+//         const contents = res.data.data || [];
+//         setResources(contents);
+
+//         const firstVideo = contents.find(r => r.type === "video");
+//         if (firstVideo) setSelectedItem(firstVideo);
+
+//         const linksRes = await api.get(`/v1/course/useful-links`);
+
+//         console.log("Useful links API response:", linksRes);
+//         console.log("Useful links data:", linksRes.data?.data);
+
+//         setUsefulLinks(linksRes.data?.data || []);
+//       } catch (err) {
+//         console.error(err);
+//         setError("Failed to load module content");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchData();
+//   }, [id]);
+
+//   // Mark module content complete
+//   const handleCheckboxClick = async (item) => {
+//     if (item.is_completed) return;
+//     try {
+//       await api.post(`/v1/module-contents/${item.id}/complete`);
+//       setResources(prev =>
+//         prev.map(r => (r.id === item.id ? { ...r, is_completed: true } : r))
+//       );
+//     } catch (err) {
+//       console.error(err);
+//       toast.error("Failed to mark lesson complete");
+//     }
+//   };
+
+//   const handlePdfClick = (pdf) => {
+//     if (pdf.data?.url) {
+//       window.open(pdf.data.url, "_blank");
+//       handleCheckboxClick(pdf);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (resources.length > 0 && resources.every(r => r.is_completed)) {
+//       markModuleCompleted(Number(id));
+//     }
+//   }, [resources, id]);
+
+//   const allCompleted = resources.every(r => r.is_completed);
+//   const goToQuiz = () => {
+//     if (!allCompleted) return;
+//     navigate(`/quiz/${id}`);
+//   };
+
+//   // Fetch best quiz attempt
+//   const viewBestAttempt = async () => {
+//     setLoadingBest(true);
+//     try {
+//       const res = await api.get(`/v1/quiz/${id}/score`);
+//       if (res.data.status) {
+//         setBestAttempt(res.data.data);
+//         setShowModal(true);
+//         toast.success("Best attempt fetched!");
+//       }
+//     } catch (err) {
+//       console.error(err);
+//       toast.error("Could not fetch best attempt");
+//     } finally {
+//       setLoadingBest(false);
+//     }
+//   };
+
+//   const toggleSection = (section) => {
+//     setOpenSection(openSection === section ? null : section);
+//   };
+
+//   if (loading)
+//     return (
+//       <div className="flex flex-col items-center justify-center min-h-screen">
+//         <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
+//       </div>
+//     );
+
+//   if (error)
+//     return (
+//       <div className="flex flex-col items-center justify-center min-h-screen">
+//         <p className="text-sm font-semibold text-red-500">{error}</p>
+//       </div>
+//     );
+
+//   const videoResources = resources.filter(r => r.type === "video");
+//   const pdfResources = resources.filter(r => r.type === "pdf");
+
+//   return (
+//     <div className="min-h-screen bg-gray-100">
+//       <div className="grid grid-cols-1 gap-6 px-2 py-6 mx-auto max-w-7xl lg:grid-cols-3 sm:px-4">
+//         {/* VIDEO PLAYER + LESSON NOTES */}
+//         <div className="lg:col-span-2">
+//           {selectedItem?.type === "video" && (
+//             <div className="bg-black aspect-video">
+//               <video
+//                 src={selectedItem.data.url}
+//                 controls
+//                 className="w-full h-full"
+//                 onEnded={() => handleCheckboxClick(selectedItem)}
+//               />
+//             </div>
+//           )}
+
+//           <div className="p-6 mt-6 bg-white border border-gray-300 shadow-md rounded-xl">
+//             <h2 className="mb-4 text-lg font-semibold text-black">Lesson Notes</h2>
+
+//             {resources.length === 0 && (
+//               <p className="italic text-gray-400">No lesson notes available.</p>
+//             )}
+
+//             {resources.map(item => (
+//               <div key={item.id} className="border-b border-gray-200">
+//                 <button
+//                   onClick={() => setOpenNoteId(openNoteId === item.id ? null : item.id)}
+//                   className="flex items-center justify-between w-full py-3 font-medium text-left text-black transition hover:bg-gray-50"
+//                 >
+//                   <span className="whitespace-nowrap">{item.title}</span>
+//                   {openNoteId === item.id ? <FiChevronUp className="text-gray-600" /> : <FiChevronDown className="text-gray-600" />}
+//                 </button>
+
+//                 {openNoteId === item.id && item.content && (
+//                   <div
+//                     className="p-4 overflow-x-auto prose-sm prose text-black transition-all duration-300 max-w-none whitespace-nowrap"
+//                     dangerouslySetInnerHTML={{ __html: item.content }}
+//                   />
+//                 )}
+//                 {openNoteId === item.id && !item.content && (
+//                   <p className="p-4 italic text-gray-500">No notes for this lesson.</p>
+//                 )}
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* SIDEBAR */}
+//         <div className="sticky flex flex-col bg-white border border-gray-300 h-fit top-6">
+//           <div className="px-4 py-3 font-semibold text-black border-b border-gray-300">
+//             Module Content
+//           </div>
+
+//           {/* ACCORDION: Videos */}
+//           <div className="border-b border-gray-300">
+//             <button
+//               onClick={() => toggleSection("videos")}
+//               className="flex items-center justify-between w-full px-4 py-3 font-medium text-black hover:bg-gray-50"
+//             >
+//               Videos
+//               {openSection === "videos" ? <FiChevronUp /> : <FiChevronDown />}
+//             </button>
+//             {openSection === "videos" && (
+//               <div className="divide-y">
+//                 {videoResources.map((item, idx) => (
+//                   <button
+//                     key={item.id}
+//                     onClick={() => setSelectedItem(item)}
+//                     className={`w-full px-4 py-3 flex gap-3 text-left text-black hover:bg-gray-50 ${selectedItem?.id === item.id ? "bg-gray-100" : ""}`}
+//                   >
+//                     <input
+//                       type="checkbox"
+//                       readOnly
+//                       checked={item.is_completed}
+//                       onClick={e => { e.stopPropagation(); handleCheckboxClick(item); }}
+//                       className="mt-1 accent-[#001489]"
+//                     />
+//                     <div>
+//                       <p className="text-sm font-medium">{idx + 1}. {item.title}</p>
+//                       <p className="text-xs text-gray-500">Video lesson</p>
+//                     </div>
+//                   </button>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+
+//           {/* ACCORDION: PDFs */}
+//           {pdfResources.length > 0 && (
+//             <div className="border-b border-gray-300">
+//               <button
+//                 onClick={() => toggleSection("pdfs")}
+//                 className="flex items-center justify-between w-full px-4 py-3 font-medium text-black hover:bg-gray-50"
+//               >
+//                 Resources
+//                 {openSection === "pdfs" ? <FiChevronUp /> : <FiChevronDown />}
+//               </button>
+//               {openSection === "pdfs" && (
+//                 <div className="p-4 space-y-2">
+//                   {pdfResources.map(file => (
+//                     <button
+//                       key={file.id}
+//                       onClick={() => handlePdfClick(file)}
+//                       className="flex items-center gap-2 text-sm hover:text-[#001489] text-black"
+//                     >
+//                       <input
+//                         type="checkbox"
+//                         readOnly
+//                         checked={file.is_completed}
+//                         onClick={e => { e.stopPropagation(); handleCheckboxClick(file); }}
+//                         className="accent-[#001489]"
+//                       />
+//                       <AiOutlineFilePdf className="text-[#001489]" />
+//                       {file.title}
+//                       {file.is_completed && <FiCheckCircle className="ml-1 text-[#001489]" />}
+//                     </button>
+//                   ))}
+//                 </div>
+//               )}
+//             </div>
+//           )}
+
+//           {/* ACCORDION: Useful Links */}
+//           {usefulLinks.length > 0 && (
+//             <div className="border-b border-gray-300">
+//               <button
+//                 onClick={() => toggleSection("links")}
+//                 className="flex items-center justify-between w-full px-4 py-3 font-medium text-black hover:bg-gray-50"
+//               >
+//                 Useful Links
+//                 {openSection === "links" ? <FiChevronUp /> : <FiChevronDown />}
+//               </button>
+//               {openSection === "links" && (
+//                 <div className="p-4 space-y-2">
+//                   {usefulLinks.map(link => (
+//                     <a
+//                       key={link.id}
+//                       href={link.url}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                       className="flex items-center gap-2 text-sm text-[#001489] hover:underline"
+//                     >
+//                       <FiLink /> {link.title}
+//                     </a>
+//                   ))}
+//                 </div>
+//               )}
+//             </div>
+//           )}
+
+//           {/* QUIZ ACTIONS */}
+//           <div className="flex flex-col gap-2 p-4 border-gray-300 sm:flex-row">
+//             <button
+//               onClick={goToQuiz}
+//               disabled={!allCompleted}
+//               className={`flex-1 px-4 py-1 text-sm font-medium rounded-lg transition text-center ${
+//                 allCompleted
+//                   ? "bg-[#001489] hover:bg-[#000f5a] text-white"
+//                   : "bg-gray-300 cursor-not-allowed text-gray-600"
+//               }`}
+//             >
+//               {allCompleted ? "Take Quiz" : "Complete all lessons"}
+//             </button>
+
+//             <button
+//               onClick={viewBestAttempt}
+//               disabled={loadingBest}
+//               className="flex-1 px-4 py-2 text-sm font-medium rounded-lg border border-[#001489] text-[#001489] hover:bg-[#001489] hover:text-white transition text-center"
+//             >
+//               {loadingBest ? "Loading..." : "View Attempt"}
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* BEST ATTEMPT MODAL */}
+//       {showModal && bestAttempt && (
+//         <div
+//           className="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-200 bg-black bg-opacity-50"
+//           onClick={() => setShowModal(false)}
+//         >
+//           <div
+//             className="relative w-11/12 max-w-md p-6 transition-all duration-200 transform scale-100 bg-white shadow-lg rounded-xl"
+//             onClick={e => e.stopPropagation()}
+//           >
+//             <button
+//               className="absolute text-2xl font-bold text-gray-500 top-3 right-3 hover:text-gray-800"
+//               onClick={() => setShowModal(false)}
+//             >
+//               ×
+//             </button>
+//             <h2 className="mb-4 text-xl font-semibold">Best Attempt</h2>
+//             <p><strong>Score:</strong> {bestAttempt.score}</p>
+//             <p><strong>Percentage:</strong> {bestAttempt.percentage}%</p>
+//             <p>{bestAttempt.passed ? "✅ Passed" : "❌ Failed"}</p>
+//             <p><strong>Attempt #:</strong> {bestAttempt.attempt_number}</p>
+//             <p><strong>Submitted At:</strong> {bestAttempt.submitted_at}</p>
+//             <button
+//               onClick={() => setShowModal(false)}
+//               className="mt-4 w-full py-2 bg-[#001489] text-white rounded-lg hover:bg-[#000f5a] transition"
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Video;
+
+// import React, { useEffect, useState } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import { AiOutlineFilePdf } from "react-icons/ai";
+// import { FiCheckCircle, FiLink, FiChevronDown, FiChevronUp } from "react-icons/fi";
+// import api from "../../api/axios";
+// import { toast } from "react-toastify";
+
+// const COMPLETED_KEY = "completedModules";
+
+// // Helpers for module completion
+// const getCompletedModules = () => JSON.parse(localStorage.getItem(COMPLETED_KEY)) || [];
+// const markModuleCompleted = (moduleId) => {
+//   const completed = getCompletedModules();
+//   if (!completed.includes(moduleId)) {
+//     localStorage.setItem(COMPLETED_KEY, JSON.stringify([...completed, moduleId]));
+//   }
+// };
+
+// const Video = () => {
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+
+//   const [resources, setResources] = useState([]);
+//   const [selectedItem, setSelectedItem] = useState(null);
+//   const [openNoteId, setOpenNoteId] = useState(null);
+//   const [usefulLinks, setUsefulLinks] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+//   const [bestAttempt, setBestAttempt] = useState(null);
+//   const [loadingBest, setLoadingBest] = useState(false);
+//   const [openSection, setOpenSection] = useState("videos");
+//   const [showModal, setShowModal] = useState(false);
+
+//   // Fetch module data
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         const res = await api.get(`/v1/modules/${id}`);
+//         const contents = res.data.data || [];
+//         setResources(contents);
+
+//         const firstVideo = contents.find(r => r.type === "video");
+//         if (firstVideo) setSelectedItem(firstVideo);
+
+//         const linksRes = await api.get(`/v1/course/useful-links`);
+//         setUsefulLinks(linksRes.data?.data || []);
+//       } catch (err) {
+//         console.error(err);
+//         setError("Failed to load module content");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchData();
+//   }, [id]);
+
+//   // Mark module content complete
+//   const handleCheckboxClick = async (item) => {
+//     if (item.is_completed) return;
+//     try {
+//       await api.post(`/v1/module-contents/${item.id}/complete`);
+//       setResources(prev => prev.map(r => r.id === item.id ? { ...r, is_completed: true } : r));
+//     } catch (err) {
+//       console.error(err);
+//       toast.error("Failed to mark lesson complete");
+//     }
+//   };
+
+//   const handlePdfClick = (pdf) => {
+//     if (pdf.data?.url) {
+//       window.open(pdf.data.url, "_blank");
+//       handleCheckboxClick(pdf);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (resources.length > 0 && resources.every(r => r.is_completed)) {
+//       markModuleCompleted(Number(id));
+//     }
+//   }, [resources, id]);
+
+//   const allCompleted = resources.every(r => r.is_completed);
+//   const completionPercent = Math.round((resources.filter(r => r.is_completed).length / resources.length) * 100);
+
+//   const goToQuiz = () => {
+//     if (!allCompleted) return;
+//     navigate(`/quiz/${id}`);
+//   };
+
+//   const viewBestAttempt = async () => {
+//     setLoadingBest(true);
+//     try {
+//       const res = await api.get(`/v1/quiz/${id}/score`);
+//       if (res.data.status) {
+//         setBestAttempt(res.data.data);
+//         setShowModal(true);
+//         toast.success("Best attempt fetched!");
+//       }
+//     } catch (err) {
+//       console.error(err);
+//       toast.error("Could not fetch best attempt");
+//     } finally {
+//       setLoadingBest(false);
+//     }
+//   };
+
+//   const toggleSection = (section) => {
+//     setOpenSection(openSection === section ? null : section);
+//   };
+
+//   if (loading) return (
+//     <div className="flex items-center justify-center min-h-screen">
+//       <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
+//     </div>
+//   );
+
+//   if (error) return (
+//     <div className="flex items-center justify-center min-h-screen">
+//       <p className="text-sm font-semibold text-red-500">{error}</p>
+//     </div>
+//   );
+
+//   const videoResources = resources.filter(r => r.type === "video");
+//   const pdfResources = resources.filter(r => r.type === "pdf");
+
+//   return (
+//     <div className="min-h-screen bg-gray-100">
+//       <div className="gap-6 px-4 py-6 mx-auto max-w-7xl lg:grid lg:grid-cols-3">
+
+//         {/* LEFT: Video + Lesson Notes */}
+//         <div className="space-y-6 lg:col-span-2">
+
+//           {/* Video Player */}
+//           {selectedItem?.type === "video" && (
+//             <div className="overflow-hidden bg-black shadow-md aspect-video rounded-xl">
+//               <video
+//                 src={selectedItem.data.url}
+//                 controls
+//                 className="w-full h-full"
+//                 onEnded={() => handleCheckboxClick(selectedItem)}
+//               />
+//             </div>
+//           )}
+
+//           {/* Progress Bar */}
+//           <div className="w-full h-3 overflow-hidden bg-gray-200 rounded-full shadow-inner">
+//             <div
+//               className="h-3 bg-[#001489] transition-all duration-500"
+//               style={{ width: `${completionPercent}%` }}
+//             />
+//           </div>
+//           <p className="mt-1 text-sm font-medium text-gray-700">
+//             {completionPercent}% completed
+//           </p>
+
+//           {/* Lesson Notes */}
+//           <div className="p-6 bg-white border border-gray-300 shadow-md rounded-xl">
+//             <h2 className="mb-4 text-lg font-semibold text-black">Lesson Notes</h2>
+//             {resources.length === 0 && (
+//               <p className="italic text-gray-400">No lesson notes available.</p>
+//             )}
+
+//             {resources.map(item => (
+//               <div key={item.id} className="border-b border-gray-200 last:border-none">
+//                 <button
+//                   onClick={() => {
+//                     const newOpenId = openNoteId === item.id ? null : item.id;
+//                     setOpenNoteId(newOpenId);
+//                     if (newOpenId && !item.is_completed) handleCheckboxClick(item);
+//                     setSelectedItem(item.type === "video" ? item : selectedItem);
+//                   }}
+//                   className="flex items-center justify-between w-full py-3 font-medium text-left text-black transition hover:bg-gray-50"
+//                 >
+//                   <span className="flex items-center gap-2">
+//                     {item.is_completed && <FiCheckCircle className="text-[#001489]" />}
+//                     {item.title}
+//                   </span>
+//                   {openNoteId === item.id ? <FiChevronUp /> : <FiChevronDown />}
+//                 </button>
+
+//                 {openNoteId === item.id && item.content && (
+//                   <div
+//                     className="p-4 prose-sm prose text-gray-800 transition-all duration-300 max-w-none"
+//                     dangerouslySetInnerHTML={{ __html: item.content }}
+//                   />
+//                 )}
+//                 {openNoteId === item.id && !item.content && (
+//                   <p className="p-4 italic text-gray-500">No notes for this lesson.</p>
+//                 )}
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* RIGHT: Sidebar */}
+//         <div className="sticky flex flex-col p-4 space-y-4 bg-white border border-gray-300 shadow-md top-6 rounded-xl">
+//           <div className="pb-2 mb-2 font-semibold text-black border-b border-gray-300">Module Content</div>
+
+//           {/* Videos Accordion */}
+//           <div className="border-b border-gray-200">
+//             <button
+//               onClick={() => toggleSection("videos")}
+//               className="flex items-center justify-between w-full py-3 font-medium text-black hover:bg-gray-50"
+//             >
+//               Videos
+//               {openSection === "videos" ? <FiChevronUp /> : <FiChevronDown />}
+//             </button>
+//             {openSection === "videos" && (
+//               <div className="divide-y">
+//                 {videoResources.map((item, idx) => (
+//                   <button
+//                     key={item.id}
+//                     onClick={() => setSelectedItem(item)}
+//                     className={`w-full px-4 py-3 flex gap-3 text-left text-black hover:bg-gray-50 rounded-md ${selectedItem?.id === item.id ? "bg-gray-100" : ""}`}
+//                   >
+//                     <input
+//                       type="checkbox"
+//                       readOnly
+//                       checked={item.is_completed}
+//                       onClick={e => { e.stopPropagation(); handleCheckboxClick(item); }}
+//                       className="mt-1 accent-[#001489]"
+//                     />
+//                     <div>
+//                       <p className="text-sm font-medium">{idx + 1}. {item.title}</p>
+//                       <p className="text-xs text-gray-500">Video lesson</p>
+//                     </div>
+//                   </button>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+
+//           {/* PDFs Accordion */}
+//           {pdfResources.length > 0 && (
+//             <div className="border-b border-gray-200">
+//               <button
+//                 onClick={() => toggleSection("pdfs")}
+//                 className="flex items-center justify-between w-full py-3 font-medium text-black hover:bg-gray-50"
+//               >
+//                 Resources
+//                 {openSection === "pdfs" ? <FiChevronUp /> : <FiChevronDown />}
+//               </button>
+//               {openSection === "pdfs" && (
+//                 <div className="p-2 space-y-2">
+//                   {pdfResources.map(file => (
+//                     <button
+//                       key={file.id}
+//                       onClick={() => handlePdfClick(file)}
+//                       className="flex items-center gap-2 text-sm hover:text-[#001489] text-black w-full"
+//                     >
+//                       <input
+//                         type="checkbox"
+//                         readOnly
+//                         checked={file.is_completed}
+//                         onClick={e => { e.stopPropagation(); handleCheckboxClick(file); }}
+//                         className="accent-[#001489]"
+//                       />
+//                       <AiOutlineFilePdf className="text-[#001489]" />
+//                       {file.title}
+//                       {file.is_completed && <FiCheckCircle className="ml-1 text-[#001489]" />}
+//                     </button>
+//                   ))}
+//                 </div>
+//               )}
+//             </div>
+//           )}
+
+//           {/* Useful Links Accordion */}
+//           {usefulLinks.length > 0 && (
+//             <div className="border-b border-gray-200">
+//               <button
+//                 onClick={() => toggleSection("links")}
+//                 className="flex items-center justify-between w-full py-3 font-medium text-black hover:bg-gray-50"
+//               >
+//                 Useful Links
+//                 {openSection === "links" ? <FiChevronUp /> : <FiChevronDown />}
+//               </button>
+//               {openSection === "links" && (
+//                 <div className="p-2 space-y-2">
+//                   {usefulLinks.map(link => (
+//                     <a
+//                       key={link.id}
+//                       href={link.url}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                       className="flex items-center gap-2 text-sm text-[#001489] hover:underline"
+//                     >
+//                       <FiLink /> {link.title}
+//                     </a>
+//                   ))}
+//                 </div>
+//               )}
+//             </div>
+//           )}
+
+//           {/* Quiz Actions */}
+//           <div className="flex flex-col gap-2 sm:flex-row">
+//             <button
+//               onClick={goToQuiz}
+//               disabled={!allCompleted}
+//               className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition text-center ${
+//                 allCompleted
+//                   ? "bg-[#001489] hover:bg-[#000f5a] text-white"
+//                   : "bg-gray-300 cursor-not-allowed text-gray-600"
+//               }`}
+//             >
+//               {allCompleted ? "Take Quiz" : "Complete all lessons"}
+//             </button>
+
+//             <button
+//               onClick={viewBestAttempt}
+//               disabled={loadingBest}
+//               className="flex-1 px-4 py-2 text-sm font-medium rounded-lg border border-[#001489] text-[#001489] hover:bg-[#001489] hover:text-white transition"
+//             >
+//               {loadingBest ? "Loading..." : "View Attempt"}
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* BEST ATTEMPT MODAL */}
+//       {showModal && bestAttempt && (
+//         <div
+//           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+//           onClick={() => setShowModal(false)}
+//         >
+//           <div
+//             className="relative w-11/12 max-w-md p-6 bg-white shadow-lg rounded-xl"
+//             onClick={e => e.stopPropagation()}
+//           >
+//             <button
+//               className="absolute text-2xl font-bold text-gray-500 top-3 right-3 hover:text-gray-800"
+//               onClick={() => setShowModal(false)}
+//             >
+//               ×
+//             </button>
+//             <h2 className="mb-4 text-xl font-semibold">Best Attempt</h2>
+//             <p><strong>Score:</strong> {bestAttempt.score}</p>
+//             <p><strong>Percentage:</strong> {bestAttempt.percentage}%</p>
+//             <p>{bestAttempt.passed ? "✅ Passed" : "❌ Failed"}</p>
+//             <p><strong>Attempt #:</strong> {bestAttempt.attempt_number}</p>
+//             <p><strong>Submitted At:</strong> {bestAttempt.submitted_at}</p>
+//             <button
+//               onClick={() => setShowModal(false)}
+//               className="mt-4 w-full py-2 bg-[#001489] text-white rounded-lg hover:bg-[#000f5a] transition"
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Video;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
-import { FiCheckCircle, FiLink, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import {
+  FiCheckCircle,
+  FiLink,
+  FiChevronDown,
+  FiChevronUp,
+} from "react-icons/fi";
 import api from "../../api/axios";
+import { toast } from "react-toastify";
 
 const COMPLETED_KEY = "completedModules";
 
-// Helpers for module completion
 const getCompletedModules = () =>
   JSON.parse(localStorage.getItem(COMPLETED_KEY)) || [];
-
 const markModuleCompleted = (moduleId) => {
   const completed = getCompletedModules();
   if (!completed.includes(moduleId)) {
     localStorage.setItem(
       COMPLETED_KEY,
-      JSON.stringify([...completed, moduleId])
+      JSON.stringify([...completed, moduleId]),
     );
   }
 };
 
 const Video = () => {
   const { id } = useParams();
-
-  console.log(id);
   const navigate = useNavigate();
 
   const [resources, setResources] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [openNoteId, setOpenNoteId] = useState(null);
   const [usefulLinks, setUsefulLinks] = useState([]);
-  const [showFullNote, setShowFullNote] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [bestAttempt, setBestAttempt] = useState(null);
+  const [loadingBest, setLoadingBest] = useState(false);
+  const [openSection, setOpenSection] = useState("videos");
+  const [showModal, setShowModal] = useState(false);
 
-  // Accordion state
-  const [openSection, setOpenSection] = useState("videos"); // "videos", "pdfs", "links"
-
-  // ================= FETCH MODULE DATA =================
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const res = await api.get(`/v1/modules/${id}`);
         const contents = res.data.data || [];
-
-
-      console.log("Module Data:", contents); // ← LOG EVERYTHING
-
         setResources(contents);
 
-        const first = contents.find((r) => r.type === "video");
-        if (first) setSelectedItem(first);
+        const firstVideo = contents.find((r) => r.type === "video");
+        if (firstVideo) setSelectedItem(firstVideo);
 
         const linksRes = await api.get(`/v1/course/useful-links`);
+
+      
         setUsefulLinks(linksRes.data?.data || []);
       } catch (err) {
-        console.error("Error fetching module data:", err);
-        setError("Failed to load module content");
+        console.error(err.response);
+        setError(err.response.data.message);
       } finally {
         setLoading(false);
       }
@@ -65,16 +788,16 @@ const Video = () => {
     fetchData();
   }, [id]);
 
-  // ================= MARK LESSON COMPLETE =================
   const handleCheckboxClick = async (item) => {
     if (item.is_completed) return;
     try {
       await api.post(`/v1/module-contents/${item.id}/complete`);
       setResources((prev) =>
-        prev.map((r) => (r.id === item.id ? { ...r, is_completed: true } : r))
+        prev.map((r) => (r.id === item.id ? { ...r, is_completed: true } : r)),
       );
     } catch (err) {
-      console.error(`Failed to mark ${item.type} complete:`, err);
+      console.error(err);
+      toast.error("Failed to mark lesson complete");
     }
   };
 
@@ -86,46 +809,66 @@ const Video = () => {
   };
 
   useEffect(() => {
-    if (resources.length > 0 && resources.every(r => r.is_completed)) {
+    if (resources.length > 0 && resources.every((r) => r.is_completed)) {
       markModuleCompleted(Number(id));
     }
   }, [resources, id]);
 
   const allCompleted = resources.every((r) => r.is_completed);
+  const completionPercent = Math.round(
+    (resources.filter((r) => r.is_completed).length / resources.length) * 100,
+  );
+
   const goToQuiz = () => {
     if (!allCompleted) return;
     navigate(`/quiz/${id}`);
   };
 
-  
-  if (loading)
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
-    </div>
-  );
+  const viewBestAttempt = async () => {
+    setLoadingBest(true);
+    try {
+      const res = await api.get(`/v1/quiz/${id}/score`);
+      if (res.data.status) {
+        setBestAttempt(res.data.data);
+        setShowModal(true);
+        toast.success("Best attempt fetched!");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not fetch best attempt");
+    } finally {
+      setLoadingBest(false);
+    }
+  };
 
-if (error)
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <p className="text-red-500 font-semibold text-sm sm:text-base">{error}</p>
-    </div>
-  );
+  const toggleSection = (section) =>
+    setOpenSection(openSection === section ? null : section);
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-sm font-semibold text-red-500">{error}</p>
+      </div>
+    );
 
   const videoResources = resources.filter((r) => r.type === "video");
   const pdfResources = resources.filter((r) => r.type === "pdf");
 
-  const toggleSection = (section) => {
-    setOpenSection(openSection === section ? null : section);
-  };
-
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 px-2 sm:px-4 py-6">
-        {/* PLAYER + LESSON NOTES */}
-        <div className="lg:col-span-2">
+      <div className="gap-6 px-2 py-6 mx-auto max-w-7xl lg:grid lg:grid-cols-3">
+        {/* LEFT: Video + Lesson Notes */}
+        <div className="space-y-6 lg:col-span-2">
+          {/* Video */}
           {selectedItem?.type === "video" && (
-            <div className="bg-black aspect-video">
+            <div className="overflow-hidden bg-black shadow-md aspect-video rounded-xl">
               <video
                 src={selectedItem.data.url}
                 controls
@@ -135,163 +878,243 @@ if (error)
             </div>
           )}
 
-<div className="bg-white border border-gray-300 rounded-xl p-6 mt-6 shadow-md">
-  <h2 className="text-lg font-semibold text-black mb-4">Lesson Notes</h2>
+          
 
-  {resources.length === 0 && (
-    <p className="text-gray-400 italic">No lesson notes available.</p>
-  )}
+          {/* Lesson Notes */}
+          <div className="p-6 mb-4 bg-white border border-gray-300 shadow-md rounded-xl sm:mb-0">
+            <h2 className="mb-4 text-lg font-semibold text-black">
+              Lesson Notes
+            </h2>
+            {resources.length === 0 && (
+              <p className="italic text-gray-400">No lesson notes available.</p>
+            )}
 
-  {resources.map((item) => (
-    <div key={item.id} className="border-b border-gray-200">
-      <button
-        onClick={() =>
-          setOpenNoteId(openNoteId === item.id ? null : item.id)
-        }
-        className="w-full flex justify-between items-center py-3 text-left font-medium text-black hover:bg-gray-50 transition"
-      >
-        <span>{item.title}</span>
-        {openNoteId === item.id ? (
-          <FiChevronUp className="text-gray-600" />
-        ) : (
-          <FiChevronDown className="text-gray-600" />
-        )}
-      </button>
+            {resources.map((item) => (
+              <div
+                key={item.id}
+                className="border-b border-gray-200 last:border-none"
+              >
+                <button
+                  onClick={() => {
+                    const newOpenId = openNoteId === item.id ? null : item.id;
+                    setOpenNoteId(newOpenId);
+                    if (newOpenId && !item.is_completed)
+                      handleCheckboxClick(item);
+                    setSelectedItem(
+                      item.type === "video" ? item : selectedItem,
+                    );
+                  }}
+                  className={`flex items-center justify-between w-full py-3 font-medium text-left text-black transition hover:bg-gray-50 ${
+                    selectedItem?.id === item.id ? "bg-gray-100 rounded-md" : ""
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    {item.is_completed && (
+                      <FiCheckCircle className="text-[#001489] animate-pulse" />
+                    )}
+                    {item.title}
+                  </span>
+                  {openNoteId === item.id ? <FiChevronUp /> : <FiChevronDown />}
+                </button>
 
-      {openNoteId === item.id && item.content && (
-        <div
-          className="prose prose-sm max-w-none text-black p-4 transition-all duration-300"
-          dangerouslySetInnerHTML={{ __html: item.content }}
-        />
-      )}
-
-      {openNoteId === item.id && !item.content && (
-        <p className="p-4 text-gray-500 italic">No notes for this lesson.</p>
-      )}
-    </div>
-  ))}
-</div>
+                <div
+                  className={`transition-max-height duration-500 ease-in-out overflow-hidden ${
+                    openNoteId === item.id ? "max-h-fit mt-2" : "max-h-0"
+                  }`}
+                >
+                  {item.content && (
+                    <div
+                      className="max-w-full p-4 overflow-x-auto text-gray-800 whitespace-pre"
+                      style={{ wordBreak: "normal" }}
+                      dangerouslySetInnerHTML={{ __html: item.content }}
+                    />
+                  )}
+                  {!item.content && openNoteId === item.id && (
+                    <p className="p-4 italic text-gray-500">
+                      No notes for this lesson.
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* SIDEBAR */}
-        <div className="bg-white border border-gray-300 h-fit sticky top-6 flex flex-col">
-          <div className="px-4 py-3 text-black font-semibold border-b border-gray-300">
+        {/* RIGHT: Sidebar */}
+
+        <div className="flex flex-col p-4 space-y-4 bg-white border border-gray-300 shadow-md rounded-xl h-fit">
+          <div className="pb-2 mb-2 font-semibold text-black border-b border-gray-300">
             Module Content
           </div>
 
-          {/* ACCORDION SECTIONS */}
-          {/* VIDEOS */}
-          <div className="border-b border-gray-300">
+          <div className="border-b border-gray-200">
             <button
               onClick={() => toggleSection("videos")}
-              className="w-full px-4 py-3 flex justify-between items-center text-black font-medium hover:bg-gray-50"
+              className="flex items-center justify-between w-full py-3 font-medium text-black hover:bg-gray-50"
             >
               Videos
               {openSection === "videos" ? <FiChevronUp /> : <FiChevronDown />}
             </button>
-            {openSection === "videos" && (
-              <div className="divide-y">
-                {videoResources.map((item, index) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setSelectedItem(item)}
-                    className={`w-full px-4 py-3 flex gap-3 text-left text-black hover:bg-gray-50 ${selectedItem?.id === item.id ? "bg-gray-100" : ""}`}
-                  >
-                    <input
-                      type="checkbox"
-                      readOnly
-                      checked={item.is_completed}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCheckboxClick(item);
-                      }}
-                      className="mt-1 accent-[#001489]"
-                    />
-                    <div>
-                      <p className="text-sm font-medium">{index + 1}. {item.title}</p>
-                      <p className="text-xs text-gray-500">Video lesson</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+
+            <div
+              className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openSection === "videos" ? "max-h-screen" : "max-h-0"}`}
+            >
+              {videoResources.map((item, idx) => (
+                <button
+                  key={item.id}
+                  onClick={() => setSelectedItem(item)}
+                  className={`w-full flex gap-3 items-start text-left text-black hover:bg-gray-50 rounded-md transition-colors py-2 px-2 mb-2 ${
+                    selectedItem?.id === item.id
+                      ? "bg-gray-100 font-semibold"
+                      : ""
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    readOnly
+                    checked={item.is_completed}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCheckboxClick(item);
+                    }}
+                    className="mt-1 accent-[#001489]"
+                  />
+                  <div>
+                    <p className="text-sm">
+                      {idx + 1}. {item.title}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500">Video lesson</p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* PDF RESOURCES */}
           {pdfResources.length > 0 && (
-            <div className="border-b border-gray-300">
+            <div className="border-b border-gray-200">
               <button
                 onClick={() => toggleSection("pdfs")}
-                className="w-full px-4 py-3 flex justify-between items-center text-black font-medium hover:bg-gray-50"
+                className="flex items-center justify-between w-full py-2 font-medium text-black hover:bg-gray-50"
               >
                 Resources
                 {openSection === "pdfs" ? <FiChevronUp /> : <FiChevronDown />}
               </button>
-              {openSection === "pdfs" && (
-                <div className="p-4 space-y-2">
-                  {pdfResources.map((file) => (
-                    <button
-                      key={file.id}
-                      onClick={() => handlePdfClick(file)}
-                      className="flex items-center gap-2 text-sm hover:text-[#001489] text-black"
-                    >
-                      <input
-                        type="checkbox"
-                        readOnly
-                        checked={file.is_completed}
-                        onClick={(e) => { e.stopPropagation(); handleCheckboxClick(file); }}
-                        className="accent-[#001489]"
-                      />
-                      <AiOutlineFilePdf className="text-[#001489]" />
-                      {file.title}
-                      {file.is_completed && <FiCheckCircle className="ml-1 text-[#001489]" />}
-                    </button>
-                  ))}
-                </div>
-              )}
+
+              <div
+                className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openSection === "pdfs" ? "max-h-screen" : "max-h-0"}`}
+              >
+                {pdfResources.map((file) => (
+                  <button
+                    key={file.id}
+                    onClick={() => handlePdfClick(file)}
+                    className="flex items-center gap-3 text-sm hover:text-[#001489] text-black w-full py-3 mb-2 rounded-md hover:bg-gray-50 transition"
+                  >
+                    <input
+                      type="checkbox"
+                      readOnly
+                      checked={file.is_completed}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCheckboxClick(file);
+                      }}
+                      className="accent-[#001489]"
+                    />
+                    <AiOutlineFilePdf className="text-[#001489] text-base" />
+                    <span>{file.title}</span>
+                    {file.is_completed && (
+                      <FiCheckCircle className="ml-1 text-[#001489] animate-pulse" />
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* USEFUL LINKS */}
           {usefulLinks.length > 0 && (
-            <div className="border-b border-gray-300">
+            <div className="border-b border-gray-200">
               <button
                 onClick={() => toggleSection("links")}
-                className="w-full px-4 py-3 flex justify-between items-center text-black font-medium hover:bg-gray-50"
+                className="flex items-center justify-between w-full py-3 font-medium text-black hover:bg-gray-50"
               >
                 Useful Links
                 {openSection === "links" ? <FiChevronUp /> : <FiChevronDown />}
               </button>
-              {openSection === "links" && (
-                <div className="p-4 space-y-2">
-                  {usefulLinks.map((link) => (
-                    <a
-                      key={link.id}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm text-[#001489] hover:underline"
-                    >
-                      <FiLink /> {link.title}
-                    </a>
-                  ))}
-                </div>
-              )}
+
+              <div
+                className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openSection === "links" ? "max-h-screen" : "max-h-0"}`}
+              >
+                {usefulLinks.map((link) => (
+                  <a
+                    key={link.id}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-sm text-[#001489] hover:underline py-2 px-2 mb-2 rounded-md hover:bg-gray-50 transition"
+                  >
+                    <FiLink /> <span>{link.title}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* QUIZ BUTTON */}
-          <div className="p-4  border-gray-300 mt-4">
+          {/* Quiz Actions */}
+          <div className="flex flex-col gap-2 sm:flex-row">
             <button
               onClick={goToQuiz}
               disabled={!allCompleted}
-              className={`w-full py-2 text-white font-semibold rounded-lg transition ${allCompleted ? "bg-[#001489] hover:bg-[#000f5a]" : "bg-gray-300 cursor-not-allowed"}`}
+              className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition text-center ${
+                allCompleted
+                  ? "bg-[#001489] hover:bg-[#000f5a] text-white"
+                  : "bg-gray-300 cursor-not-allowed text-gray-600"
+              }`}
             >
-              {allCompleted ? "Take Quiz" : "Complete all lessons to unlock Quiz"}
+              {allCompleted ? "Take Quiz" : "Complete all lessons"}
+            </button>
+
+            <button
+              onClick={viewBestAttempt}
+              disabled={loadingBest}
+              className="flex-1 px-4 py-2 text-sm font-medium rounded-lg border border-[#001489] text-[#001489] hover:bg-[#001489] hover:text-white transition"
+            >
+              {loadingBest ? "Loading..." : "View Attempt"}
             </button>
           </div>
         </div>
       </div>
+
+      {showModal && bestAttempt && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="relative w-11/12 max-w-md p-6 bg-white shadow-lg rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute text-2xl font-bold text-gray-500 top-3 right-3 hover:text-gray-800"
+              onClick={() => setShowModal(false)}
+            >
+              ×
+            </button>
+            <h2 className="mb-4 text-xl font-semibold">Best Attempt</h2>
+            <p>
+              <strong>Score:</strong> {bestAttempt.score}
+            </p>
+            <p>
+              <strong>Percentage:</strong> {bestAttempt.percentage}%
+            </p>
+            <p>{bestAttempt.passed ? "✅ Passed" : "❌ Failed"}</p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-4 w-full py-2 bg-[#001489] text-white rounded-lg hover:bg-[#000f5a] transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

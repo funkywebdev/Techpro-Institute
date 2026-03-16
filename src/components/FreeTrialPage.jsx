@@ -1,5 +1,10 @@
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { AiOutlineFilePdf } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import {
   FiCheckCircle,
   FiLock,
@@ -25,6 +30,8 @@ const VideoTemplate = () => {
   const [error, setError] = useState(null);
   const [openModule, setOpenModule] = useState(null);
   const [openNoteIds, setOpenNoteIds] = useState([]);
+
+  const navigate = useNavigate();
 
   /* =======================
      Fetch Course
@@ -188,7 +195,7 @@ const VideoTemplate = () => {
                         onClick={() => toggleNote(item.id)}
                         className="w-full flex justify-between items-center py-3 text-left hover:bg-gray-50"
                       >
-                        <span className="font-medium text-sm">
+                        <span className="font-medium text-base">
                           {item.title}
                         </span>
 
@@ -200,7 +207,7 @@ const VideoTemplate = () => {
                       </button>
 
                       {isOpen && (
-                        <div className="px-2 pb-4 text-sm text-gray-700 prose max-w-none">
+                        <div className="px-2 pb-4 text-base text-gray-700 prose max-w-none">
                           <div
                             dangerouslySetInnerHTML={{
                               __html: item.content,
@@ -267,12 +274,15 @@ const VideoTemplate = () => {
                 {isOpen && (
                   <div className="bg-white px-2 py-1 border-t border-gray-100">
 
-                    {!module.can_access ||
-                    module.contents.length === 0 ? (
-                      <div className="px-4 py-6 text-center text-gray-500">
+                    {!module.can_access || module.contents.length === 0 ? (
+                      <div
+                        onClick={() => navigate("/signup")}
+                        className="px-4 py-6 text-center text-gray-500 cursor-pointer hover:bg-gray-50"
+                      >
                         <FiLock className="mx-auto text-2xl mb-2 text-gray-400" />
+
                         <p className="text-sm font-medium">
-                          Kindly unlock module
+                          Register to unlock this module
                         </p>
                       </div>
                     ) : (
@@ -289,7 +299,6 @@ const VideoTemplate = () => {
                           }`}
                         >
 
-                          {/* TYPE ICON */}
                           {item.type === "video" && (
                             <span className="w-3 h-3 bg-[#001489] rounded-full" />
                           )}
@@ -298,7 +307,6 @@ const VideoTemplate = () => {
                             <AiOutlineFilePdf className="text-[#001489]" />
                           )}
 
-                          {/* CHECKBOX */}
                           <input
                             type="checkbox"
                             readOnly
@@ -313,7 +321,6 @@ const VideoTemplate = () => {
                             className="accent-[#001489]"
                           />
 
-                          {/* TITLE */}
                           <div className="flex-1">
                             <p className="text-sm">
                               {index + 1}. {item.title}

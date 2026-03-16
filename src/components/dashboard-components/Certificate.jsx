@@ -22,23 +22,23 @@ const Spinner = ({ size = 12, borderColor = "#15256E", text = "" }) => (
    Certificate Card
 ======================= */
 const CertificateCard = ({ data }) => (
-  <div className="bg-white shadow-lg rounded-xl p-8 max-w-6xl mx-auto border border-gray-200">
-    <h2 className="text-2xl md:text-2xl font-bold text-gray-800 mb-4">{data.courseName}</h2>
-    <p className="text-lg md:text-base text-gray-600 mb-6">
+  <div className="max-w-6xl p-8 mx-auto bg-white border border-gray-200 shadow-lg rounded-xl">
+    <h2 className="mb-4 text-2xl font-bold text-gray-800 md:text-2xl">{data.courseName}</h2>
+    <p className="mb-6 text-lg text-gray-600 md:text-base">
       Issued to <span className="font-semibold">{data.studentName}</span>
     </p>
 
-    <div className="flex justify-between items-center mb-6">
+    <div className="flex items-center justify-between mb-6">
       <div>
-        <p className="text-sm md:text-base text-gray-500">Certificate ID</p>
-        <p className="text-base md:text-lg font-mono text-gray-500">{data.certificateNumber}</p>
+        <p className="text-sm text-gray-500 md:text-base">Certificate ID</p>
+        <p className="font-mono text-base text-gray-500 md:text-lg">{data.certificateNumber}</p>
       </div>
 
       <QRCodeCanvas value={data.verifyLink} size={120} bgColor="#fff" fgColor="#15256E" level="H" />
     </div>
 
-    <p className="text-gray-500 text-sm md:text-base mb-2">Issued on {data.issuedAt}</p>
-    <p className="text-gray-700 text-base md:text-lg">Instructor: {data.instructor}</p>
+    <p className="mb-2 text-sm text-gray-500 md:text-base">Issued on {data.issuedAt}</p>
+    <p className="text-base text-gray-700 md:text-lg">Instructor: {data.instructor}</p>
   </div>
 );
 
@@ -50,6 +50,7 @@ const Certificate = () => {
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCertificate = async () => {
@@ -68,11 +69,15 @@ const Certificate = () => {
           downloadLink: cert.links.download_pdf,
           instructor: cert.instructor_name || "Instructor",
         });
-      } catch (error) {
-        console.error("Certificate fetch failed:", error);
-      } finally {
-        setLoading(false);
-      }
+   
+
+} catch (error) {
+  const message = error?.response?.data?.message;
+  console.error("Error message:", message);
+  setError(message);   // ⭐ THIS LINE IS MISSING
+} finally {
+  setLoading(false);
+}
     };
 
     fetchCertificate();
@@ -106,8 +111,22 @@ const Certificate = () => {
     setTimeout(() => setVerifying(false), 1000);
   };
 
-  if (loading) return <Spinner size={12} />;
-  if (!data) return <p className="text-center mt-10">No certificate available.</p>;
+  
+if (loading) return <Spinner size={12} />;
+
+if (error)
+  return (
+    <p className="mt-10 font-medium text-center text-red-500">
+      {error}
+    </p>
+  );
+
+if (!data)
+  return (
+    <p className="mt-10 text-center">
+      No certificate available.
+    </p>
+  );
 
   return (
     <div className="p-4 md:p-8">
@@ -115,10 +134,10 @@ const Certificate = () => {
         <button
           onClick={verifyCertificate}
           disabled={verifying}
-          className="px-4 py-2 border rounded text-sm flex items-center gap-2 text-black"
+          className="flex items-center gap-2 px-4 py-2 text-sm text-black border rounded"
         >
           {verifying && (
-            <span className="animate-spin w-4 h-4 border-2 border-gray-500 border-t-transparent rounded-full"></span>
+            <span className="w-4 h-4 border-2 border-gray-500 rounded-full animate-spin border-t-transparent"></span>
           )}
           Verify Certificate
         </button>
@@ -129,7 +148,7 @@ const Certificate = () => {
           className="px-4 py-2 bg-[#15256E] text-white rounded text-sm flex items-center gap-2"
         >
           {downloading && (
-            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+            <span className="w-4 h-4 border-2 border-white rounded-full animate-spin border-t-transparent"></span>
           )}
           Download PDF
         </button>

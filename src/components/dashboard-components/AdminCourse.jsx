@@ -15,6 +15,7 @@ const Spinner = () => (
 const AdminCourse = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -37,9 +38,13 @@ const AdminCourse = () => {
         }));
 
         setCourses(coursesWithProgress);
-      } catch (err) {
-        console.error("Error fetching courses:", err);
-        setCourses([]);
+   
+
+    } catch (error) {
+        const message =
+          error?.response?.data?.message || "Failed to load courses";
+        console.error("Error message:", message);
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -48,9 +53,23 @@ const AdminCourse = () => {
     fetchCourses();
   }, []);
 
-  if (loading) return <Spinner />;
-  if (!courses.length)
-    return <p className="p-4 text-gray-600 text-center">No courses found.</p>;
+ 
+   if (loading) return <Spinner />;
+
+
+  if (error)
+  return (
+    <p className="mt-10 font-medium text-center text-red-500">
+      {error}
+    </p>
+  );
+
+if (!courses.length)
+  return (
+    <p className="mt-10 text-center text-gray-600">
+      No courses found.
+    </p>
+  );
 
   return (
     <div className="p-4 md:p-8">
@@ -59,29 +78,29 @@ const AdminCourse = () => {
         {courses.map((course) => (
           <div
             key={course.id}
-            className="flex flex-col bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 w-full max-w-xs overflow-hidden cursor-pointer"
+            className="flex flex-col w-full max-w-xs overflow-hidden transition-shadow duration-300 bg-white shadow-lg cursor-pointer rounded-xl hover:shadow-2xl"
           >
             {/* Course Image */}
             <img
               src={course.image}
               alt={course.title || "Course"}
-              className="w-full h-36 md:h-40 object-cover"
+              className="object-cover w-full h-36 md:h-40"
             />
 
             {/* Course Details */}
-            <div className="flex flex-col items-center gap-2 p-4 w-full">
-              <p className="text-center text-gray-800 font-semibold text-base md:text-lg">
+            <div className="flex flex-col items-center w-full gap-2 p-4">
+              <p className="text-base font-semibold text-center text-gray-800 md:text-lg">
                 {course.title || "Untitled Course"}
               </p>
 
               {/* Progress Bar */}
-              <div className="w-full h-3 bg-gray-200 rounded-full mt-1">
+              <div className="w-full h-3 mt-1 bg-gray-200 rounded-full">
                 <div
                   className="h-3 bg-[#15256E] rounded-full transition-all"
                   style={{ width: `${course.progress}%` }}
                 />
               </div>
-              <p className="text-gray-600 text-xs md:text-sm mt-1 text-center">
+              <p className="mt-1 text-xs text-center text-gray-600 md:text-sm">
                 {course.progress}% completed
               </p>
 

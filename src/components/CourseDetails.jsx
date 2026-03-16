@@ -65,7 +65,7 @@ const CoursePage = () => {
   // Spinner for loading
   if (!regionReady || loading) {
     return (
-      <div className="py-40 flex flex-col justify-center items-center">
+      <div className="flex flex-col items-center justify-center py-40">
         <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -73,7 +73,7 @@ const CoursePage = () => {
 
   if (error) {
     return (
-      <div className="py-20 text-center text-red-500 font-semibold">{error}</div>
+      <div className="py-20 font-semibold text-center text-red-500">{error}</div>
     );
   }
 
@@ -81,25 +81,25 @@ const CoursePage = () => {
     <div className="bg-[#F3F3FF] relative overflow-hidden">
       {/* HERO */}
       <section className="relative py-12 px-6 sm:px-22 pt-[100px] sm:pt-[120px]">
-        <div className="max-w-7xl mx-auto grid gap-10 lg:grid-cols-2 items-start">
+        <div className="grid items-start gap-10 mx-auto max-w-7xl lg:grid-cols-2">
           {/* LEFT */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={staggerContainer}
-            className="space-y-3 sm:space-y-6 text-center sm:text-left"
+            className="space-y-3 text-center sm:space-y-6 sm:text-left"
           >
             <motion.h1
               variants={fadeInUp}
-              className="text-2xl sm:text-4xl font-bold text-gray-900"
+              className="text-2xl font-bold text-gray-900 sm:text-4xl"
             >
               {course.title || "Untitled Course"}
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-gray-700 text-sm sm:text-base leading-relaxed"
+              className="text-sm leading-relaxed text-gray-700 sm:text-base"
             >
               {course.description || "No description available."}
             </motion.p>
@@ -119,18 +119,18 @@ const CoursePage = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="static sm:mt-6 lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-62 z-10 flex items-center"
+            className="static z-10 flex items-center sm:mt-6 lg:absolute lg:left-3/4 lg:-translate-x-1/2 lg:-bottom-62"
           >
             <div className="relative w-[300px] bg-black rounded-3xl shadow-2xl overflow-hidden mx-auto p-1">
               <div className="absolute left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full" />
 
-              <div className="bg-white rounded-3xl p-4 space-y-3">
-                <div className="w-full h-48 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400 overflow-hidden">
+              <div className="p-4 space-y-3 bg-white rounded-3xl">
+                <div className="flex items-center justify-center w-full h-48 overflow-hidden text-gray-400 bg-gray-200 rounded-xl">
                   {course.image?.url ? (
                     <img
                       src={course.image.url}
                       alt={course.title}
-                      className="w-full h-full object-cover rounded-xl"
+                      className="object-cover w-full h-full rounded-xl"
                     />
                   ) : (
                     "Course Image"
@@ -148,7 +148,7 @@ const CoursePage = () => {
                       {course.summary?.map((section, idx) => (
                         <ul key={idx} className="space-y-1">
                           {section.data.items.map((item, i) => (
-                            <li key={i} className="flex items-center text-gray-700 text-sm sm:text-base">
+                            <li key={i} className="flex items-center text-sm text-gray-700 sm:text-base">
                               <IoMdCheckmark className="text-[#15256E] mr-2" />
                               {item.text}
                             </li>
@@ -158,7 +158,7 @@ const CoursePage = () => {
 
                       
                       {(!course.summary || course.summary.length === 0) && (
-                        <p className="text-gray-500 text-sm">No summary available.</p>
+                        <p className="text-sm text-gray-500">No summary available.</p>
                       )}
                     </div>
                   </div>
@@ -180,10 +180,10 @@ const CoursePage = () => {
                   </button>
                 </div>
 
-                <p className="text-gray-600 text-xs text-center">
+                <p className="text-xs text-center text-gray-600">
                   Secure Payment • 24/7 Support
                 </p>
-                <p className="text-gray-600 text-xs text-center">
+                <p className="text-xs text-center text-gray-600">
                   Instant Access After Payment
                 </p>
               </div>
@@ -193,12 +193,12 @@ const CoursePage = () => {
       </section>
 
       {/* COURSE SUMMARY */}
-      <section className="bg-white py-8 sm:py-16 px-8 lg:px-16">
+      <section className="px-8 py-8 bg-white sm:py-16 lg:px-16">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+          <h1 className="mb-6 text-xl font-bold text-gray-900 sm:text-2xl">
             Course Overview
           </h1>
-          <div className="space-y-6 grid grid-cols-1 sm:grid-cols-4">
+          <div className="grid grid-cols-1 space-y-6 sm:grid-cols-4">
             {course.overview?.map((section, idx) => (
               <div key={idx}>
                 <h3 className="font-semibold text-gray-800 text-[17px] sm:text-[20px] mb-2">
@@ -225,9 +225,9 @@ const CoursePage = () => {
         </div>
       </section>
 
-<section className="bg-white py-6 sm:py-10 px-6 sm:px-16 lg:px-20">
+<section className="px-6 py-6 bg-white sm:py-10 sm:px-16 lg:px-20">
   <div className="max-w-lg">
-    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+    <h1 className="mb-6 text-xl font-bold text-gray-900 sm:text-2xl">
       Course Modules
     </h1>
 
@@ -236,13 +236,13 @@ const CoursePage = () => {
         course.modules.map((module, index) => (
           <div
             key={module.id || index}
-            className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300"
+            className="overflow-hidden transition-all duration-300 bg-white border border-gray-200 rounded-lg"
           >
             {/* Header */}
             <button
               onClick={() => toggle(index)}
               aria-expanded={openIndex === index}
-              className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition"
+              className="flex items-center justify-between w-full px-5 py-4 transition hover:bg-gray-50"
             >
               <div className="flex items-center justify-between gap-3">
                 
@@ -261,9 +261,9 @@ const CoursePage = () => {
 
             {/* Content */}
             {openIndex === index && module.description && (
-              <div className="border-t border-gray-100 px-5 py-4 bg-white">
+              <div className="px-5 py-4 bg-white border-t border-gray-100">
                 <div
-                  className="text-sm text-gray-600 leading-relaxed space-y-3"
+                  className="space-y-3 text-sm leading-relaxed text-gray-600"
                   dangerouslySetInnerHTML={{
                     __html: module.description,
                   }}
@@ -273,7 +273,7 @@ const CoursePage = () => {
           </div>
         ))
       ) : (
-        <p className="text-gray-500 text-sm">
+        <p className="text-sm text-gray-500">
           No modules available yet.
         </p>
       )}
