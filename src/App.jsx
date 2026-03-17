@@ -122,7 +122,7 @@ import ModulePage from "./pages/dashboard-pages/ModulePage";
 import AvailableCoursesPage from "./pages/dashboard-pages/AvailableCoursesPage";
 import QuizPage from "./pages/dashboard-pages/QuizPage";
 import Preview from "./components/dashboard-components/Preview";
-import QuizreviewPage from "./pages/dashboard-pages/quizreviewPage";
+import QuizReviewPage from "./pages/dashboard-pages/QuizReviewPage";
 
 const App = () => {
   return (
@@ -231,7 +231,7 @@ const App = () => {
           path="/quiz-review/:attemptId"
           element={
             <ProtectedRoute>
-              <QuizreviewPage />
+              <QuizReviewPage />
             </ProtectedRoute>
           }
         />
