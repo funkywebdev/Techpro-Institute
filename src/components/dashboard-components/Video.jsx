@@ -706,22 +706,6 @@
 
 // export default Video;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
@@ -776,7 +760,6 @@ const Video = () => {
 
         const linksRes = await api.get(`/v1/course/useful-links`);
 
-      
         setUsefulLinks(linksRes.data?.data || []);
       } catch (err) {
         console.error(err.response);
@@ -877,8 +860,6 @@ const Video = () => {
               />
             </div>
           )}
-
-          
 
           {/* Lesson Notes */}
           <div className="p-6 mb-4 bg-white border border-gray-300 shadow-md rounded-xl sm:mb-0">
