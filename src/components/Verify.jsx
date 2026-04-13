@@ -96,14 +96,14 @@ const VerifyEmail = () => {
 
   return (
     <div className="flex items-center justify-center bg-[#F2F4F8] px-6 py-5 pt-24 pb-5 sm:pt-32 sm:pb-10">
-      <div className="bg-white w-full max-w-2xl rounded-lg shadow-md p-8 flex flex-col items-center">
+      <div className="flex flex-col items-center w-full max-w-2xl p-8 bg-white rounded-lg shadow-md">
         <div className="bg-[#E0E7FF] p-3 rounded-full mb-4">
           <HiMail className="text-3xl text-[#15256E]" />
         </div>
 
-        <h1 className="text-2xl font-bold mb-2 text-center">Verify Your Email</h1>
+        <h1 className="mb-2 text-2xl font-bold text-center">Verify Your Email</h1>
 
-        <p className="text-center text-gray-600 mb-6">
+        <p className="mb-6 text-center text-gray-600">
           Enter the 6-digit code sent to <br />
           <span className="font-medium">{email}</span>
         </p>

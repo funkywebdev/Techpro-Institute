@@ -76,10 +76,10 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center bg-[#F2F4F8] px-4 pt-24 pb-5 sm:pt-32 sm:pb-10">
       <div className="w-full max-w-6xl">
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <div className="text-center mb-6 space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-bold text-black">Login</h1>
-            <p className="text-gray-600 text-sm sm:text-base">Login to start learning</p>
+        <div className="p-8 bg-white rounded-lg shadow-md">
+          <div className="mb-6 space-y-1 text-center">
+            <h1 className="text-2xl font-bold text-black sm:text-3xl">Login</h1>
+            <p className="text-sm text-gray-600 sm:text-base">Login to start learning</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,10 +89,10 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Enter your Email"
-                className="w-full mb-2 p-3 border border-gray-300 rounded focus:outline-none focus:ring-0 text-black"
+                className="w-full p-3 mb-2 text-black border border-gray-300 rounded focus:outline-none focus:ring-0"
                 {...register("email", { required: "Email is required", pattern: /^\S+@\S+$/i })}
               />
-              {errors.email && <span className="text-red-500 text-sm">{errors.email.message || "Invalid email"}</span>}
+              {errors.email && <span className="text-sm text-red-500">{errors.email.message || "Invalid email"}</span>}
             </div>
 
             {/* Password */}
@@ -102,23 +102,23 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your Password"
-                  className="w-full p-3 text-black border border-gray-300 rounded focus:outline-none focus:ring-0 pr-10"
+                  className="w-full p-3 pr-10 text-black border border-gray-300 rounded focus:outline-none focus:ring-0"
                   {...register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" } })}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute text-gray-500 -translate-y-1/2 right-3 top-1/2"
                 >
                   {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
                 </button>
               </div>
-              {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
+              {errors.password && <span className="text-sm text-red-500">{errors.password.message}</span>}
             </div>
 
             {/* Remember me & Forgot password */}
             <div className="flex items-center justify-between mb-4 text-sm">
-              <label className="flex items-center gap-2 cursor-pointer text-gray-600 ">
+              <label className="flex items-center gap-2 text-gray-600 cursor-pointer ">
                 <input type="checkbox" className="accent-[#15256E]" />
                 Remember me
               </label>
@@ -134,7 +134,7 @@ const Login = () => {
             </div>
 
             {/* Server error */}
-            {serverError && <p className="text-red-500 text-sm mb-2">{serverError}</p>}
+            {serverError && <p className="mb-2 text-sm text-red-500">{serverError}</p>}
 
             
    <button
@@ -144,7 +144,7 @@ const Login = () => {
 >
   {isSubmitting && (
     <svg
-      className="animate-spin h-5 w-5 text-white"
+      className="w-5 h-5 text-white animate-spin"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -203,12 +203,12 @@ const Login = () => {
           {/* OR */}
           <div className="flex items-center my-4">
             <hr className="flex-grow border-gray-300" />
-            <span className="mx-2 text-gray-400 text-sm">OR</span>
+            <span className="mx-2 text-sm text-gray-400">OR</span>
             <hr className="flex-grow border-gray-300" />
           </div>
 
           {/* Google login */}
-          <a href="https://accounts.google.com/" className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded mb-4 hover:bg-gray-100 transition text-gray-700">
+          <a href="https://accounts.google.com/" className="flex items-center justify-center w-full gap-2 py-2 mb-4 text-gray-700 transition border border-gray-300 rounded hover:bg-gray-100">
             <FcGoogle size={24} />
             <span>Sign in with Google</span>
           </a>

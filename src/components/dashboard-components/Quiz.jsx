@@ -1,5 +1,9 @@
+
+
+
+
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,52 +13,101 @@ const QUIZ_TIME_PER_QUESTION = 60;
 const READY_TIME = 0;
 
 const Quiz = () => {
-  const { id: moduleId } = useParams();
+  const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const isContentQuiz = location.pathname.includes("content");
+  const isCourseQuiz = location.pathname.includes("course");
 
   const [quizId, setQuizId] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
+
+  // 🔹 supports multiple selection
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
   const [answers, setAnswers] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+
+  const [reviewing, setReviewing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [result, setResult] = useState(null);
+
   const [readyTime, setReadyTime] = useState(READY_TIME);
   const [quizStarted, setQuizStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(QUIZ_TIME_PER_QUESTION);
-  const [reviewing, setReviewing] = useState(false);
-  
 
   const timerRef = useRef(null);
   const optionLabels = ["A", "B", "C", "D"];
 
-  /* ===================== FETCH QUIZ ===================== */
-  useEffect(() => {
-    const fetchQuiz = async () => {
-      try {
-        const res = await api.get(`/v1/modules/${moduleId}/quiz`);
-        const quiz = res.data.data;
-        if (!quiz) {
-          toast.error("No quiz found");
-          return;
-        }
-        setQuizId(quiz.id);
-        setQuestions(quiz.questions || []);
-      } catch (err) {
-        console.error("FETCH ERROR ❌", err.response || err);
-        toast.error("Failed to load quiz");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchQuiz();
-  }, [moduleId]);
+  /* ================= FETCH QUIZ ================= */
+ useEffect(() => {
+  const fetchQuiz = async () => {
+    try {
+      setLoading(true);
 
-  /* ===================== READY TIMER ===================== */
+      
+
+      let endpoint = "";
+
+      if (isCourseQuiz) {
+        endpoint = `/v1/courses/${id}/quiz`;
+      } else if (isContentQuiz) {
+        endpoint = `/v1/module-contents/${id}/quiz`;
+      } else {
+        endpoint = `/v1/modules/${id}/quiz`;
+      }
+
+  
+
+
+const res = await api.get(endpoint);
+console.log(res);
+
+const payload = res.data;
+const data = payload.data;
+
+// ✅ HANDLE LOCKED FIRST
+if (data?.locked) {
+  toast.error(
+    `${payload.message} - ${data.reason}`
+  );
+  return;
+}
+
+// ❌ THEN check quiz
+if (!data?.quiz) {
+  toast.error(payload.message || "No quiz found");
+  return;
+}
+
+// ✅ SET QUIZ
+setQuizId(data.quiz.id);
+setQuestions(data.quiz.questions || []);
+
+      if (!data?.quiz) {
+  toast.error(res.data?.message);
+  return;
+}
+      setQuizId(data.quiz.id);
+      setQuestions(data.quiz.questions || []);
+    } catch (err) {
+      console.error("FETCH ERROR ❌", err);
+      toast.error("Failed to load quiz");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchQuiz();
+}, [id, location.pathname]);
+  /* ================= READY TIMER ================= */
   useEffect(() => {
     if (quizStarted) return;
+
     const interval = setInterval(() => {
       setReadyTime((prev) => {
         if (prev <= 1) {
@@ -65,12 +118,13 @@ const Quiz = () => {
         return prev - 1;
       });
     }, 1000);
+
     return () => clearInterval(interval);
   }, [quizStarted]);
 
-  /* ===================== QUESTION TIMER ===================== */
+  /* ================= QUESTION TIMER ================= */
   useEffect(() => {
-    if (!quizStarted || showResult || reviewing) return;
+    if (!quizStarted || reviewing || showResult) return;
 
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -84,92 +138,138 @@ const Quiz = () => {
     }, 1000);
 
     return () => clearInterval(timerRef.current);
-  }, [currentQuestion, quizStarted, showResult, reviewing]);
+  }, [currentQuestion, quizStarted, reviewing, showResult]);
 
   useEffect(() => {
     if (quizStarted) setTimeLeft(QUIZ_TIME_PER_QUESTION);
   }, [currentQuestion, quizStarted]);
 
-  /* ===================== NEXT / PREV ===================== */
+  /* ================= OPTION SELECT ================= */
+  const handleSelectOption = (opt) => {
+    const currentQ = questions[currentQuestion];
+
+    if (currentQ.type === "multiple") {
+      setSelectedOptions((prev) =>
+        prev.some((o) => o.id === opt.id)
+          ? prev.filter((o) => o.id !== opt.id)
+          : [...prev, opt]
+      );
+    } else {
+      setSelectedOptions([opt]);
+    }
+  };
+
+  /* ================= NAVIGATION ================= */
   const handleNext = (auto = false) => {
     const current = questions[currentQuestion];
-    if (!auto && !selectedOption) return;
+    if (!current) return;
 
-    // Save current answer
+    if (!auto && selectedOptions.length === 0) return;
+
+    const answerPayload =
+      current.type === "multiple"
+        ? {
+            question_id: current.id,
+            selected_option_ids: selectedOptions.map((o) => o.id),
+          }
+        : {
+            question_id: current.id,
+            selected_option_id: selectedOptions[0]?.id || null,
+          };
+
     const updatedAnswers = [
       ...answers.filter((a) => a.question_id !== current.id),
-      {
-        question_id: current.id,
-        selected_option_id: selectedOption?.id || null,
-      },
+      answerPayload,
     ];
+
     setAnswers(updatedAnswers);
 
-    // If last question, go to review
     if (currentQuestion === questions.length - 1) {
-      setSelectedOption(null);
       setReviewing(true);
       return;
     }
 
-    // Move to next question
-    setCurrentQuestion((prev) => prev + 1);
+    const nextIndex = currentQuestion + 1;
+    const nextQ = questions[nextIndex];
+
+    setCurrentQuestion(nextIndex);
 
     const nextAnswer = updatedAnswers.find(
-      (a) => a.question_id === questions[currentQuestion + 1].id
-    )?.selected_option_id;
-
-    setSelectedOption(
-      nextAnswer
-        ? questions[currentQuestion + 1].options.find((o) => o.id === nextAnswer)
-        : null
+      (a) => a.question_id === nextQ.id
     );
+
+    if (nextQ.type === "multiple") {
+      setSelectedOptions(
+        nextAnswer
+          ? nextQ.options.filter((o) =>
+              nextAnswer.selected_option_ids?.includes(o.id)
+            )
+          : []
+      );
+    } else {
+      setSelectedOptions(
+        nextAnswer
+          ? nextQ.options.filter(
+              (o) => o.id === nextAnswer.selected_option_id
+            )
+          : []
+      );
+    }
   };
 
   const handlePrev = () => {
     if (currentQuestion === 0) return;
-    setCurrentQuestion((prev) => prev - 1);
+
+    const prevIndex = currentQuestion - 1;
+    const prevQ = questions[prevIndex];
+
+    setCurrentQuestion(prevIndex);
+
     const prevAnswer = answers.find(
-      (a) => a.question_id === questions[currentQuestion - 1].id
-    )?.selected_option_id;
-    setSelectedOption(
-      prevAnswer
-        ? questions[currentQuestion - 1].options.find((o) => o.id === prevAnswer)
-        : null
+      (a) => a.question_id === prevQ.id
     );
+
+    if (prevQ.type === "multiple") {
+      setSelectedOptions(
+        prevAnswer
+          ? prevQ.options.filter((o) =>
+              prevAnswer.selected_option_ids?.includes(o.id)
+            )
+          : []
+      );
+    } else {
+      setSelectedOptions(
+        prevAnswer
+          ? prevQ.options.filter(
+              (o) => o.id === prevAnswer.selected_option_id
+            )
+          : []
+      );
+    }
   };
 
-//   const submitQuiz = async (finalAnswers) => {
-//   if (!quizId) {
-//     toast.error("Quiz ID missing");
-//     return;
-//   }
+  /* ================= FETCH SCORE ================= */
+  const fetchQuizScore = async (quizAttemptId) => {
+    try {
+      const res = await api.get(`/v1/quiz-attempts/${quizAttemptId}/review`);
+      const data = res.data.data;
 
-//   try {
-//     setSubmitting(true);
+      setResult({
+        ...data,
+        passed: data.passed === "1" || data.passed === 1,
+        score: Number(data.score),
+        percentage: Number(data.percentage),
+      });
 
-//     const res = await api.post(`/v1/quizzes/${quizId}/submit`, {
-//       answers: finalAnswers,
-//     });
+      setShowResult(true);
+    } catch (error) {
+      console.error("SCORE ERROR ❌", error);
+      toast.error("Failed to fetch score");
+    }
+  };
 
-//     toast.success("Quiz submitted!");
-
-//     const attemptId = res.data.data.id;
-
-//     navigate(`/quiz-review/${attemptId}`);
-
-//   } catch (error) {
-//     console.error("SUBMIT ERROR ❌", error.response || error);
-//     toast.error(error.response?.data?.message || "Submit failed");
-//   } finally {
-//     setSubmitting(false);
-//     setReviewing(false);
-//   }
-// };
-  /* ===================== FETCH QUIZ SCORE ===================== */
-
-
-  const submitQuiz = async (finalAnswers) => {
+  /* ================= SUBMIT ================= */
+ const submitQuiz = async (finalAnswers = answers) => {
   if (!quizId) {
     toast.error("Quiz ID missing");
     return;
@@ -182,49 +282,27 @@ const Quiz = () => {
       answers: finalAnswers,
     });
 
-    // ✅ Show toast first
     toast.success("Quiz submitted successfully!", { autoClose: 1500 });
 
-    // Wait a short moment for the toast to be visible
     const attemptId = res.data.data.id;
-    setTimeout(() => {
-      navigate(`/quiz-review/${attemptId}`);
-    }, 1500); // 1.5s delay
 
-  } catch (error) {
-    console.error("SUBMIT ERROR ❌", error.response || error);
-    toast.error(error.response?.data?.message || "Submit failed");
+    setTimeout(() => {
+       navigate(`/quiz-review/${attemptId}`);
+    }, 1000);
+
+  } catch (err) {
+    console.error("SUBMIT ERROR ❌", err);
+    toast.error(err.response?.data?.message || "Submit failed");
   } finally {
     setSubmitting(false);
     setReviewing(false);
   }
 };
-  const fetchQuizScore = async (qid) => {
-    try {
-      const res = await api.get(`/v1/quiz/${qid}/score`);
-      // Convert "passed" from string to boolean
-      const data = res.data.data;
-      setResult({
-        ...data,
-        passed: data.passed === "1" || data.passed === 1,
-        score: Number(data.score),
-        percentage: Number(data.percentage),
-      });
-    } catch (error) {
-      console.error("SCORE FETCH ERROR ❌", error.response || error);
-      toast.error("Failed to fetch quiz score");
-    }
-  };
 
-  /* ===================== NAVIGATE TO DASHBOARD ===================== */
-  const goToDashboard = () => {
-    navigate("/dashboard");
-  };
-
-  /* ===================== RENDER ===================== */
   const currentQ = questions[currentQuestion];
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
+  /* ================= UI ================= */
   return (
     <div className="flex items-center justify-center px-4 bg-gray-100">
       <ToastContainer position="top-right" autoClose={3000} />
@@ -235,47 +313,72 @@ const Quiz = () => {
         <p>No quiz available</p>
       ) : (
         <div className="w-full max-w-5xl p-6 bg-white shadow rounded-xl">
-          {/* READY SCREEN */}
+
           {!quizStarted && (
             <div className="py-16 text-center">
-              <h1 className="mb-4 text-3xl font-bold">Get Ready</h1>
-              <p className="mb-4 text-lg">Quiz starts in</p>
-              <div className="text-6xl font-extrabold">{readyTime}</div>
+              <h1 className="text-3xl font-bold">Get Ready</h1>
+              <div className="text-6xl font-bold">{readyTime}</div>
             </div>
           )}
 
-          {/* QUESTION SCREEN */}
-          {quizStarted && !showResult && !reviewing && currentQ && (
+          {quizStarted && !reviewing && !showResult && currentQ && (
             <>
-              <div className="w-full h-2 mb-4 bg-gray-200 rounded">
+              <div className="h-2 mb-4 bg-gray-200 rounded">
                 <div
-                  className="bg-[#15256E] h-2 rounded"
+                  className="h-2 bg-[#15256E] rounded"
                   style={{ width: `${progress}%` }}
                 />
               </div>
 
-              <div className="flex justify-between mb-4 text-sm">
+              <div className="flex justify-between mb-3 text-sm">
                 <span>
-                  Question {currentQuestion + 1}/{questions.length}
+                  {currentQuestion + 1}/{questions.length}
                 </span>
-                <span>⏱ {timeLeft}s</span>
+                <span>{timeLeft}s</span>
               </div>
 
-              <h2 className="mb-6 text-xl font-semibold">{currentQ.question}</h2>
+              <h2 className="mb-2 text-xl font-semibold">
+  {currentQ.question}
+</h2>
+
+{/* Instruction text */}
+<p className="mb-4 text-sm text-gray-500">
+  {currentQ.type === "multiple"
+    ? "You can select more than one option."
+    : "Select one option."}
+</p>
 
               <div className="space-y-3">
-                {currentQ.options.map((option, i) => (
+                {currentQ.options.map((opt, i) => (
                   <button
-                    key={option.id}
-                    onClick={() => setSelectedOption(option)}
-                    className={`w-full text-left px-4 py-3 rounded-lg border cursor-pointer ${
-                      selectedOption?.id === option.id
+                    key={opt.id}
+                    onClick={() => handleSelectOption(opt)}
+                    className={`w-full text-left p-3 border rounded ${
+                      selectedOptions.some((o) => o.id === opt.id)
                         ? "bg-blue-100 border-[#15256E]"
                         : "border-gray-300"
                     }`}
                   >
-                    <strong className="mr-2">{optionLabels[i]}</strong>
-                    {option.text}
+                    <div className="flex items-center gap-2">
+
+                      {currentQ.type === "multiple" ? (
+                        <span>
+                          {selectedOptions.some((o) => o.id === opt.id)
+                            ? "☑️"
+                            : "⬜"}
+                        </span>
+                      ) : (
+                        <span>
+                          {selectedOptions.some((o) => o.id === opt.id)
+                            ? "🔘"
+                            : "⚪"}
+                        </span>
+                      )}
+
+                      <span>
+                        <strong>{optionLabels[i]}</strong> {opt.text}
+                      </span>
+                    </div>
                   </button>
                 ))}
               </div>
@@ -283,99 +386,100 @@ const Quiz = () => {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={handlePrev}
-                  disabled={currentQuestion === 0}
-                  className="flex-1 py-2 bg-gray-200 rounded cursor-pointer disabled:opacity-50"
+                  className="flex-1 p-2 bg-gray-200 rounded"
                 >
                   Prev
                 </button>
+
                 <button
                   onClick={() => handleNext(false)}
-                  disabled={!selectedOption || submitting}
-                  className="flex-1 bg-[#15256E] text-white py-2 rounded cursor-pointer"
+                  className="flex-1 p-2 text-white bg-[#15256E] rounded"
                 >
-                  {currentQuestion === questions.length - 1 ? "Review" : "Next"}
+                  {currentQuestion === questions.length - 1
+                    ? "Review"
+                    : "Next"}
                 </button>
               </div>
             </>
           )}
 
-          {/* REVIEW SCREEN */}
           {reviewing && (
             <div className="py-6">
               <h2 className="mb-4 text-2xl font-bold">Review Your Answers</h2>
-              <div className="space-y-4">
-                {questions.map((q, idx) => {
-                  const answer = answers.find((a) => a.question_id === q.id);
-                  return (
-                    <div key={q.id} className="p-4 border rounded">
-                      <p className="font-semibold">
-                        {idx + 1}. {q.question}
-                      </p>
-                      {q.options.map((opt, i) => (
+
+              {questions.map((q, idx) => {
+                const answer = answers.find(
+                  (a) => a.question_id === q.id
+                );
+
+                return (
+                  <div key={q.id} className="p-4 mb-4 border rounded">
+                    <p className="font-semibold">
+                      {idx + 1}. {q.question}
+                    </p>
+
+                    {q.options.map((opt, i) => {
+                      const isSelected =
+                        q.type === "multiple"
+                          ? answer?.selected_option_ids?.includes(opt.id)
+                          : answer?.selected_option_id === opt.id;
+
+                      return (
                         <div
                           key={opt.id}
                           className={`px-3 py-1 rounded ${
-                            answer?.selected_option_id === opt.id
-                              ? opt.correct
-                                ? "bg-green-100 border border-green-500"
-                                : "bg-green-100 border border-green-500"
+                            isSelected
+                              ? "bg-green-100 border border-green-500"
                               : "bg-gray-100"
                           }`}
                         >
                           <strong>{optionLabels[i]}.</strong> {opt.text}
                         </div>
-                      ))}
-                      <button
-                        onClick={() => {
-                          setCurrentQuestion(idx);
-                          setSelectedOption(
-                            q.options.find(
-                              (o) => o.id === answer?.selected_option_id
-                            )
-                          );
-                          setReviewing(false);
-                        }}
-                        className="mt-2 text-sm text-blue-700 underline"
-                      >
-                        Edit Answer
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
+                      );
+                    })}
+
+                    <button
+                      onClick={() => {
+                        setCurrentQuestion(idx);
+                        setReviewing(false);
+                      }}
+                      className="mt-2 text-sm text-blue-700 underline"
+                    >
+                      Edit Answer
+                    </button>
+                  </div>
+                );
+              })}
+
               <button
-              onClick={() => submitQuiz(answers)}
-              disabled={submitting}
-              className="mt-6 px-6 py-2 bg-[#15256E] text-white rounded flex items-center justify-center gap-2 disabled:opacity-60"
-            >
-              {submitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin"></div>
-                  Submitting...
-                </>
-              ) : (
-                "Submit All"
-              )}
-            </button>
+                onClick={() => submitQuiz(answers)}
+                disabled={submitting}
+                className="px-6 py-2 text-white bg-[#15256E] rounded"
+              >
+                {submitting ? "Submitting..." : "Submit Quiz"}
+              </button>
             </div>
           )}
 
-          {/* RESULT SCREEN */}
           {showResult && result && (
             <div className="py-12 text-center">
               <h2 className="mb-4 text-3xl font-bold">Quiz Completed</h2>
-              <div className="mb-3 text-5xl font-extrabold">
+
+              <div className="mb-3 text-5xl font-bold">
                 {result.score}/{questions.length}
               </div>
-              <p className="mb-2 text-lg">
+
+              <p className="text-lg">
                 Score: {result.percentage.toFixed(2)}%
               </p>
+
               <p className="mb-6 text-lg">
                 {result.passed ? "✅ Passed" : "❌ Failed"}
               </p>
+
               <button
-                onClick={goToDashboard}
-                className="border-2 border-[#15256E] px-6 py-2 rounded"
+                onClick={() => navigate("/dashboard")}
+                className="px-6 py-2 border-2 border-[#15256E] rounded"
               >
                 Go to Dashboard
               </button>
@@ -388,3 +492,7 @@ const Quiz = () => {
 };
 
 export default Quiz;
+
+
+
+

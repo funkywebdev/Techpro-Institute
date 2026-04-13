@@ -145,33 +145,33 @@ const Home = () => {
   const progress = Number(safeCourse.course_progress_precentage) || 0;
 
   return (
-    <div className="p-4 sm:p-6 space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6 items-stretch">
+    <div className="p-4 space-y-6 sm:p-6">
+      <div className="grid items-stretch grid-cols-1 gap-8 md:grid-cols-2 md:gap-6">
         {/* ENROLLED COURSE */}
         <div className="flex flex-col cursor-pointer">
-          <p className="font-bold text-gray-800 mb-2">Enrolled Courses</p>
+          <p className="mb-2 font-bold text-gray-800">Enrolled Courses</p>
           <Link
             to={progress === 100 ? "/certificate" : "/admincourse"}
             className="flex-1"
           >
-            <div className="bg-white shadow-md rounded-lg p-6 flex gap-4 hover:shadow-lg transition-all">
+            <div className="flex gap-4 p-6 transition-all bg-white rounded-lg shadow-md hover:shadow-lg">
               <img
                 src={safeCourse.image?.url || Rectangle4317}
                 alt={safeCourse.title}
-                className="w-32 h-20 object-cover rounded-md"
+                className="object-cover w-32 h-20 rounded-md"
               />
-              <div className="flex-1 flex flex-col justify-between">
+              <div className="flex flex-col justify-between flex-1">
                 <div>
                   <p className="font-semibold text-gray-800">
                     {safeCourse.title}
                   </p>
-                  <div className="w-full bg-gray-200 rounded-full h-3 mt-3">
+                  <div className="w-full h-3 mt-3 bg-gray-200 rounded-full">
                     <div
                       className="bg-[#15256E] h-3 rounded-full transition-all"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="mt-1 text-xs text-gray-600">
                     {progress}% completed
                   </p>
                 </div>
@@ -185,15 +185,15 @@ const Home = () => {
 
         {/* PROGRESS OVERVIEW */}
         <div className="flex flex-col cursor-pointer">
-          <p className="font-bold text-gray-800 mb-2">Progress Overview</p>
-          <div className="bg-white shadow-md rounded-lg p-6 flex-1 flex gap-6 hover:shadow-lg transition-all">
-            <div className="flex-1 flex flex-col items-center gap-3 border-r pr-4 justify-center">
+          <p className="mb-2 font-bold text-gray-800">Progress Overview</p>
+          <div className="flex flex-1 gap-6 p-6 transition-all bg-white rounded-lg shadow-md hover:shadow-lg">
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 pr-4 border-r">
               <p className="font-semibold text-gray-800">{safeCourse.title}</p>
               <CircularProgress progress={progress} />
               <p className="text-sm font-medium">{safeCourse.instructor}</p>
             </div>
             {/* PERSONAL INFO */}
-            <div className="flex-1 text-sm space-y-2 flex flex-col justify-center text-black">
+            <div className="flex flex-col justify-center flex-1 space-y-2 text-sm text-black">
               <p className="font-semibold text-gray-800">
                 Personal Information
               </p>
@@ -209,7 +209,7 @@ const Home = () => {
       </div>
 
       {/* Preview Section */}
-      <Preview />
+      <Preview  course={course}/>
     </div>
   );
 };

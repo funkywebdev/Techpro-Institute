@@ -25,6 +25,7 @@
     "jwt-decode": "^4.0.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.0",
+    "react-confetti": "^6.4.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.1",
@@ -35,6 +36,7 @@
     "react-router-dom": "^7.12.0",
     "react-router-hash-link": "^2.4.3",
     "react-scroll": "^1.9.3",
+    "react-swipeable": "^7.0.2",
     "react-toastify": "^11.0.5",
     "swiper": "^12.1.2"
   },
