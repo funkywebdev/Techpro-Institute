@@ -202,7 +202,7 @@ const Navbar = () => {
   return (
     <nav className="navbar bg-white border-b border-[#DFE6F4] px-3 sm:px-4 flex justify-between items-center">
       {/* Left */}
-      <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+      <div className="flex items-center min-w-0 gap-2 sm:gap-4">
         <label htmlFor="my-drawer" className="btn btn-square btn-ghost lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -215,27 +215,27 @@ const Navbar = () => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </label>
-        <h1 className="text-sm sm:text-2xl font-bold truncate text-black">
+        <h1 className="text-sm font-bold text-black truncate sm:text-2xl">
           Welcome back, {loadingProfile ? "Loading..." : profile.name} 👋
         </h1>
       </div>
 
       {/* Right */}
-      <div className="flex items-center gap-2 sm:gap-4 shrink-0 relative">
+      <div className="relative flex items-center gap-2 sm:gap-4 shrink-0">
         <button className="btn btn-ghost btn-circle" onClick={toggleNotifications}>
           <FiBell className="w-5 h-5 text-black" />
         </button>
         {showNotifications && (
-          <div className="absolute top-12 right-20 bg-white shadow-lg rounded-lg p-3 w-64 z-50">
-            <p className="text-gray-600 text-sm">No new notifications</p>
+          <div className="absolute z-50 w-64 p-3 bg-white rounded-lg shadow-lg top-12 right-20">
+            <p className="text-sm text-gray-600">No new notifications</p>
           </div>
         )}
 
-        <button className="btn btn-ghost btn-circle text-black" onClick={toggleProfileMenu}>
+        <button className="text-black btn btn-ghost btn-circle" onClick={toggleProfileMenu}>
           <FiSettings className="w-5 h-5" />
         </button>
         {showProfileMenu && (
-          <div className="absolute top-12 right-0 bg-white shadow-lg rounded-lg p-3 w-36 z-50">
+          <div className="absolute right-0 z-50 p-3 bg-white rounded-lg shadow-lg top-12 w-36">
             <div className="flex flex-col gap-2">
               <button
                 className="text-left text-gray-700 hover:text-[#15256E] transition-colors duration-300"
@@ -258,7 +258,7 @@ const Navbar = () => {
           <img
             src={profile.photo}
             alt="Profile"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover cursor-pointer"
+            className="object-cover rounded-full cursor-pointer w-9 h-9 sm:w-10 sm:h-10"
             onClick={toggleProfileMenu}
           />
         ) : (
@@ -274,18 +274,18 @@ const Navbar = () => {
       {/* Edit Modal */}
       {showEditModal && (
         <div
-          className="fixed inset-0 bg-opacity-20 flex justify-center items-center z-50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-20 backdrop-blur-sm"
           onClick={(e) => handleOverlayClick(e, closeEditModal)}
         >
-          <div className="bg-white rounded-lg w-96 p-6 relative shadow-lg">
+          <div className="relative p-6 bg-white rounded-lg shadow-lg w-96">
             <button
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+              className="absolute text-gray-500 top-3 right-3 hover:text-gray-800"
               onClick={closeEditModal}
             >
               <FiX className="w-6 h-6" />
             </button>
 
-            <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+            <h2 className="mb-4 text-xl font-bold">Edit Profile</h2>
 
             {/* Tabs */}
             <div className="flex gap-2 mb-4">
@@ -308,7 +308,7 @@ const Navbar = () => {
             </div>
 
             {/* Message */}
-            {message && <p className="text-sm text-green-600 mb-2">{message}</p>}
+            {message && <p className="mb-2 text-sm text-green-600">{message}</p>}
 
             {/* Profile Form */}
             {editTab === "profile" && (
@@ -338,18 +338,18 @@ const Navbar = () => {
                   className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
                 />
                 <div>
-                  <label className="block text-gray-700 mb-1">Profile Photo</label>
+                  <label className="block mb-1 text-gray-700">Profile Photo</label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoChange}
-                    className="border rounded-lg p-2 w-full"
+                    className="w-full p-2 border rounded-lg"
                   />
                   {form.photo && (
                     <img
                       src={form.photo}
                       alt="Preview"
-                      className="w-20 h-20 mt-2 rounded-full object-cover border"
+                      className="object-cover w-20 h-20 mt-2 border rounded-full"
                     />
                   )}
                 </div>
