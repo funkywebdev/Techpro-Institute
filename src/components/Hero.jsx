@@ -154,7 +154,7 @@ const Hero = () => {
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 340, damping: 22 }}
               className="inline-flex items-center gap-2 w-fit mx-auto md:mx-0 px-4 py-1.5 rounded-full
-                border border-[#CBD5FF]/70 bg-gradient-to-r from-[#EEF1FF] via-[#F4F6FF] to-[#EEF1FF]
+                border
                 text-[12px] sm:text-[14px] font-semibold text-[#15256E]
                 shadow-[0_1px_8px_rgba(21,37,110,0.10)] cursor-default select-none"
             >
@@ -288,7 +288,7 @@ const Hero = () => {
           <motion.img
             src={Manage}
             alt="Hero Illustration"
-            className="relative z-10 w-full max-w-[350px] sm:max-w-[450px] md:max-w-[600px] drop-shadow-2xl"
+            className="relative z-10 w-full max-w-[350px] sm:max-w-[450px] md:max-w-[600px] drop-shadow-2xl sm:mt-14"
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           />
