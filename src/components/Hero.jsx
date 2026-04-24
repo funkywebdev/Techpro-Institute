@@ -187,7 +187,7 @@ const Hero = () => {
           {/* PARAGRAPH */}
           <motion.p
             variants={item}
-            className="text-gray-500 max-w-lg mx-auto md:mx-0 text-sm sm:text-base md:text-[17px] leading-[1.85] tracking-[0.01em] px-2 sm:px-0"
+            className="text-gray-500 max-w-lg mx-auto md:mx-0 text-sm sm:text-base md:text-[17px] tracking-[0.01em] px-2 sm:px-0"
           >
             Transform your career with Scrum certifications and real-world Agile training that sets you apart.
           </motion.p>
