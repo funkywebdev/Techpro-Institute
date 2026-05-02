@@ -256,11 +256,11 @@ const Footer = () => {
             {/* Brand */}
             <div style={{
               opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0)" : "translateY(20px)" ,
+              transform: visible ? "translateY(0)" : "translateY(20px)",
               transition: "opacity 0.55s ease, transform 0.55s ease",
             }}>
-              <img src={techprologo} alt="TechPro Logo" style={{ width:148, marginBottom:".3rem", display: "block", filter:"brightness(1.06) drop-shadow(0 0 8px rgba(99,102,241,.2))" }} />
-              <p style={{ fontSize:".78rem", color:"#64748b", lineHeight:1.25, maxWidth:230, margin:"0 0 1.15rem" }}>
+              <img src={techprologo} alt="TechPro Logo" style={{ width:148, marginBottom:"0.1rem", display: "block", filter:"brightness(1.06) drop-shadow(0 0 8px rgba(99,102,241,.2))" }} />
+              <p style={{ fontSize:".78rem", color:"#64748b", lineHeight:1.25, maxWidth:230, margin:"0 0 0 0 0.8rem" }}>
                 TechPro Institute empowers learners with practical, industry-ready
                 tech skills and globally recognized certifications.
               </p>

@@ -1,251 +1,4 @@
 
-
-
-// import React, { useState } from "react";
-// import { FcGoogle } from "react-icons/fc";
-// import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-// import PhoneInput from "react-phone-input-2";
-// import "react-phone-input-2/lib/style.css";
-// import { HiArrowRight } from "react-icons/hi";
-// import { Link, useNavigate } from "react-router-dom";
-// import api from "../api/axios";
-// import { useForm } from "react-hook-form";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import { useUserRegion } from "../hooks/useUserRegion";
-
-// const SignUp = () => {
-//   const { countryCode, regionReady } = useUserRegion(); // region hook
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [phone, setPhone] = useState("");
-//   const [agree, setAgree] = useState(false);
-//   const navigate = useNavigate();
-
-//   const {
-//     register,
-//     handleSubmit,
-//     watch,
-//     formState: { errors },
-//   } = useForm();
-
-//   const password = watch("password");
-
-//   const onSubmit = async (data) => {
-//     if (!agree) {
-//       toast.error("You must agree to the terms");
-//       return;
-//     }
-
-//     if (!phone) {
-//       toast.error("Phone number is required");
-//       return;
-//     }
-
-//     setIsLoading(true);
-//     const payload = { ...data, phone };
-
-//     try {
-//       const res = await api.post(
-//         "/register",
-//         payload
-//       );
-
-//      // console.log(res);
-
-//       toast.success("Account created! Please verify your email 📧");
-//       localStorage.setItem("verifyEmail", data.email);
-
-//       setTimeout(() => navigate("/verify"), 1500);
-//       console.log("Response:", res.data);
-//     } catch (err) {
-//       toast.error(err.response?.data?.message || "Something went wrong ❌");
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   // Show loading until region is detected
-//   if (!regionReady) {
-//     return (
-//       <div className="py-20 text-center text-gray-500">
-//         Detecting region...
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="flex items-center justify-center bg-[#F2F4F8] px-4 py-5 pt-24 pb-5 sm:pt-32 sm:pb-10">
-//       <div className="w-full max-w-6xl">
-//         <div className="p-8 bg-white rounded-lg shadow-md">
-//           {/* Header */}
-//           <div className="mb-6 space-y-1 text-center">
-//             <h1 className="text-2xl font-bold text-black sm:text-3xl">Sign Up</h1>
-//             <p className="text-sm text-gray-600 sm:text-base">
-//               Create an account to start learning
-//             </p>
-//           </div>
-
-//           <form onSubmit={handleSubmit(onSubmit)}>
-//             {/* First Name */}
-//             <label className="block mb-1 font-medium text-black">First Name</label>
-//             <input
-//               {...register("first_name", { required: "First name is required" })}
-//               className="w-full p-3 mb-1 text-black border border-gray-300 rounded"
-//             />
-//             {errors.first_name && (
-//               <p className="mb-3 text-sm text-red-500">{errors.first_name.message}</p>
-//             )}
-
-//             {/* Last Name */}
-//             <label className="block mb-1 font-medium text-black">Last Name</label>
-//             <input
-//               {...register("last_name", { required: "Last name is required" })}
-//               className="w-full p-3 mb-1 text-black border border-gray-300 rounded"
-//             />
-//             {errors.last_name && (
-//               <p className="mb-3 text-sm text-red-500">{errors.last_name.message}</p>
-//             )}
-
-//             {/* Email */}
-//             <label className="block mb-1 font-medium text-black">Email</label>
-//             <input
-//               {...register("email", {
-//                 required: "Email is required",
-//                 pattern: { value: /^\S+@\S+$/i, message: "Enter a valid email" },
-//               })}
-//               className="w-full p-3 mb-1 text-black border border-gray-300 rounded"
-//             />
-//             {errors.email && (
-//               <p className="mb-3 text-sm text-red-500">{errors.email.message}</p>
-//             )}
-
-//             {/* Phone */}
-//             <label className="block mb-1 font-medium text-black">Phone Number</label>
-//             <PhoneInput
-//               country={"ng"}
-//               value={phone}
-//               onChange={setPhone}
-//               inputStyle={{
-//                 width: "100%",
-//                 height: "48px",
-//                 borderRadius: "6px",
-//                 border: "1px solid #d1d5db",
-//                 color: "#000000",
-//               }}
-//               containerClass="mb-4"
-//             />
-
-//             {/* Password */}
-//             <label className="block mb-1 font-medium text-black">Password</label>
-//             <div className="relative mb-1">
-//               <input
-//                 type={showPassword ? "text" : "password"}
-//                 {...register("password", {
-//                   required: "Password is required",
-//                   minLength: { value: 6, message: "Minimum 6 characters" },
-//                 })}
-//                 className="w-full p-3 pr-10 text-black border border-gray-300 rounded"
-//               />
-//               <button
-//                 type="button"
-//                 onClick={() => setShowPassword(!showPassword)}
-//                 className="absolute text-gray-500 -translate-y-1/2 right-3 top-1/2"
-//               >
-//                 {showPassword ? <AiOutlineEyeInvisible size={22} /> : <AiOutlineEye size={22} />}
-//               </button>
-//             </div>
-//             {errors.password && (
-//               <p className="mb-3 text-sm text-red-500">{errors.password.message}</p>
-//             )}
-
-//             {/* Confirm Password */}
-//             <label className="block mb-1 font-medium text-black">Confirm Password</label>
-//             <input
-//               type="password"
-//               {...register("password_confirmation", {
-//                 required: "Confirm your password",
-//                 validate: (value) => value === password || "Passwords do not match",
-//               })}
-//               className="w-full p-3 mb-1 text-black border border-gray-300 rounded"
-//             />
-//             {errors.password_confirmation && (
-//               <p className="mb-3 text-sm text-red-500">{errors.password_confirmation.message}</p>
-//             )}
-
-//             {/* Terms */}
-//             <label className="flex items-start gap-2 mb-4 text-sm cursor-pointer">
-//               <input
-//                 type="checkbox"
-//                 checked={agree}
-//                 onChange={() => setAgree(!agree)}
-//                 className="mt-1 accent-[#15256E]"
-//               />
-//               <span className="text-black">
-//                 I agree with the <span className="text-[#15256E]">Terms of Use</span> and{" "}
-//                 <span className="text-[#15256E]">Privacy Policy</span>
-//               </span>
-//             </label>
-
-//             {/* Submit */}
-//             <button
-//               type="submit"
-//               disabled={!agree || isLoading}
-//               className={`w-full py-3 rounded mb-4 text-white flex items-center justify-center gap-2 transition ${
-//                 !agree || isLoading ? "bg-[#15256E] cursor-not-allowed" : "bg-[#15256E] hover:bg-[#0f1c58]"
-//               }`}
-//             >
-//               {isLoading ? (
-//                 <>
-//                   <span className="cursor-pointer loading loading-spinner loading-xl"></span>
-//                   Signing up...
-//                 </>
-//               ) : (
-//                 "Sign Up"
-//               )}
-//             </button>
-//           </form>
-
-//           {/* OR */}
-//           <div className="flex items-center my-4">
-//             <hr className="flex-grow border-gray-300" />
-//             <span className="mx-2 text-sm text-gray-400">OR</span>
-//             <hr className="flex-grow border-gray-300" />
-//           </div>
-
-//           {/* Google */}
-//           <a
-//             href="https://accounts.google.com/http:/localhost:5174/signup"
-//             className="flex items-center justify-center w-full gap-2 py-2 mb-4 transition border border-gray-300 rounded hover:bg-gray-100"
-//           >
-//             <FcGoogle size={24} />
-//             <span className="text-gray-700">Sign up with Google</span>
-//           </a>
-
-//           {/* Login */}
-//           <p className="text-center text-gray-600">
-//             Already have an account?{" "}
-//             <Link to="/login" className="text-[#15256E] hover:underline cursor-pointer">
-//               Login <HiArrowRight className="inline text-sm cursor-pointer" />
-//             </Link>
-//           </p>
-//         </div>
-//       </div>
-
-//       <ToastContainer position="top-right" autoClose={3000} />
-//     </div>
-//   );
-// };
-
-// export default SignUp;
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
@@ -504,23 +257,7 @@ const SignUp = () => {
               </motion.div>
 
               {/* Google */}
-              <motion.a
-                variants={fadeUp}
-                href="https://accounts.google.com/"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className="flex items-center justify-center gap-3 w-full border border-slate-200 rounded-xl py-2.5 text-sm text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 mb-5"
-              >
-                <FcGoogle size={20} />
-                Sign up with Google
-              </motion.a>
-
-              {/* Divider */}
-              <motion.div variants={fadeUp} className="flex items-center gap-3 mb-5">
-                <hr className="flex-grow border-slate-200" />
-                <span className="text-xs font-medium text-slate-400">or with email</span>
-                <hr className="flex-grow border-slate-200" />
-              </motion.div>
+              
 
               {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
@@ -645,6 +382,29 @@ const SignUp = () => {
                   )}
                 </motion.button>
               </form>
+   
+
+
+            <motion.div variants={fadeUp} className="flex items-center gap-3 mt-5 mb-5">
+                <hr className="flex-grow border-slate-200" />
+                <span className="text-xs font-medium text-slate-400">or continue with</span>
+                <hr className="flex-grow border-slate-200" />
+              </motion.div>
+
+
+              <motion.a
+                variants={fadeUp}
+                href="https://accounts.google.com/"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className="flex items-center justify-center gap-3 w-full border border-slate-200 rounded-xl py-2.5 text-sm text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 mb-5"
+              >
+                <FcGoogle size={20} />
+                Continue with Google
+              </motion.a>
+
+              {/* Divider */}
+              
 
               {/* Login link */}
               <motion.p variants={fadeUp} custom={10} className="mt-5 text-sm text-center text-slate-500">

@@ -56,7 +56,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden bg-white px-4 sm:px-6 lg:px-20 pt-24 sm:pt-28 sm:pb-10"
+      className="relative w-full px-4 pt-24 overflow-hidden bg-white sm:px-6 lg:px-20 sm:pt-28 sm:pb-10"
     >
 
       {/* ══════════════ BACKGROUND ══════════════ */}
@@ -96,7 +96,7 @@ const Hero = () => {
 
       {/* Horizontal shimmer line — top */}
       <motion.div
-        className="absolute top-0 inset-x-0 h-px pointer-events-none"
+        className="absolute inset-x-0 top-0 h-px pointer-events-none"
         style={{
           background:
             "linear-gradient(90deg, transparent 5%, rgba(21,37,110,0.15) 40%, rgba(59,91,219,0.2) 55%, rgba(21,37,110,0.15) 70%, transparent 95%)",
@@ -137,14 +137,14 @@ const Hero = () => {
       ))}
 
       {/* ══════════════ CONTENT ══════════════ */}
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-6 relative z-10">
+      <div className="relative z-10 flex flex-col items-center gap-8 mx-auto max-w-7xl md:flex-row md:gap-6">
 
         {/* ────────── LEFT CONTENT ────────── */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="visible"
-          className="flex-1 flex flex-col gap-3 sm:gap-5 text-center md:text-left"
+          className="flex flex-col flex-1 gap-3 text-center sm:gap-5 md:text-left"
         >
 
           {/* BADGE */}
@@ -195,7 +195,7 @@ const Hero = () => {
           {/* CTA BUTTON */}
           <motion.div
             variants={item}
-            className="flex justify-center md:justify-start mt-4"
+            className="flex justify-center mt-4 md:justify-start"
           >
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -204,7 +204,7 @@ const Hero = () => {
             >
               {/* Button ambient glow */}
               <motion.span
-                className="absolute inset-0 rounded-xl pointer-events-none"
+                className="absolute inset-0 pointer-events-none rounded-xl"
                 style={{
                   background: "rgba(21,37,110,0.22)",
                   filter: "blur(16px)",
@@ -261,7 +261,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.93, x: 36 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 1.0, ease: smooth, delay: 0.2 }}
-          className="flex-1 flex justify-center md:justify-end relative"
+          className="relative flex justify-center flex-1 md:justify-end"
         >
           {/* Inner glow ring */}
           <motion.div
@@ -300,6 +300,8 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
 
 
 

@@ -435,24 +435,7 @@ const Login = () => {
               </motion.div>
 
               {/* Google */}
-              <motion.a
-                variants={fadeUp}
-                href="https://accounts.google.com/"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className="flex items-center justify-center gap-3 w-full border border-slate-200 rounded-xl py-2.5 text-sm text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 mb-6"
-              >
-                <FcGoogle size={20} />
-                Continue with Google
-              </motion.a>
-
-              {/* Divider */}
-              <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6">
-                <hr className="flex-grow border-slate-200" />
-                <span className="text-xs font-medium text-slate-400">or sign in with email</span>
-                <hr className="flex-grow border-slate-200" />
-              </motion.div>
-
+             
               {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Email */}
@@ -534,13 +517,37 @@ const Login = () => {
                   {isSubmitting ? (
                     <>
                       <span className="w-4 h-4 border-2 rounded-full border-white/30 border-t-white animate-spin" />
-                      Logging in…
+                      Signing in…
                     </>
                   ) : (
-                    <>Login <HiArrowRight /></>
+                    <>Sign In <HiArrowRight /></>
                   )}
                 </motion.button>
               </form>
+
+
+
+               <motion.div variants={fadeUp} className="flex items-center gap-3 mt-6 mb-6">
+                <hr className="flex-grow border-slate-200" />
+                <span className="text-xs font-medium text-slate-400">or continue with</span>
+                <hr className="flex-grow border-slate-200" />
+              </motion.div>
+
+
+
+               <motion.a
+                variants={fadeUp}
+                href="https://accounts.google.com/"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className="flex items-center justify-center gap-3 w-full border border-slate-200 rounded-xl py-2.5 text-sm text-slate-700 font-medium hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 mb-6"
+              >
+                <FcGoogle size={20} />
+                Continue with Google
+              </motion.a>
+
+              {/* Divider */}
+             
 
               {/* Sign up link */}
               <motion.p variants={fadeUp} custom={6} className="mt-6 text-sm text-center text-slate-500">
