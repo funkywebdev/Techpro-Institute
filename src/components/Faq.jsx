@@ -79,7 +79,7 @@ const Faq = () => {
                 key={index}
                 layout
                 transition={{ layout: { duration: 0.3, ease: "easeOut" } }}
-                className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-2xl cursor-pointer"
+                className="overflow-hidden bg-white border border-gray-200 shadow-sm cursor-pointer rounded-2xl"
               >
                 {/* QUESTION */}
                 <button

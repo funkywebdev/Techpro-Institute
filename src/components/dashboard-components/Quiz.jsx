@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
@@ -499,7 +494,13 @@ const Quiz = () => {
       const attemptId = res.data.data.id;
 
       setTimeout(() => {
-        navigate(`/quiz-review/${attemptId}`);
+        // navigate(`/quiz-review/${attemptId}`);
+        navigate(`/quiz-review/${attemptId}`, {
+        state: {
+          sourceId: id, // 👈 THIS is the module/content/course id
+          type: isCourseQuiz ? "course" : isContentQuiz ? "content" : "module",
+        },
+      });
       }, 1000);
     } catch (err) {
       console.error("SUBMIT ERROR ❌", err);

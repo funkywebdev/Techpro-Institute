@@ -130,6 +130,7 @@ import api from "../api/axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useUserRegion } from "../hooks/useUserRegion";
+import Spinner from "../components/Spinner";
 
 const containerVariants = {
   hidden: {},
@@ -174,11 +175,7 @@ const Our = () => {
   }, [regionReady]);
 
   if (!regionReady || loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="w-12 h-12 border-4 border-[#15256E] border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+      return <Spinner />;
   }
 
   if (error) {

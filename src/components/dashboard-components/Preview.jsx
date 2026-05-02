@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { FiArrowRight, FiLock, FiCheckCircle, FiBook, FiAward } from "react-icons/fi";
@@ -254,7 +247,7 @@ const Preview = ({ course }) => {
             pointerEvents: "none",
           }} />
           <h2 style={{
-            margin: 0, fontSize: "1.15rem", fontWeight: 700, color: "#111827",
+            margin: 0, fontSize: "0.96rem", fontWeight: 700, color: "#111827",
             display: "flex", alignItems: "center", gap: 8,
           }}>
             <FiBook style={{ color: "#001489" }} />
