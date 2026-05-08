@@ -1,94 +1,84 @@
 
-
-
-
-import React, { useState, useEffect } from "react";
-import Rectangle3 from "../../assets/images/Rectangle3.png";
-import { FiSettings, FiBell, FiX } from "react-icons/fi";
+import React, { useState, useEffect, useRef } from "react";
+import { FiSettings, FiX, FiLogOut, FiUser, FiLock, FiHome } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/axios"; // your axios instance
+import api from "../../api/axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
-  // Menu & modal states
+  /* ── States ─────────────────────────────────────── */
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editTab, setEditTab] = useState("profile"); // 'profile' or 'password'
-
-  const [profile, setProfile] = useState({
-    name: "",
-    email: "",
-    photo: null,
-  });
-
-  // Loading states
+  const [editTab, setEditTab] = useState("profile");
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
 
-  // Success/Error messages
-  const [message, setMessage] = useState("");
+  /* ── Profile ────────────────────────────────────── */
+  const [profile, setProfile] = useState({ name: "", email: "", photo: null });
 
-  // Local form states
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    photo: null,
-  });
+  /* ── Form ───────────────────────────────────────── */
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", photo: null });
 
+  /* ── Password ───────────────────────────────────── */
   const [passwordForm, setPasswordForm] = useState({
     old_password: "",
     new_password: "",
     new_password_confirmation: "",
   });
 
-  // Fetch student data
+  /* ── Close menu on outside click ────────────────── */
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  /* ── Fetch user ─────────────────────────────────── */
   useEffect(() => {
     const fetchStudent = async () => {
       try {
         const res = await api.get("/v1/me");
-        if (res.data && res.data.status && res.data.data) {
-          const student = res.data.data;
-          setProfile({
-            name: `${student.firstName} ${student.lastName}`,
-            email: student.email,
-            photo: student.profilePicture?.url || null,
-          });
-          setForm({
-            firstName: student.firstName,
-            lastName: student.lastName,
-            email: student.email,
-            photo: student.profilePicture?.url || null,
-          });
+        if (res.data?.status && res.data?.data) {
+          const s = res.data.data;
+          const data = {
+            firstName: s.firstName,
+            lastName: s.lastName,
+            email: s.email,
+            photo: s.profilePicture?.url || null,
+          };
+          setProfile({ name: `${s.firstName} ${s.lastName}`, email: s.email, photo: data.photo });
+          setForm(data);
         }
       } catch (err) {
-        console.error("Error fetching student info:", err);
+        console.error("Error fetching student:", err);
       } finally {
         setLoadingProfile(false);
       }
     };
-
     fetchStudent();
   }, []);
 
-  // Toggle menus
-  const toggleProfileMenu = () => setShowProfileMenu(!showProfileMenu);
-  const toggleNotifications = () => setShowNotifications(!showNotifications);
-
-  // Open/close modal
-  const openEditModal = () => {
-    setShowProfileMenu(false);
-    setShowEditModal(true);
+  /* ── Helpers ────────────────────────────────────── */
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
   };
+
+  const openEditModal = () => { setShowProfileMenu(false); setShowEditModal(true); };
+
   const closeEditModal = () => {
     setShowEditModal(false);
-    setMessage("");
+    setMessage({ text: "", type: "" });
     setPasswordForm({ old_password: "", new_password: "", new_password_confirmation: "" });
   };
 
-  // Input handlers
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -96,13 +86,10 @@ const Navbar = () => {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setForm((prev) => ({ ...prev, photo: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => setForm((prev) => ({ ...prev, photo: reader.result }));
+    reader.readAsDataURL(file);
   };
 
   const handlePasswordChange = (e) => {
@@ -110,299 +97,343 @@ const Navbar = () => {
     setPasswordForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Logout
   const handleLogout = () => {
     localStorage.clear();
     setProfile({ name: "", email: "", photo: null });
-    setShowProfileMenu(false);
-    setShowEditModal(false);
     navigate("/login");
   };
 
-  // Click outside modal
-  const handleOverlayClick = (e, closeFunction) => {
-    if (e.target === e.currentTarget) closeFunction();
-  };
-
-  // Update profile
+  /* ── Update profile ─────────────────────────────── */
   const updateProfile = async () => {
     setLoadingSubmit(true);
-    setMessage("");
-
+    setMessage({ text: "", type: "" });
     try {
       const formData = new FormData();
-      formData.append("first_name", form.firstName.trim() || "");
-      formData.append("last_name", form.lastName.trim() || "");
-      formData.append("email", form.email.trim() || "");
-
+      formData.append("first_name", form.firstName.trim());
+      formData.append("last_name", form.lastName.trim());
+      formData.append("email", form.email.trim());
       if (form.photo && form.photo !== profile.photo) {
-        const response = await fetch(form.photo);
-        const blob = await response.blob();
-        const file = new File([blob], "profile.jpg", { type: blob.type });
-        formData.append("profile_picture", file);
+        const blob = await (await fetch(form.photo)).blob();
+        formData.append("profile_picture", new File([blob], "profile.jpg", { type: blob.type }));
       }
-
       const res = await api.patch("/v1/update/me", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       if (res.data.status) {
-        setProfile({
-          name: `${res.data.data.firstName} ${res.data.data.lastName}`,
-          email: res.data.data.email,
-          photo: res.data.data.profilePicture?.url || null,
-        });
-        setForm({
-          firstName: res.data.data.firstName,
-          lastName: res.data.data.lastName,
-          email: res.data.data.email,
-          photo: res.data.data.profilePicture?.url || null,
-        });
-        setMessage("Profile updated successfully!");
+        const d = res.data.data;
+        setProfile({ name: `${d.firstName} ${d.lastName}`, email: d.email, photo: d.profilePicture?.url || null });
+        setForm({ firstName: d.firstName, lastName: d.lastName, email: d.email, photo: d.profilePicture?.url || null });
+        setMessage({ text: "Profile updated successfully.", type: "success" });
       } else {
-        setMessage(res.data.message || "Failed to update profile.");
+        setMessage({ text: res.data.message || "Failed to update profile.", type: "error" });
       }
     } catch (err) {
-      console.error("Profile update error:", err);
-      setMessage(
-        err.response?.data?.message || "Failed to update profile. Please check your input."
-      );
+      setMessage({ text: err.response?.data?.message || "Profile update failed.", type: "error" });
     } finally {
       setLoadingSubmit(false);
     }
   };
 
+  /* ── Update password ────────────────────────────── */
   const updatePassword = async () => {
     setLoadingSubmit(true);
-    setMessage("");
+    setMessage({ text: "", type: "" });
     try {
-      const res = await api.put("v1/update-password", passwordForm);
+      const res = await api.put("/v1/update-password", passwordForm);
       if (res.data.status) {
-        setMessage("Password updated successfully!");
+        setMessage({ text: "Password updated successfully.", type: "success" });
         setPasswordForm({ old_password: "", new_password: "", new_password_confirmation: "" });
       }
     } catch (err) {
-      console.error(err);
-      setMessage("Failed to update password.");
+      setMessage({ text: "Failed to update password.", type: "error" });
     } finally {
       setLoadingSubmit(false);
     }
   };
 
-  // Helper to get initials
-  const getInitials = (name) => {
-    if (!name) return "U";
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
-
+  /* ── Render ─────────────────────────────────────── */
   return (
-    <nav className="navbar bg-white border-b border-[#DFE6F4] px-3 sm:px-4 flex justify-between items-center">
-      {/* Left */}
-      <div className="flex items-center min-w-0 gap-2 sm:gap-4">
-        <label htmlFor="my-drawer" className="btn btn-square btn-ghost lg:hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </label>
-        <h1 className="text-sm font-bold text-black truncate sm:text-2xl">
-          Welcome back, {loadingProfile ? "Loading..." : profile.name} 👋
-        </h1>
-      </div>
+    <>
+      {/* ── Navbar ── */}
+      <nav className="flex items-center justify-between h-16 px-4 bg-white border-b border-gray-100 shadow-sm sm:px-8">
 
-      {/* Right */}
-      <div className="relative flex items-center gap-2 sm:gap-4 shrink-0">
-        <button className="btn btn-ghost btn-circle" onClick={toggleNotifications}>
-          <FiBell className="w-5 h-5 text-black" />
-        </button>
-        {showNotifications && (
-          <div className="absolute z-50 w-64 p-3 bg-white rounded-lg shadow-lg top-12 right-20">
-            <p className="text-sm text-gray-600">No new notifications</p>
+        {/* Left — Welcome */}
+        <div className="flex items-center min-w-0 gap-3">
+          <label htmlFor="my-drawer" className="btn btn-ghost btn-sm btn-square lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </label>
+
+          <div className="hidden w-px h-5 bg-gray-200 sm:block" />
+
+          <div className="min-w-0">
+            {loadingProfile ? (
+              <div className="w-40 h-4 bg-gray-100 rounded animate-pulse" />
+            ) : (
+              <p className="sm:text-[22px] text-[16px] font-bold text-gray-800 truncate">
+                Welcome back, <span className="text-[#15256E]">{profile.name}👋</span>
+              </p>
+            )}
+           
           </div>
-        )}
+        </div>
 
-        <button className="text-black btn btn-ghost btn-circle" onClick={toggleProfileMenu}>
-          <FiSettings className="w-5 h-5" />
-        </button>
-        {showProfileMenu && (
-          <div className="absolute right-0 z-50 p-3 bg-white rounded-lg shadow-lg top-12 w-36">
-            <div className="flex flex-col gap-2">
-              <button
-                className="text-left text-gray-700 hover:text-[#15256E] transition-colors duration-300"
-                onClick={openEditModal}
-              >
-                Edit Profile
-              </button>
-              <button
-                className="text-left text-gray-700 hover:text-red-600"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+        {/* Right — Actions */}
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0" ref={menuRef}>
+
+          {/* Home */}
+          <button
+            onClick={() => navigate("/landingpage")}
+            className="h-9 w-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-[#15256E] hover:bg-[#15256E]/5 transition-colors"
+            title="Home"
+          >
+            <FiHome className="w-4 h-4" />
+          </button>
+
+          {/* Settings */}
+          <button
+            onClick={() => setShowProfileMenu((v) => !v)}
+            className="h-9 w-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-[#15256E] hover:bg-[#15256E]/5 transition-colors"
+            title="Settings"
+          >
+            <FiSettings className="w-4 h-4" />
+          </button>
+
+          {/* Divider */}
+          <div className="w-px h-6 mx-1 bg-gray-200" />
+
+          {/* Avatar */}
+          <button
+            onClick={() => setShowProfileMenu((v) => !v)}
+            className="flex items-center gap-2 py-1 pl-1 pr-2 transition-colors rounded-lg hover:bg-gray-50 group"
+          >
+            {profile.photo ? (
+              <img src={profile.photo} alt="Profile" className="object-cover w-8 h-8 rounded-lg shadow-sm ring-2 ring-white" />
+            ) : (
+              <div className="w-8 h-8 rounded-lg bg-[#15256E] text-white text-xs font-bold flex items-center justify-center shadow-sm">
+                {getInitials(profile.name)}
+              </div>
+            )}
+            <svg className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          {showProfileMenu && (
+            <div className="absolute right-4 sm:right-8 top-[68px] z-50 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 overflow-hidden">
+              {/* User info */}
+              <div className="px-4 py-3 border-b border-gray-50">
+                <p className="text-sm font-semibold text-gray-800 truncate">{profile.name}</p>
+                <p className="text-xs text-gray-400 truncate mt-0.5">{profile.email}</p>
+              </div>
+
+              <div className="py-1">
+                <button
+                  onClick={() => { setShowProfileMenu(false); navigate("/landingpage"); }}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <FiHome className="w-4 h-4 text-gray-400" />
+                  Home
+                </button>
+                <button
+                  onClick={openEditModal}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <FiUser className="w-4 h-4 text-gray-400" />
+                  Edit Profile
+                </button>
+              </div>
+
+              <div className="py-1 border-t border-gray-50">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                >
+                  <FiLogOut className="w-4 h-4" />
+                  Logout
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+      </nav>
 
-        {/* Profile Image or Initials */}
-        {profile.photo ? (
-          <img
-            src={profile.photo}
-            alt="Profile"
-            className="object-cover rounded-full cursor-pointer w-9 h-9 sm:w-10 sm:h-10"
-            onClick={toggleProfileMenu}
-          />
-        ) : (
-          <div
-            onClick={toggleProfileMenu}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#15256E] text-white flex items-center justify-center font-bold cursor-pointer"
-          >
-            {getInitials(profile.name)}
-          </div>
-        )}
-      </div>
-
-      {/* Edit Modal */}
+      {/* ── Edit Modal ── */}
       {showEditModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-20 backdrop-blur-sm"
-          onClick={(e) => handleOverlayClick(e, closeEditModal)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm"
+          onClick={(e) => { if (e.target === e.currentTarget) closeEditModal(); }}
         >
-          <div className="relative p-6 bg-white rounded-lg shadow-lg w-96">
-            <button
-              className="absolute text-gray-500 top-3 right-3 hover:text-gray-800"
-              onClick={closeEditModal}
-            >
-              <FiX className="w-6 h-6" />
-            </button>
+          <div className="relative w-full max-w-md mx-4 overflow-hidden bg-white shadow-2xl rounded-2xl">
 
-            <h2 className="mb-4 text-xl font-bold">Edit Profile</h2>
-
-            {/* Tabs */}
-            <div className="flex gap-2 mb-4">
+            {/* Modal header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Account Settings</h2>
+                <p className="text-xs text-gray-400 mt-0.5">Manage your profile and security</p>
+              </div>
               <button
-                className={`flex-1 py-1 rounded-t-lg ${
-                  editTab === "profile" ? "bg-[#15256E] text-white" : "bg-gray-100"
-                }`}
-                onClick={() => setEditTab("profile")}
+                onClick={closeEditModal}
+                className="flex items-center justify-center w-8 h-8 text-gray-400 transition-colors rounded-lg hover:text-gray-600 hover:bg-gray-100"
               >
-                Profile
-              </button>
-              <button
-                className={`flex-1 py-1 rounded-t-lg ${
-                  editTab === "password" ? "bg-[#15256E] text-white" : "bg-gray-100"
-                }`}
-                onClick={() => setEditTab("password")}
-              >
-                Password
+                <FiX className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Message */}
-            {message && <p className="mb-2 text-sm text-green-600">{message}</p>}
+            {/* Tabs */}
+            <div className="flex border-b border-gray-100">
+              {["profile", "password"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => { setEditTab(tab); setMessage({ text: "", type: "" }); }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-sm font-medium transition-all border-b-2 ${
+                    editTab === tab
+                      ? "border-[#15256E] text-[#15256E]"
+                      : "border-transparent text-gray-400 hover:text-gray-600"
+                  }`}
+                >
+                  {tab === "profile" ? <FiUser className="w-3.5 h-3.5" /> : <FiLock className="w-3.5 h-3.5" />}
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
 
-            {/* Profile Form */}
-            {editTab === "profile" && (
-              <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={form.firstName}
-                  onChange={handleInputChange}
-                  className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
-                />
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  value={form.lastName}
-                  onChange={handleInputChange}
-                  className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={form.email}
-                  onChange={handleInputChange}
-                  className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
-                />
-                <div>
-                  <label className="block mb-1 text-gray-700">Profile Photo</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoChange}
-                    className="w-full p-2 border rounded-lg"
-                  />
-                  {form.photo && (
-                    <img
-                      src={form.photo}
-                      alt="Preview"
-                      className="object-cover w-20 h-20 mt-2 border rounded-full"
-                    />
-                  )}
+            {/* Body */}
+            <div className="px-6 py-5">
+
+              {/* Feedback message */}
+              {message.text && (
+                <div className={`mb-4 px-3.5 py-3 rounded-lg text-sm font-medium ${
+                  message.type === "success"
+                    ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                    : "bg-red-50 text-red-600 border border-red-100"
+                }`}>
+                  {message.text}
                 </div>
-                <button
-                  className="bg-[#15256E] text-white rounded-lg p-2 mt-2 hover:bg-[#0F1F5E]"
-                  onClick={updateProfile}
-                  disabled={loadingSubmit}
-                >
-                  {loadingSubmit ? "Saving..." : "Save Changes"}
-                </button>
-              </div>
-            )}
+              )}
 
-            {/* Password Form */}
-            {editTab === "password" && (
-              <div className="flex flex-col gap-3">
-                <input
-                  type="password"
-                  name="old_password"
-                  placeholder="Old Password"
-                  value={passwordForm.old_password}
-                  onChange={handlePasswordChange}
-                  className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
-                />
-                <input
-                  type="password"
-                  name="new_password"
-                  placeholder="New Password"
-                  value={passwordForm.new_password}
-                  onChange={handlePasswordChange}
-                  className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
-                />
-                <input
-                  type="password"
-                  name="new_password_confirmation"
-                  placeholder="Confirm New Password"
-                  value={passwordForm.new_password_confirmation}
-                  onChange={handlePasswordChange}
-                  className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#15256E]"
-                />
-                <button
-                  className="bg-[#15256E] text-white rounded-lg p-2 mt-2 hover:bg-[#0F1F5E]"
-                  onClick={updatePassword}
-                  disabled={loadingSubmit}
-                >
-                  {loadingSubmit ? "Updating..." : "Update Password"}
-                </button>
-              </div>
-            )}
+              {/* Profile form */}
+              {editTab === "profile" && (
+                <div className="flex flex-col gap-3.5">
+                  <div className="flex gap-3">
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-gray-500 mb-1.5">First Name</label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={handleInputChange}
+                        placeholder="First name"
+                        className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15256E]/20 focus:border-[#15256E] transition-all"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-gray-500 mb-1.5">Last Name</label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={handleInputChange}
+                        placeholder="Last name"
+                        className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15256E]/20 focus:border-[#15256E] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleInputChange}
+                      placeholder="you@example.com"
+                      className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15256E]/20 focus:border-[#15256E] transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Profile Photo</label>
+                    <div className="flex items-center gap-4">
+                      {form.photo ? (
+                        <img src={form.photo} alt="Preview" className="object-cover w-12 h-12 border border-gray-200 rounded-xl" />
+                      ) : (
+                        <div className="w-12 h-12 rounded-xl bg-[#15256E]/10 flex items-center justify-center">
+                          <FiUser className="w-5 h-5 text-[#15256E]" />
+                        </div>
+                      )}
+                      <label className="flex-1 cursor-pointer">
+                        <div className="px-3.5 py-2.5 text-sm text-center border border-dashed border-gray-300 rounded-lg hover:border-[#15256E] hover:bg-[#15256E]/5 text-gray-500 hover:text-[#15256E] transition-all">
+                          Choose photo
+                        </div>
+                        <input type="file" accept="image/*" onChange={handlePhotoChange} className="hidden" />
+                      </label>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={updateProfile}
+                    disabled={loadingSubmit}
+                    className="mt-1 w-full bg-[#15256E] hover:bg-[#1a2d85] text-white font-medium text-sm py-2.5 rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loadingSubmit ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z" />
+                        </svg>
+                        Saving…
+                      </span>
+                    ) : "Save Changes"}
+                  </button>
+                </div>
+              )}
+
+              {/* Password form */}
+              {editTab === "password" && (
+                <div className="flex flex-col gap-3.5">
+                  {[
+                    { name: "old_password", label: "Current Password", placeholder: "Enter current password" },
+                    { name: "new_password", label: "New Password", placeholder: "At least 8 characters" },
+                    { name: "new_password_confirmation", label: "Confirm New Password", placeholder: "Repeat new password" },
+                  ].map(({ name, label, placeholder }) => (
+                    <div key={name}>
+                      <label className="block text-xs font-medium text-gray-500 mb-1.5">{label}</label>
+                      <input
+                        type="password"
+                        name={name}
+                        value={passwordForm[name]}
+                        onChange={handlePasswordChange}
+                        placeholder={placeholder}
+                        className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#15256E]/20 focus:border-[#15256E] transition-all"
+                      />
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={updatePassword}
+                    disabled={loadingSubmit}
+                    className="mt-1 w-full bg-[#15256E] hover:bg-[#1a2d85] text-white font-medium text-sm py-2.5 rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loadingSubmit ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z" />
+                        </svg>
+                        Updating…
+                      </span>
+                    ) : "Update Password"}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 };
 

@@ -1,10 +1,4 @@
-
-
-
-
-
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import {

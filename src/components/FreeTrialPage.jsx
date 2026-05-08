@@ -2,6 +2,8 @@
 
 
 
+
+
 import React, { useEffect, useState } from "react";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +19,7 @@ import api from "../api/axios";
    Spinner
 ======================= */
 const Spinner = ({ text = "Loading…" }) => (
-  <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+  <div className="flex flex-col items-center justify-center min-h-screen gap-4">
     <div className="w-10 h-10 border-4 border-[#001489]/40 border-t-[#001489] rounded-full animate-spin" />
   </div>
 );
@@ -123,7 +125,7 @@ const VideoTemplate = () => {
 
   if (error)
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500">
+      <div className="flex items-center justify-center min-h-screen text-red-500">
         {error}
       </div>
     );
@@ -136,17 +138,17 @@ const VideoTemplate = () => {
     );
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="min-h-screen bg-gray-100">
 
       {/* MAIN GRID */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 px-4 sm:px-6 pt-24 pb-10">
+      <div className="grid grid-cols-1 gap-6 px-4 pt-24 pb-10 mx-auto max-w-7xl lg:grid-cols-3 sm:px-6">
 
         {/* ================= LEFT CONTENT ================= */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6 lg:col-span-2">
 
           {/* VIDEO */}
           {selectedItem?.type === "video" && (
-            <div className="bg-black aspect-video rounded-xl overflow-hidden border border-gray-200 w-full">
+            <div className="w-full overflow-hidden bg-black border border-gray-200 aspect-video rounded-xl">
               <video
                 src={selectedItem?.data?.url}
                 controls
@@ -157,7 +159,7 @@ const VideoTemplate = () => {
 
           {/* PDF */}
           {selectedItem?.type === "pdf" && (
-            <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 flex items-center gap-4">
+            <div className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl sm:p-6">
               <AiOutlineFilePdf className="text-4xl text-red-500" />
 
               <button
@@ -172,9 +174,9 @@ const VideoTemplate = () => {
           )}
 
           {/* LESSON NOTES */}
-          <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-sm">
+          <div className="p-4 bg-white border border-gray-200 shadow-sm rounded-xl sm:p-6">
 
-            <h2 className="font-semibold text-lg mb-4">
+            <h2 className="mb-4 text-lg font-semibold">
               Lesson Notes
             </h2>
 
@@ -193,9 +195,9 @@ const VideoTemplate = () => {
 
                       <button
                         onClick={() => toggleNote(item.id)}
-                        className="w-full flex justify-between items-center py-3 text-left hover:bg-gray-50"
+                        className="flex items-center justify-between w-full py-3 text-left hover:bg-gray-50"
                       >
-                        <span className="font-medium text-base">
+                        <span className="text-base font-medium">
                           {item.title}
                         </span>
 
@@ -207,7 +209,7 @@ const VideoTemplate = () => {
                       </button>
 
                       {isOpen && (
-                        <div className="px-2 pb-4 text-base text-gray-700 prose max-w-none">
+                        <div className="px-2 pb-4 text-base prose text-gray-700 max-w-none">
                           <div
                             dangerouslySetInnerHTML={{
                               __html: item.content,
@@ -219,7 +221,7 @@ const VideoTemplate = () => {
                   );
                 })
             ) : (
-              <p className="text-gray-400 italic">
+              <p className="italic text-gray-400">
                 No lesson notes available.
               </p>
             )}
@@ -227,9 +229,9 @@ const VideoTemplate = () => {
         </div>
 
         {/* ================= SIDEBAR ================= */}
-        <div className="bg-white border border-gray-200 rounded-xl h-fit lg:sticky lg:top-6 flex flex-col shadow-sm">
+        <div className="flex flex-col bg-white border border-gray-200 shadow-sm rounded-xl h-fit lg:sticky lg:top-6">
 
-          <div className="px-4 py-3 border-b border-gray-200 font-semibold text-lg">
+          <div className="px-4 py-3 text-lg font-semibold border-b border-gray-200">
             Module Content
           </div>
 
@@ -253,12 +255,12 @@ const VideoTemplate = () => {
                   onClick={() =>
                     setOpenModule(isOpen ? null : module.id)
                   }
-                  className="w-full px-4 py-3 flex justify-between items-center text-sm font-medium bg-gray-50 hover:bg-gray-100 transition"
+                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium transition bg-gray-50 hover:bg-gray-100"
                 >
                   <div className="flex flex-col text-left">
                     <span>{module.title}</span>
 
-                    <span className="text-xs text-gray-500 mt-1">
+                    <span className="mt-1 text-xs text-gray-500">
                       {completedCount} of {totalCount} completed
                     </span>
                   </div>
@@ -272,14 +274,14 @@ const VideoTemplate = () => {
 
                 {/* MODULE BODY */}
                 {isOpen && (
-                  <div className="bg-white px-2 py-1 border-t border-gray-100">
+                  <div className="px-2 py-1 bg-white border-t border-gray-100">
 
                     {!module.can_access || module.contents.length === 0 ? (
                       <div
                         onClick={() => navigate("/signup")}
                         className="px-4 py-6 text-center text-gray-500 cursor-pointer hover:bg-gray-50"
                       >
-                        <FiLock className="mx-auto text-2xl mb-2 text-gray-400" />
+                        <FiLock className="mx-auto mb-2 text-2xl text-gray-400" />
 
                         <p className="text-sm font-medium">
                           Register to unlock this module

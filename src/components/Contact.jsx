@@ -46,7 +46,7 @@ const FloatingInput = ({ label, name, type = "text", value, onChange, required, 
     className:
       "peer w-full bg-transparent pt-6 pb-2 px-3 text-sm text-gray-900 " +
       "border border-gray-200 rounded-xl outline-none transition-all duration-200 " +
-      "focus:border-[#001489] focus:ring-2 focus:ring-[#001489]/10 placeholder-transparent resize-none",
+      "focus:border-[#001489] focus:ring-2 focus:ring-[#001489] placeholder-transparent resize-none",
     placeholder: label,
     required,
   };
